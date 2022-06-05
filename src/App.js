@@ -2,7 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import Amplify, { API, graphqlOperation } from 'aws-amplify'
 import { createProduct } from './graphql/mutations'
-import { listProducts } from './graphql/queries'
+import {
+  listProducts,
+  listDepartments,
+  listProductTypes,
+} from './graphql/queries'
+import Select from 'react-select'
 
 // import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
@@ -11,17 +16,21 @@ Amplify.configure(awsExports)
 
 const initialState = {
   name: '',
-  department: '',
-  productType: '',
+  productDepartmentId: '',
+  productProductTypeId: '',
   placement: '',
 }
 
 const App = ({ signOut, user }) => {
   const [formState, setFormState] = useState(initialState)
   const [products, setProducts] = useState([])
+  const [departments, setDepartments] = useState([])
+  const [productTypes, setProductTypes] = useState([])
 
   useEffect(() => {
     fetchProducts()
+    fetchDepartments()
+    fetchProductTypes()
   }, [])
 
   function setInput(key, value) {
@@ -38,13 +47,36 @@ const App = ({ signOut, user }) => {
     }
   }
 
+  async function fetchDepartments() {
+    try {
+      const departmentData = await API.graphql(
+        graphqlOperation(listDepartments)
+      )
+      const departments = departmentData.data.listDepartments.items
+      setDepartments(departments)
+    } catch (err) {
+      console.log('error fetching departments')
+    }
+  }
+
+  async function fetchProductTypes() {
+    try {
+      const productTypeData = await API.graphql(
+        graphqlOperation(listProductTypes)
+      )
+      const productTypes = productTypeData.data.listProductTypes.items
+      setProductTypes(productTypes)
+    } catch (err) {
+      console.log('error fetching product types')
+    }
+  }
+
   async function addProduct() {
     try {
-      console.log(formState)
       if (
         !formState.name ||
-        !formState.department ||
-        !formState.productType ||
+        !formState.productDepartmentId ||
+        !formState.productProductTypeId ||
         !formState.placement
       )
         return
@@ -67,17 +99,19 @@ const App = ({ signOut, user }) => {
           value={formState.name}
           placeholder="Märke"
         />
-        <input
-          onChange={(event) => setInput('department', event.target.value)}
-          style={styles.input}
-          value={formState.department}
+        <Select
           placeholder="Avdelning"
+          onChange={(event) => setInput('productDepartmentId', event.id)}
+          options={departments}
+          getOptionLabel={(options) => options['name']}
+          getOptionValue={(options) => options['id']}
         />
-        <input
-          onChange={(event) => setInput('productType', event.target.value)}
-          style={styles.input}
-          value={formState.productType}
+        <Select
           placeholder="Produkttyp"
+          onChange={(event) => setInput('productProductTypeId', event.id)}
+          options={productTypes}
+          getOptionLabel={(options) => options['name']}
+          getOptionValue={(options) => options['id']}
         />
         <input
           onChange={(event) => setInput('placement', event.target.value)}
@@ -90,10 +124,10 @@ const App = ({ signOut, user }) => {
         </button>
         {products.map((product, index) => (
           <div key={product.id ? product.id : index} style={styles.product}>
-            <p style={styles.productName}>{product.name}</p>
-            <p style={styles.productDescription}>{product.department}</p>
-            <p style={styles.productDescription}>{product.productType}</p>
-            <p style={styles.productDescription}>{product.placement}</p>
+            <p>{product.name}</p>
+            <p>{product.department}</p>
+            <p>{product.productType}</p>
+            <p>{product.placement}</p>
           </div>
         ))}
       </div>
