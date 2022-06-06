@@ -10,6 +10,7 @@ import '@aws-amplify/ui-react/styles.css'
 import LogActivity from './components/LogActivity.js'
 import Navigation from './components/Navigation.js'
 import Products from './components/Products.js'
+import NotFound from './components/NotFound.js'
 
 Amplify.configure(awsExports)
 
@@ -22,6 +23,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="products" element={<Products />} />
         <Route path="logactivity" element={<LogActivity />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -13,7 +13,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Navigation = () => {
+const Navigation = ({ signOut, user }) => {
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -136,6 +136,7 @@ const Navigation = () => {
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
                             )}
+                            onClick={signOut}
                           >
                             Logga ut
                           </a>

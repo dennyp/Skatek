@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
+import { withAuthenticator } from '@aws-amplify/ui-react'
 
 import { createProduct } from '../graphql/mutations'
 import {
@@ -160,4 +161,4 @@ const styles = {
   },
 }
 
-export default AddProduct
+export default withAuthenticator(AddProduct)

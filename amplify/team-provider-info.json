@@ -10,6 +10,11 @@
       "StackName": "amplify-skatekapp-dev-180835",
       "StackId": "arn:aws:cloudformation:us-east-1:244939263348:stack/amplify-skatekapp-dev-180835/97596f70-e420-11ec-8a36-12d4fd6a4fbd",
       "AmplifyAppId": "dr19yd1t3uquc"
+    },
+    "categories": {
+      "auth": {
+        "skatekappce5f078b": {}
+      }
     }
   }
 }
