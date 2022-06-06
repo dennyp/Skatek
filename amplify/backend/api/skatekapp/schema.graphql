@@ -16,6 +16,7 @@ type Product @model {
 type Department @model {
   id: ID! @primaryKey
   name: String!
+  activityThreshold: Int!
 }
 
 # type ProductType @model @auth(rules: [{ allow: owner }]) {
@@ -33,4 +34,9 @@ type LogProduct @model {
   gnawed: Boolean
   newBait: Boolean
   comment: String
+}
+
+type Organization @model {
+  id: ID! @primaryKey
+  name: String!
 }
