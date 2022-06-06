@@ -40,3 +40,8 @@ type Organization @model {
   id: ID! @primaryKey
   name: String!
 }
+
+type Pest @model {
+  id: ID! @primaryKey
+  name: String!
+}
