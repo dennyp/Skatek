@@ -12,6 +12,13 @@ export const createProduct = /* GraphQL */ `
       department {
         id
         name
+        activityThreshold
+        createdAt
+        updatedAt
+      }
+      location {
+        id
+        name
         createdAt
         updatedAt
       }
@@ -25,6 +32,7 @@ export const createProduct = /* GraphQL */ `
       createdAt
       updatedAt
       productDepartmentId
+      productLocationId
       productProductTypeId
     }
   }
@@ -40,6 +48,13 @@ export const updateProduct = /* GraphQL */ `
       department {
         id
         name
+        activityThreshold
+        createdAt
+        updatedAt
+      }
+      location {
+        id
+        name
         createdAt
         updatedAt
       }
@@ -53,6 +68,7 @@ export const updateProduct = /* GraphQL */ `
       createdAt
       updatedAt
       productDepartmentId
+      productLocationId
       productProductTypeId
     }
   }
@@ -68,6 +84,13 @@ export const deleteProduct = /* GraphQL */ `
       department {
         id
         name
+        activityThreshold
+        createdAt
+        updatedAt
+      }
+      location {
+        id
+        name
         createdAt
         updatedAt
       }
@@ -81,6 +104,7 @@ export const deleteProduct = /* GraphQL */ `
       createdAt
       updatedAt
       productDepartmentId
+      productLocationId
       productProductTypeId
     }
   }
@@ -93,6 +117,7 @@ export const createDepartment = /* GraphQL */ `
     createDepartment(input: $input, condition: $condition) {
       id
       name
+      activityThreshold
       createdAt
       updatedAt
     }
@@ -106,6 +131,7 @@ export const updateDepartment = /* GraphQL */ `
     updateDepartment(input: $input, condition: $condition) {
       id
       name
+      activityThreshold
       createdAt
       updatedAt
     }
@@ -117,6 +143,46 @@ export const deleteDepartment = /* GraphQL */ `
     $condition: ModelDepartmentConditionInput
   ) {
     deleteDepartment(input: $input, condition: $condition) {
+      id
+      name
+      activityThreshold
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createLocation = /* GraphQL */ `
+  mutation CreateLocation(
+    $input: CreateLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    createLocation(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateLocation = /* GraphQL */ `
+  mutation UpdateLocation(
+    $input: UpdateLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    updateLocation(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteLocation = /* GraphQL */ `
+  mutation DeleteLocation(
+    $input: DeleteLocationInput!
+    $condition: ModelLocationConditionInput
+  ) {
+    deleteLocation(input: $input, condition: $condition) {
       id
       name
       createdAt
@@ -177,6 +243,7 @@ export const createLogProduct = /* GraphQL */ `
         createdAt
         updatedAt
         productDepartmentId
+        productLocationId
         productProductTypeId
       }
       dateLogged
@@ -204,6 +271,7 @@ export const updateLogProduct = /* GraphQL */ `
         createdAt
         updatedAt
         productDepartmentId
+        productLocationId
         productProductTypeId
       }
       dateLogged
@@ -231,6 +299,7 @@ export const deleteLogProduct = /* GraphQL */ `
         createdAt
         updatedAt
         productDepartmentId
+        productLocationId
         productProductTypeId
       }
       dateLogged
@@ -241,6 +310,84 @@ export const deleteLogProduct = /* GraphQL */ `
       createdAt
       updatedAt
       logProductProductId
+    }
+  }
+`;
+export const createOrganization = /* GraphQL */ `
+  mutation CreateOrganization(
+    $input: CreateOrganizationInput!
+    $condition: ModelOrganizationConditionInput
+  ) {
+    createOrganization(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateOrganization = /* GraphQL */ `
+  mutation UpdateOrganization(
+    $input: UpdateOrganizationInput!
+    $condition: ModelOrganizationConditionInput
+  ) {
+    updateOrganization(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteOrganization = /* GraphQL */ `
+  mutation DeleteOrganization(
+    $input: DeleteOrganizationInput!
+    $condition: ModelOrganizationConditionInput
+  ) {
+    deleteOrganization(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createPest = /* GraphQL */ `
+  mutation CreatePest(
+    $input: CreatePestInput!
+    $condition: ModelPestConditionInput
+  ) {
+    createPest(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updatePest = /* GraphQL */ `
+  mutation UpdatePest(
+    $input: UpdatePestInput!
+    $condition: ModelPestConditionInput
+  ) {
+    updatePest(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deletePest = /* GraphQL */ `
+  mutation DeletePest(
+    $input: DeletePestInput!
+    $condition: ModelPestConditionInput
+  ) {
+    deletePest(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
     }
   }
 `;

@@ -8,6 +8,7 @@ type Product @model {
   id: ID! @primaryKey
   name: String!
   department: Department! @hasOne
+  location: Location! @hasOne
   productType: ProductType! @hasOne
   placement: String!
 }
@@ -17,6 +18,11 @@ type Department @model {
   id: ID! @primaryKey
   name: String!
   activityThreshold: Int!
+}
+
+type Location @model {
+  id: ID! @primaryKey
+  name: String!
 }
 
 # type ProductType @model @auth(rules: [{ allow: owner }]) {

@@ -9,6 +9,13 @@ export const getProduct = /* GraphQL */ `
       department {
         id
         name
+        activityThreshold
+        createdAt
+        updatedAt
+      }
+      location {
+        id
+        name
         createdAt
         updatedAt
       }
@@ -22,6 +29,7 @@ export const getProduct = /* GraphQL */ `
       createdAt
       updatedAt
       productDepartmentId
+      productLocationId
       productProductTypeId
     }
   }
@@ -48,6 +56,7 @@ export const listProducts = /* GraphQL */ `
         createdAt
         updatedAt
         productDepartmentId
+        productLocationId
         productProductTypeId
       }
       nextToken
@@ -59,6 +68,7 @@ export const getDepartment = /* GraphQL */ `
     getDepartment(id: $id) {
       id
       name
+      activityThreshold
       createdAt
       updatedAt
     }
@@ -73,6 +83,42 @@ export const listDepartments = /* GraphQL */ `
     $sortDirection: ModelSortDirection
   ) {
     listDepartments(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        activityThreshold
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getLocation = /* GraphQL */ `
+  query GetLocation($id: ID!) {
+    getLocation(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listLocations = /* GraphQL */ `
+  query ListLocations(
+    $id: ID
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listLocations(
       id: $id
       filter: $filter
       limit: $limit
@@ -135,6 +181,7 @@ export const getLogProduct = /* GraphQL */ `
         createdAt
         updatedAt
         productDepartmentId
+        productLocationId
         productProductTypeId
       }
       dateLogged
@@ -173,6 +220,76 @@ export const listLogProducts = /* GraphQL */ `
         createdAt
         updatedAt
         logProductProductId
+      }
+      nextToken
+    }
+  }
+`;
+export const getOrganization = /* GraphQL */ `
+  query GetOrganization($id: ID!) {
+    getOrganization(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listOrganizations = /* GraphQL */ `
+  query ListOrganizations(
+    $id: ID
+    $filter: ModelOrganizationFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listOrganizations(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPest = /* GraphQL */ `
+  query GetPest($id: ID!) {
+    getPest(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPests = /* GraphQL */ `
+  query ListPests(
+    $id: ID
+    $filter: ModelPestFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listPests(
+      id: $id
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        name
+        createdAt
+        updatedAt
       }
       nextToken
     }
