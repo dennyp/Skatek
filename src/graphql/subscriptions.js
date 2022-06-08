@@ -1,345 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateOrganization = /* GraphQL */ `
-  subscription OnCreateOrganization {
-    onCreateOrganization {
-      id
-      name
-      departments {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateOrganization = /* GraphQL */ `
-  subscription OnUpdateOrganization {
-    onUpdateOrganization {
-      id
-      name
-      departments {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteOrganization = /* GraphQL */ `
-  subscription OnDeleteOrganization {
-    onDeleteOrganization {
-      id
-      name
-      departments {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateDepartment = /* GraphQL */ `
-  subscription OnCreateDepartment {
-    onCreateDepartment {
-      id
-      name
-      activityThreshold
-      organization {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      products {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      organizationDepartmentsId
-    }
-  }
-`;
-export const onUpdateDepartment = /* GraphQL */ `
-  subscription OnUpdateDepartment {
-    onUpdateDepartment {
-      id
-      name
-      activityThreshold
-      organization {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      products {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      organizationDepartmentsId
-    }
-  }
-`;
-export const onDeleteDepartment = /* GraphQL */ `
-  subscription OnDeleteDepartment {
-    onDeleteDepartment {
-      id
-      name
-      activityThreshold
-      organization {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      products {
-        nextToken
-      }
-      createdAt
-      updatedAt
-      organizationDepartmentsId
-    }
-  }
-`;
-export const onCreateProduct = /* GraphQL */ `
-  subscription OnCreateProduct {
-    onCreateProduct {
-      id
-      name
-      department {
-        id
-        name
-        activityThreshold
-        createdAt
-        updatedAt
-        organizationDepartmentsId
-      }
-      location {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      productType {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      placement
-      createdAt
-      updatedAt
-      departmentProductsId
-      productLocationId
-      productProductTypeId
-    }
-  }
-`;
-export const onUpdateProduct = /* GraphQL */ `
-  subscription OnUpdateProduct {
-    onUpdateProduct {
-      id
-      name
-      department {
-        id
-        name
-        activityThreshold
-        createdAt
-        updatedAt
-        organizationDepartmentsId
-      }
-      location {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      productType {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      placement
-      createdAt
-      updatedAt
-      departmentProductsId
-      productLocationId
-      productProductTypeId
-    }
-  }
-`;
-export const onDeleteProduct = /* GraphQL */ `
-  subscription OnDeleteProduct {
-    onDeleteProduct {
-      id
-      name
-      department {
-        id
-        name
-        activityThreshold
-        createdAt
-        updatedAt
-        organizationDepartmentsId
-      }
-      location {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      productType {
-        id
-        name
-        createdAt
-        updatedAt
-      }
-      placement
-      createdAt
-      updatedAt
-      departmentProductsId
-      productLocationId
-      productProductTypeId
-    }
-  }
-`;
-export const onCreateLocation = /* GraphQL */ `
-  subscription OnCreateLocation {
-    onCreateLocation {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateLocation = /* GraphQL */ `
-  subscription OnUpdateLocation {
-    onUpdateLocation {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteLocation = /* GraphQL */ `
-  subscription OnDeleteLocation {
-    onDeleteLocation {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateProductType = /* GraphQL */ `
-  subscription OnCreateProductType {
-    onCreateProductType {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateProductType = /* GraphQL */ `
-  subscription OnUpdateProductType {
-    onUpdateProductType {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteProductType = /* GraphQL */ `
-  subscription OnDeleteProductType {
-    onDeleteProductType {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateLogActivity = /* GraphQL */ `
-  subscription OnCreateLogActivity {
-    onCreateLogActivity {
-      id
-      product {
-        id
-        name
-        placement
-        createdAt
-        updatedAt
-        departmentProductsId
-        productLocationId
-        productProductTypeId
-      }
-      dateLogged
-      activity
-      gnawed
-      newBait
-      comment
-      createdAt
-      updatedAt
-      logActivityProductId
-    }
-  }
-`;
-export const onUpdateLogActivity = /* GraphQL */ `
-  subscription OnUpdateLogActivity {
-    onUpdateLogActivity {
-      id
-      product {
-        id
-        name
-        placement
-        createdAt
-        updatedAt
-        departmentProductsId
-        productLocationId
-        productProductTypeId
-      }
-      dateLogged
-      activity
-      gnawed
-      newBait
-      comment
-      createdAt
-      updatedAt
-      logActivityProductId
-    }
-  }
-`;
-export const onDeleteLogActivity = /* GraphQL */ `
-  subscription OnDeleteLogActivity {
-    onDeleteLogActivity {
-      id
-      product {
-        id
-        name
-        placement
-        createdAt
-        updatedAt
-        departmentProductsId
-        productLocationId
-        productProductTypeId
-      }
-      dateLogged
-      activity
-      gnawed
-      newBait
-      comment
-      createdAt
-      updatedAt
-      logActivityProductId
-    }
-  }
-`;
 export const onCreatePest = /* GraphQL */ `
   subscription OnCreatePest {
     onCreatePest {
@@ -367,6 +28,378 @@ export const onDeletePest = /* GraphQL */ `
       name
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onCreateOrganization = /* GraphQL */ `
+  subscription OnCreateOrganization($owner: String) {
+    onCreateOrganization(owner: $owner) {
+      id
+      name
+      departments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateOrganization = /* GraphQL */ `
+  subscription OnUpdateOrganization($owner: String) {
+    onUpdateOrganization(owner: $owner) {
+      id
+      name
+      departments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteOrganization = /* GraphQL */ `
+  subscription OnDeleteOrganization($owner: String) {
+    onDeleteOrganization(owner: $owner) {
+      id
+      name
+      departments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateDepartment = /* GraphQL */ `
+  subscription OnCreateDepartment($owner: String) {
+    onCreateDepartment(owner: $owner) {
+      id
+      name
+      activityThreshold
+      organization {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      products {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      organizationDepartmentsId
+      owner
+    }
+  }
+`;
+export const onUpdateDepartment = /* GraphQL */ `
+  subscription OnUpdateDepartment($owner: String) {
+    onUpdateDepartment(owner: $owner) {
+      id
+      name
+      activityThreshold
+      organization {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      products {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      organizationDepartmentsId
+      owner
+    }
+  }
+`;
+export const onDeleteDepartment = /* GraphQL */ `
+  subscription OnDeleteDepartment($owner: String) {
+    onDeleteDepartment(owner: $owner) {
+      id
+      name
+      activityThreshold
+      organization {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      products {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      organizationDepartmentsId
+      owner
+    }
+  }
+`;
+export const onCreateProduct = /* GraphQL */ `
+  subscription OnCreateProduct($owner: String) {
+    onCreateProduct(owner: $owner) {
+      id
+      name
+      department {
+        id
+        name
+        activityThreshold
+        createdAt
+        updatedAt
+        organizationDepartmentsId
+        owner
+      }
+      location {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      productType {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      placement
+      createdAt
+      updatedAt
+      departmentProductsId
+      productLocationId
+      productProductTypeId
+      owner
+    }
+  }
+`;
+export const onUpdateProduct = /* GraphQL */ `
+  subscription OnUpdateProduct($owner: String) {
+    onUpdateProduct(owner: $owner) {
+      id
+      name
+      department {
+        id
+        name
+        activityThreshold
+        createdAt
+        updatedAt
+        organizationDepartmentsId
+        owner
+      }
+      location {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      productType {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      placement
+      createdAt
+      updatedAt
+      departmentProductsId
+      productLocationId
+      productProductTypeId
+      owner
+    }
+  }
+`;
+export const onDeleteProduct = /* GraphQL */ `
+  subscription OnDeleteProduct($owner: String) {
+    onDeleteProduct(owner: $owner) {
+      id
+      name
+      department {
+        id
+        name
+        activityThreshold
+        createdAt
+        updatedAt
+        organizationDepartmentsId
+        owner
+      }
+      location {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      productType {
+        id
+        name
+        createdAt
+        updatedAt
+        owner
+      }
+      placement
+      createdAt
+      updatedAt
+      departmentProductsId
+      productLocationId
+      productProductTypeId
+      owner
+    }
+  }
+`;
+export const onCreateLocation = /* GraphQL */ `
+  subscription OnCreateLocation($owner: String) {
+    onCreateLocation(owner: $owner) {
+      id
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateLocation = /* GraphQL */ `
+  subscription OnUpdateLocation($owner: String) {
+    onUpdateLocation(owner: $owner) {
+      id
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteLocation = /* GraphQL */ `
+  subscription OnDeleteLocation($owner: String) {
+    onDeleteLocation(owner: $owner) {
+      id
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateProductType = /* GraphQL */ `
+  subscription OnCreateProductType($owner: String) {
+    onCreateProductType(owner: $owner) {
+      id
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateProductType = /* GraphQL */ `
+  subscription OnUpdateProductType($owner: String) {
+    onUpdateProductType(owner: $owner) {
+      id
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteProductType = /* GraphQL */ `
+  subscription OnDeleteProductType($owner: String) {
+    onDeleteProductType(owner: $owner) {
+      id
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateLogActivity = /* GraphQL */ `
+  subscription OnCreateLogActivity($owner: String) {
+    onCreateLogActivity(owner: $owner) {
+      id
+      product {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+        owner
+      }
+      dateLogged
+      activity
+      gnawed
+      newBait
+      comment
+      createdAt
+      updatedAt
+      logActivityProductId
+      owner
+    }
+  }
+`;
+export const onUpdateLogActivity = /* GraphQL */ `
+  subscription OnUpdateLogActivity($owner: String) {
+    onUpdateLogActivity(owner: $owner) {
+      id
+      product {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+        owner
+      }
+      dateLogged
+      activity
+      gnawed
+      newBait
+      comment
+      createdAt
+      updatedAt
+      logActivityProductId
+      owner
+    }
+  }
+`;
+export const onDeleteLogActivity = /* GraphQL */ `
+  subscription OnDeleteLogActivity($owner: String) {
+    onDeleteLogActivity(owner: $owner) {
+      id
+      product {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+        owner
+      }
+      dateLogged
+      activity
+      gnawed
+      newBait
+      comment
+      createdAt
+      updatedAt
+      logActivityProductId
+      owner
     }
   }
 `;
