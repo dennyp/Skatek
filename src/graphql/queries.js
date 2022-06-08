@@ -1,6 +1,76 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getOrganization = /* GraphQL */ `
+  query GetOrganization($id: ID!) {
+    getOrganization(id: $id) {
+      id
+      name
+      departments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listOrganizations = /* GraphQL */ `
+  query ListOrganizations(
+    $filter: ModelOrganizationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrganizations(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getDepartment = /* GraphQL */ `
+  query GetDepartment($id: ID!) {
+    getDepartment(id: $id) {
+      id
+      name
+      activityThreshold
+      organization {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      products {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      organizationDepartmentsId
+    }
+  }
+`;
+export const listDepartments = /* GraphQL */ `
+  query ListDepartments(
+    $filter: ModelDepartmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listDepartments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        activityThreshold
+        createdAt
+        updatedAt
+        organizationDepartmentsId
+      }
+      nextToken
+    }
+  }
+`;
 export const getProduct = /* GraphQL */ `
   query GetProduct($id: ID!) {
     getProduct(id: $id) {
@@ -12,6 +82,7 @@ export const getProduct = /* GraphQL */ `
         activityThreshold
         createdAt
         updatedAt
+        organizationDepartmentsId
       }
       location {
         id
@@ -28,7 +99,7 @@ export const getProduct = /* GraphQL */ `
       placement
       createdAt
       updatedAt
-      productDepartmentId
+      departmentProductsId
       productLocationId
       productProductTypeId
     }
@@ -36,65 +107,20 @@ export const getProduct = /* GraphQL */ `
 `;
 export const listProducts = /* GraphQL */ `
   query ListProducts(
-    $id: ID
     $filter: ModelProductFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listProducts(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
         placement
         createdAt
         updatedAt
-        productDepartmentId
+        departmentProductsId
         productLocationId
         productProductTypeId
-      }
-      nextToken
-    }
-  }
-`;
-export const getDepartment = /* GraphQL */ `
-  query GetDepartment($id: ID!) {
-    getDepartment(id: $id) {
-      id
-      name
-      activityThreshold
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listDepartments = /* GraphQL */ `
-  query ListDepartments(
-    $id: ID
-    $filter: ModelDepartmentFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listDepartments(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        name
-        activityThreshold
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -112,19 +138,11 @@ export const getLocation = /* GraphQL */ `
 `;
 export const listLocations = /* GraphQL */ `
   query ListLocations(
-    $id: ID
     $filter: ModelLocationFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listLocations(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listLocations(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
@@ -147,19 +165,11 @@ export const getProductType = /* GraphQL */ `
 `;
 export const listProductTypes = /* GraphQL */ `
   query ListProductTypes(
-    $id: ID
     $filter: ModelProductTypeFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listProductTypes(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listProductTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name
@@ -170,9 +180,9 @@ export const listProductTypes = /* GraphQL */ `
     }
   }
 `;
-export const getLogProduct = /* GraphQL */ `
-  query GetLogProduct($id: ID!) {
-    getLogProduct(id: $id) {
+export const getLogActivity = /* GraphQL */ `
+  query GetLogActivity($id: ID!) {
+    getLogActivity(id: $id) {
       id
       product {
         id
@@ -180,7 +190,7 @@ export const getLogProduct = /* GraphQL */ `
         placement
         createdAt
         updatedAt
-        productDepartmentId
+        departmentProductsId
         productLocationId
         productProductTypeId
       }
@@ -191,25 +201,17 @@ export const getLogProduct = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logProductProductId
+      logActivityProductId
     }
   }
 `;
-export const listLogProducts = /* GraphQL */ `
-  query ListLogProducts(
-    $id: ID
-    $filter: ModelLogProductFilterInput
+export const listLogActivities = /* GraphQL */ `
+  query ListLogActivities(
+    $filter: ModelLogActivityFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listLogProducts(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listLogActivities(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         dateLogged
@@ -219,42 +221,7 @@ export const listLogProducts = /* GraphQL */ `
         comment
         createdAt
         updatedAt
-        logProductProductId
-      }
-      nextToken
-    }
-  }
-`;
-export const getOrganization = /* GraphQL */ `
-  query GetOrganization($id: ID!) {
-    getOrganization(id: $id) {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listOrganizations = /* GraphQL */ `
-  query ListOrganizations(
-    $id: ID
-    $filter: ModelOrganizationFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listOrganizations(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        id
-        name
-        createdAt
-        updatedAt
+        logActivityProductId
       }
       nextToken
     }
@@ -272,19 +239,11 @@ export const getPest = /* GraphQL */ `
 `;
 export const listPests = /* GraphQL */ `
   query ListPests(
-    $id: ID
     $filter: ModelPestFilterInput
     $limit: Int
     $nextToken: String
-    $sortDirection: ModelSortDirection
   ) {
-    listPests(
-      id: $id
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
+    listPests(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         name

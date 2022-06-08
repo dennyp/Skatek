@@ -4,36 +4,45 @@ input AMPLIFY {
   globalAuthRule: AuthRule = { allow: public }
 } # FOR TESTING ONLY!
 # type Product @model @auth(rules: [{ allow: owner }]) {
-type Product @model {
-  id: ID! @primaryKey
+type Organization @model {
+  id: ID!
   name: String!
-  department: Department! @hasOne
+  departments: [Department] @hasMany
+}
+
+# type Department @model @auth(rules: [{ allow: owner }]) {
+type Department @model {
+  id: ID!
+  name: String!
+  activityThreshold: Int!
+  organization: Organization! @belongsTo
+  products: [Product] @hasMany
+}
+
+type Product @model {
+  id: ID!
+  name: String!
+  department: Department! @belongsTo
   location: Location! @hasOne
   productType: ProductType! @hasOne
   placement: String!
 }
 
-# type Department @model @auth(rules: [{ allow: owner }]) {
-type Department @model {
-  id: ID! @primaryKey
-  name: String!
-  activityThreshold: Int!
-}
-
+# Manages if a product is outside or inside
 type Location @model {
-  id: ID! @primaryKey
+  id: ID!
   name: String!
 }
 
 # type ProductType @model @auth(rules: [{ allow: owner }]) {
 type ProductType @model {
-  id: ID! @primaryKey
+  id: ID!
   name: String!
 }
 
 # type LogProduct @model @auth(rules: [{ allow: owner }]) {
-type LogProduct @model {
-  id: ID! @primaryKey
+type LogActivity @model {
+  id: ID!
   product: Product! @hasOne
   dateLogged: AWSDate!
   activity: Int!
@@ -42,12 +51,7 @@ type LogProduct @model {
   comment: String
 }
 
-type Organization @model {
-  id: ID! @primaryKey
-  name: String!
-}
-
 type Pest @model {
-  id: ID! @primaryKey
+  id: ID!
   name: String!
 }

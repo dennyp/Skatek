@@ -1,6 +1,108 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateOrganization = /* GraphQL */ `
+  subscription OnCreateOrganization {
+    onCreateOrganization {
+      id
+      name
+      departments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateOrganization = /* GraphQL */ `
+  subscription OnUpdateOrganization {
+    onUpdateOrganization {
+      id
+      name
+      departments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteOrganization = /* GraphQL */ `
+  subscription OnDeleteOrganization {
+    onDeleteOrganization {
+      id
+      name
+      departments {
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateDepartment = /* GraphQL */ `
+  subscription OnCreateDepartment {
+    onCreateDepartment {
+      id
+      name
+      activityThreshold
+      organization {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      products {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      organizationDepartmentsId
+    }
+  }
+`;
+export const onUpdateDepartment = /* GraphQL */ `
+  subscription OnUpdateDepartment {
+    onUpdateDepartment {
+      id
+      name
+      activityThreshold
+      organization {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      products {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      organizationDepartmentsId
+    }
+  }
+`;
+export const onDeleteDepartment = /* GraphQL */ `
+  subscription OnDeleteDepartment {
+    onDeleteDepartment {
+      id
+      name
+      activityThreshold
+      organization {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      products {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      organizationDepartmentsId
+    }
+  }
+`;
 export const onCreateProduct = /* GraphQL */ `
   subscription OnCreateProduct {
     onCreateProduct {
@@ -12,6 +114,7 @@ export const onCreateProduct = /* GraphQL */ `
         activityThreshold
         createdAt
         updatedAt
+        organizationDepartmentsId
       }
       location {
         id
@@ -28,7 +131,7 @@ export const onCreateProduct = /* GraphQL */ `
       placement
       createdAt
       updatedAt
-      productDepartmentId
+      departmentProductsId
       productLocationId
       productProductTypeId
     }
@@ -45,6 +148,7 @@ export const onUpdateProduct = /* GraphQL */ `
         activityThreshold
         createdAt
         updatedAt
+        organizationDepartmentsId
       }
       location {
         id
@@ -61,7 +165,7 @@ export const onUpdateProduct = /* GraphQL */ `
       placement
       createdAt
       updatedAt
-      productDepartmentId
+      departmentProductsId
       productLocationId
       productProductTypeId
     }
@@ -78,6 +182,7 @@ export const onDeleteProduct = /* GraphQL */ `
         activityThreshold
         createdAt
         updatedAt
+        organizationDepartmentsId
       }
       location {
         id
@@ -94,42 +199,9 @@ export const onDeleteProduct = /* GraphQL */ `
       placement
       createdAt
       updatedAt
-      productDepartmentId
+      departmentProductsId
       productLocationId
       productProductTypeId
-    }
-  }
-`;
-export const onCreateDepartment = /* GraphQL */ `
-  subscription OnCreateDepartment {
-    onCreateDepartment {
-      id
-      name
-      activityThreshold
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateDepartment = /* GraphQL */ `
-  subscription OnUpdateDepartment {
-    onUpdateDepartment {
-      id
-      name
-      activityThreshold
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteDepartment = /* GraphQL */ `
-  subscription OnDeleteDepartment {
-    onDeleteDepartment {
-      id
-      name
-      activityThreshold
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -193,9 +265,9 @@ export const onDeleteProductType = /* GraphQL */ `
     }
   }
 `;
-export const onCreateLogProduct = /* GraphQL */ `
-  subscription OnCreateLogProduct {
-    onCreateLogProduct {
+export const onCreateLogActivity = /* GraphQL */ `
+  subscription OnCreateLogActivity {
+    onCreateLogActivity {
       id
       product {
         id
@@ -203,7 +275,7 @@ export const onCreateLogProduct = /* GraphQL */ `
         placement
         createdAt
         updatedAt
-        productDepartmentId
+        departmentProductsId
         productLocationId
         productProductTypeId
       }
@@ -214,13 +286,13 @@ export const onCreateLogProduct = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logProductProductId
+      logActivityProductId
     }
   }
 `;
-export const onUpdateLogProduct = /* GraphQL */ `
-  subscription OnUpdateLogProduct {
-    onUpdateLogProduct {
+export const onUpdateLogActivity = /* GraphQL */ `
+  subscription OnUpdateLogActivity {
+    onUpdateLogActivity {
       id
       product {
         id
@@ -228,7 +300,7 @@ export const onUpdateLogProduct = /* GraphQL */ `
         placement
         createdAt
         updatedAt
-        productDepartmentId
+        departmentProductsId
         productLocationId
         productProductTypeId
       }
@@ -239,13 +311,13 @@ export const onUpdateLogProduct = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logProductProductId
+      logActivityProductId
     }
   }
 `;
-export const onDeleteLogProduct = /* GraphQL */ `
-  subscription OnDeleteLogProduct {
-    onDeleteLogProduct {
+export const onDeleteLogActivity = /* GraphQL */ `
+  subscription OnDeleteLogActivity {
+    onDeleteLogActivity {
       id
       product {
         id
@@ -253,7 +325,7 @@ export const onDeleteLogProduct = /* GraphQL */ `
         placement
         createdAt
         updatedAt
-        productDepartmentId
+        departmentProductsId
         productLocationId
         productProductTypeId
       }
@@ -264,37 +336,7 @@ export const onDeleteLogProduct = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logProductProductId
-    }
-  }
-`;
-export const onCreateOrganization = /* GraphQL */ `
-  subscription OnCreateOrganization {
-    onCreateOrganization {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateOrganization = /* GraphQL */ `
-  subscription OnUpdateOrganization {
-    onUpdateOrganization {
-      id
-      name
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteOrganization = /* GraphQL */ `
-  subscription OnDeleteOrganization {
-    onDeleteOrganization {
-      id
-      name
-      createdAt
-      updatedAt
+      logActivityProductId
     }
   }
 `;
