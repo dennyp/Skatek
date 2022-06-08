@@ -47,6 +47,7 @@ const LogActivity = () => {
     <>
       <div className="flex bg-stone-200 max-w-7xl w-2/3 mx-auto mt-5 p-5 sm:px-6 lg:px-8 rounded-lg">
         <SearchableCombobox label="Produkt" array={people} />
+        <input type="text" name="Aktivitet" />
 
         {/* <Combobox value={selectedPerson} onChange={setSelectedPerson}>
           <Combobox.Input
