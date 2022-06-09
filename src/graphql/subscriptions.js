@@ -1,6 +1,36 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreatePest = /* GraphQL */ `
+  subscription OnCreatePest {
+    onCreatePest {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdatePest = /* GraphQL */ `
+  subscription OnUpdatePest {
+    onUpdatePest {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeletePest = /* GraphQL */ `
+  subscription OnDeletePest {
+    onDeletePest {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateOrganization = /* GraphQL */ `
   subscription OnCreateOrganization($owner: String) {
     onCreateOrganization(owner: $owner) {
@@ -288,6 +318,87 @@ export const onDeleteProductType = /* GraphQL */ `
       name
       createdAt
       updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateLogActivity = /* GraphQL */ `
+  subscription OnCreateLogActivity($owner: String) {
+    onCreateLogActivity(owner: $owner) {
+      id
+      product {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+        owner
+      }
+      dateLogged
+      activity
+      gnawed
+      newBait
+      comment
+      createdAt
+      updatedAt
+      logActivityProductId
+      owner
+    }
+  }
+`;
+export const onUpdateLogActivity = /* GraphQL */ `
+  subscription OnUpdateLogActivity($owner: String) {
+    onUpdateLogActivity(owner: $owner) {
+      id
+      product {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+        owner
+      }
+      dateLogged
+      activity
+      gnawed
+      newBait
+      comment
+      createdAt
+      updatedAt
+      logActivityProductId
+      owner
+    }
+  }
+`;
+export const onDeleteLogActivity = /* GraphQL */ `
+  subscription OnDeleteLogActivity($owner: String) {
+    onDeleteLogActivity(owner: $owner) {
+      id
+      product {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+        owner
+      }
+      dateLogged
+      activity
+      gnawed
+      newBait
+      comment
+      createdAt
+      updatedAt
+      logActivityProductId
       owner
     }
   }

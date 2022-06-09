@@ -37,17 +37,17 @@ type ProductType @model @auth(rules: [{ allow: owner }]) {
   name: String!
 }
 
-# type LogActivity @model @auth(rules: [{ allow: owner }]) {
-#   id: ID!
-#   product: Product! @hasOne
-#   dateLogged: AWSDate!
-#   activity: Int!
-#   gnawed: Boolean
-#   newBait: Boolean
-#   comment: String
-# }
+type LogActivity @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  product: Product! @hasOne
+  dateLogged: AWSDate!
+  activity: Int!
+  gnawed: Boolean
+  newBait: Boolean
+  comment: String
+}
 
-# type Pest @model {
-#   id: ID!
-#   name: String!
-# }
+type Pest @model {
+  id: ID!
+  name: String!
+}

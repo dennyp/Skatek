@@ -1,6 +1,33 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getPest = /* GraphQL */ `
+  query GetPest($id: ID!) {
+    getPest(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPests = /* GraphQL */ `
+  query ListPests(
+    $filter: ModelPestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPests(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getOrganization = /* GraphQL */ `
   query GetOrganization($id: ID!) {
     getOrganization(id: $id) {
@@ -188,6 +215,56 @@ export const listProductTypes = /* GraphQL */ `
         name
         createdAt
         updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getLogActivity = /* GraphQL */ `
+  query GetLogActivity($id: ID!) {
+    getLogActivity(id: $id) {
+      id
+      product {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+        owner
+      }
+      dateLogged
+      activity
+      gnawed
+      newBait
+      comment
+      createdAt
+      updatedAt
+      logActivityProductId
+      owner
+    }
+  }
+`;
+export const listLogActivities = /* GraphQL */ `
+  query ListLogActivities(
+    $filter: ModelLogActivityFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLogActivities(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        dateLogged
+        activity
+        gnawed
+        newBait
+        comment
+        createdAt
+        updatedAt
+        logActivityProductId
         owner
       }
       nextToken
