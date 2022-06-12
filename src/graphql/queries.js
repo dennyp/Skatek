@@ -1,6 +1,183 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const searchOrganizations = /* GraphQL */ `
+  query SearchOrganizations(
+    $filter: SearchableOrganizationFilterInput
+    $sort: [SearchableOrganizationSortInput]
+    $limit: Int
+    $nextToken: String
+    $from: Int
+    $aggregates: [SearchableOrganizationAggregationInput]
+  ) {
+    searchOrganizations(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+      aggregates: $aggregates
+    ) {
+      items {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      nextToken
+      total
+      aggregateItems {
+        name
+        result {
+          ... on SearchableAggregateScalarResult {
+            value
+          }
+          ... on SearchableAggregateBucketResult {
+            buckets {
+              key
+              doc_count
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const searchDepartments = /* GraphQL */ `
+  query SearchDepartments(
+    $filter: SearchableDepartmentFilterInput
+    $sort: [SearchableDepartmentSortInput]
+    $limit: Int
+    $nextToken: String
+    $from: Int
+    $aggregates: [SearchableDepartmentAggregationInput]
+  ) {
+    searchDepartments(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+      aggregates: $aggregates
+    ) {
+      items {
+        id
+        name
+        activityThreshold
+        createdAt
+        updatedAt
+        organizationDepartmentsId
+      }
+      nextToken
+      total
+      aggregateItems {
+        name
+        result {
+          ... on SearchableAggregateScalarResult {
+            value
+          }
+          ... on SearchableAggregateBucketResult {
+            buckets {
+              key
+              doc_count
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const searchProducts = /* GraphQL */ `
+  query SearchProducts(
+    $filter: SearchableProductFilterInput
+    $sort: [SearchableProductSortInput]
+    $limit: Int
+    $nextToken: String
+    $from: Int
+    $aggregates: [SearchableProductAggregationInput]
+  ) {
+    searchProducts(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+      aggregates: $aggregates
+    ) {
+      items {
+        id
+        name
+        placement
+        createdAt
+        updatedAt
+        departmentProductsId
+        productLocationId
+        productProductTypeId
+      }
+      nextToken
+      total
+      aggregateItems {
+        name
+        result {
+          ... on SearchableAggregateScalarResult {
+            value
+          }
+          ... on SearchableAggregateBucketResult {
+            buckets {
+              key
+              doc_count
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+export const searchLogActivities = /* GraphQL */ `
+  query SearchLogActivities(
+    $filter: SearchableLogActivityFilterInput
+    $sort: [SearchableLogActivitySortInput]
+    $limit: Int
+    $nextToken: String
+    $from: Int
+    $aggregates: [SearchableLogActivityAggregationInput]
+  ) {
+    searchLogActivities(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+      aggregates: $aggregates
+    ) {
+      items {
+        id
+        dateLogged
+        activity
+        comment
+        createdAt
+        updatedAt
+        logActivityProductId
+      }
+      nextToken
+      total
+      aggregateItems {
+        name
+        result {
+          ... on SearchableAggregateScalarResult {
+            value
+          }
+          ... on SearchableAggregateBucketResult {
+            buckets {
+              key
+              doc_count
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 export const getOrganization = /* GraphQL */ `
   query GetOrganization($id: ID!) {
     getOrganization(id: $id) {
