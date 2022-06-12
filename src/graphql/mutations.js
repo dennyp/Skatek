@@ -310,12 +310,12 @@ export const deleteProductType = /* GraphQL */ `
     }
   }
 `;
-export const createLogActivity = /* GraphQL */ `
-  mutation CreateLogActivity(
-    $input: CreateLogActivityInput!
-    $condition: ModelLogActivityConditionInput
+export const createActivityLog = /* GraphQL */ `
+  mutation CreateActivityLog(
+    $input: CreateActivityLogInput!
+    $condition: ModelActivityLogConditionInput
   ) {
-    createLogActivity(input: $input, condition: $condition) {
+    createActivityLog(input: $input, condition: $condition) {
       id
       product {
         id
@@ -332,16 +332,16 @@ export const createLogActivity = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logActivityProductId
+      activityLogProductId
     }
   }
 `;
-export const updateLogActivity = /* GraphQL */ `
-  mutation UpdateLogActivity(
-    $input: UpdateLogActivityInput!
-    $condition: ModelLogActivityConditionInput
+export const updateActivityLog = /* GraphQL */ `
+  mutation UpdateActivityLog(
+    $input: UpdateActivityLogInput!
+    $condition: ModelActivityLogConditionInput
   ) {
-    updateLogActivity(input: $input, condition: $condition) {
+    updateActivityLog(input: $input, condition: $condition) {
       id
       product {
         id
@@ -358,16 +358,16 @@ export const updateLogActivity = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logActivityProductId
+      activityLogProductId
     }
   }
 `;
-export const deleteLogActivity = /* GraphQL */ `
-  mutation DeleteLogActivity(
-    $input: DeleteLogActivityInput!
-    $condition: ModelLogActivityConditionInput
+export const deleteActivityLog = /* GraphQL */ `
+  mutation DeleteActivityLog(
+    $input: DeleteActivityLogInput!
+    $condition: ModelActivityLogConditionInput
   ) {
-    deleteLogActivity(input: $input, condition: $condition) {
+    deleteActivityLog(input: $input, condition: $condition) {
       id
       product {
         id
@@ -384,7 +384,7 @@ export const deleteLogActivity = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logActivityProductId
+      activityLogProductId
     }
   }
 `;

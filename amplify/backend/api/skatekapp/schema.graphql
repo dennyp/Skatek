@@ -43,7 +43,7 @@ type ProductType @model {
 }
 
 # type LogActivity @model @auth(rules: [{ allow: owner }]) {
-type LogActivity @model @searchable {
+type ActivityLog @model @searchable {
   id: ID!
   product: Product! @hasOne
   dateLogged: AWSDate!

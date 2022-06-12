@@ -2,9 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { withAuthenticator } from '@aws-amplify/ui-react'
 import { API, graphqlOperation } from 'aws-amplify'
 import { createLogProduct } from '../graphql/mutations'
-import { listProducts } from '../graphql/queries'
-import Select from 'react-select'
-// import { Combobox } from '@headlessui/react'
+import { listProducts, listActivityLogs } from '../graphql/queries'
 import SearchableCombobox from './SearchableCombobox.js'
 
 const people = [
@@ -15,22 +13,14 @@ const people = [
   { id: 5, name: 'hej' },
 ]
 
-const LogActivity = () => {
-  const [selectedPerson, setSelectedPerson] = useState(people[0])
-  const [query, setQuery] = useState('')
-
-  const filteredPeople =
-    query === ''
-      ? people
-      : people.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase())
-        })
-
+const ActivityLog = () => {
   // TODO: Make a DAL where useful functions are stored
   const [products, setProducts] = useState([])
+  const [activityLogs, setActivityLogs] = useState([])
 
   useEffect(() => {
     fetchProducts()
+    fetchActivityLogs()
   }, [])
 
   async function fetchProducts() {
@@ -43,10 +33,22 @@ const LogActivity = () => {
     }
   }
 
+  async function fetchActivityLogs() {
+    try {
+      const activityLogsData = await API.graphql(
+        graphqlOperation(listActivityLogs)
+      )
+      const logs = activityLogsData.data.listActivityLogs.items
+      setActivityLogs(logs)
+    } catch (err) {
+      console.error('error fetching activity logs')
+    }
+  }
+
   return (
     <>
       <div className="flex bg-stone-200 max-w-7xl w-2/3 mx-auto mt-5 p-5 sm:px-6 lg:px-8 rounded-lg">
-        <SearchableCombobox label="Produkt" array={people} />
+        <SearchableCombobox label="Produkt" array={products} />
         <input type="text" name="Aktivitet" />
 
         {/* <Combobox value={selectedPerson} onChange={setSelectedPerson}>
@@ -82,4 +84,4 @@ const LogActivity = () => {
   )
 }
 
-export default withAuthenticator(LogActivity)
+export default withAuthenticator(ActivityLog)

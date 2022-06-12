@@ -133,16 +133,16 @@ export const searchProducts = /* GraphQL */ `
     }
   }
 `;
-export const searchLogActivities = /* GraphQL */ `
-  query SearchLogActivities(
-    $filter: SearchableLogActivityFilterInput
-    $sort: [SearchableLogActivitySortInput]
+export const searchActivityLogs = /* GraphQL */ `
+  query SearchActivityLogs(
+    $filter: SearchableActivityLogFilterInput
+    $sort: [SearchableActivityLogSortInput]
     $limit: Int
     $nextToken: String
     $from: Int
-    $aggregates: [SearchableLogActivityAggregationInput]
+    $aggregates: [SearchableActivityLogAggregationInput]
   ) {
-    searchLogActivities(
+    searchActivityLogs(
       filter: $filter
       sort: $sort
       limit: $limit
@@ -157,7 +157,7 @@ export const searchLogActivities = /* GraphQL */ `
         comment
         createdAt
         updatedAt
-        logActivityProductId
+        activityLogProductId
       }
       nextToken
       total
@@ -357,9 +357,9 @@ export const listProductTypes = /* GraphQL */ `
     }
   }
 `;
-export const getLogActivity = /* GraphQL */ `
-  query GetLogActivity($id: ID!) {
-    getLogActivity(id: $id) {
+export const getActivityLog = /* GraphQL */ `
+  query GetActivityLog($id: ID!) {
+    getActivityLog(id: $id) {
       id
       product {
         id
@@ -376,17 +376,17 @@ export const getLogActivity = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logActivityProductId
+      activityLogProductId
     }
   }
 `;
-export const listLogActivities = /* GraphQL */ `
-  query ListLogActivities(
-    $filter: ModelLogActivityFilterInput
+export const listActivityLogs = /* GraphQL */ `
+  query ListActivityLogs(
+    $filter: ModelActivityLogFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listLogActivities(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listActivityLogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         dateLogged
@@ -394,7 +394,7 @@ export const listLogActivities = /* GraphQL */ `
         comment
         createdAt
         updatedAt
-        logActivityProductId
+        activityLogProductId
       }
       nextToken
     }

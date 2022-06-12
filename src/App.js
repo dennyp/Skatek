@@ -6,7 +6,7 @@ import { Routes, Route } from 'react-router-dom'
 import Navigation from './components/Navigation.js'
 import Dashboard from './components/Dashboard.js'
 import Products from './components/Products.js'
-import LogActivity from './components/LogActivity.js'
+import ActivityLog from './components/ActivityLog.js'
 import NotFound from './components/NotFound.js'
 
 const App = ({ signOut, user }) => {
@@ -16,7 +16,7 @@ const App = ({ signOut, user }) => {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/logactivity" element={<LogActivity />} />
+        <Route path="/logactivity" element={<ActivityLog />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Button onClick={signOut}>Logga ut</Button>

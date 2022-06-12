@@ -265,9 +265,9 @@ export const onDeleteProductType = /* GraphQL */ `
     }
   }
 `;
-export const onCreateLogActivity = /* GraphQL */ `
-  subscription OnCreateLogActivity {
-    onCreateLogActivity {
+export const onCreateActivityLog = /* GraphQL */ `
+  subscription OnCreateActivityLog {
+    onCreateActivityLog {
       id
       product {
         id
@@ -284,13 +284,13 @@ export const onCreateLogActivity = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logActivityProductId
+      activityLogProductId
     }
   }
 `;
-export const onUpdateLogActivity = /* GraphQL */ `
-  subscription OnUpdateLogActivity {
-    onUpdateLogActivity {
+export const onUpdateActivityLog = /* GraphQL */ `
+  subscription OnUpdateActivityLog {
+    onUpdateActivityLog {
       id
       product {
         id
@@ -307,13 +307,13 @@ export const onUpdateLogActivity = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logActivityProductId
+      activityLogProductId
     }
   }
 `;
-export const onDeleteLogActivity = /* GraphQL */ `
-  subscription OnDeleteLogActivity {
-    onDeleteLogActivity {
+export const onDeleteActivityLog = /* GraphQL */ `
+  subscription OnDeleteActivityLog {
+    onDeleteActivityLog {
       id
       product {
         id
@@ -330,7 +330,7 @@ export const onDeleteLogActivity = /* GraphQL */ `
       comment
       createdAt
       updatedAt
-      logActivityProductId
+      activityLogProductId
     }
   }
 `;
