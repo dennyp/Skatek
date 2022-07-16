@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 import { withAuthenticator } from '@aws-amplify/ui-react'
 
-import { createProduct } from '../graphql/mutations'
+import { createProduct } from '../../graphql/mutations'
 import {
   listProducts,
   listDepartments,
   listProductTypes,
-} from '../graphql/queries'
+} from '../../graphql/queries'
 import Select from 'react-select'
+import ProductTable from './ProductTable.js'
 
 const initialState = {
   name: '',
@@ -38,6 +39,7 @@ const AddProduct = () => {
       const productData = await API.graphql(graphqlOperation(listProducts))
       const products = productData.data.listProducts.items
       setProducts(products)
+      console.log(products)
     } catch (err) {
       console.log('error fetching products')
     }
@@ -118,17 +120,18 @@ const AddProduct = () => {
         <button style={styles.button} onClick={addProduct}>
           Skapa
         </button>
-        {products.map((product, index) => (
+        {/* {products.map((product, index) => (
           <div key={product.id ? product.id : index} style={styles.product}>
             <p>{product.name}</p>
             <p>{product.department}</p>
             <p>{product.productType}</p>
             <p>{product.placement}</p>
           </div>
-        ))}
+        ))} */}
       </div>
       {/* <Heading level={1}>Hej {user.username}!</Heading> */}
       {/* <Button onClick={signOut}>Sign out</Button> */}
+      <ProductTable products={products} />
     </>
   )
 }
