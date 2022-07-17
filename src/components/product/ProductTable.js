@@ -1,3 +1,5 @@
+import Pagination from '../Pagination.js'
+
 const ProductTable = ({ products }) => {
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -52,38 +54,48 @@ const ProductTable = ({ products }) => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {products.map((product) => (
-              <tr key={product.email}>
+              <tr key={product.id}>
                 <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
                   {product.name}
                   <dl className="font-normal lg:hidden">
                     <dt className="sr-only">Title</dt>
                     <dd className="mt-1 truncate text-gray-700">
-                      {product.departmentProductsId}
+                      {product.department.name}
                     </dd>
                     <dt className="sr-only sm:hidden">Email</dt>
                     <dd className="mt-1 truncate text-gray-500 sm:hidden">
-                      {product.productProductTypeId}
+                      {product.productType.name}
                     </dd>
                   </dl>
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
-                  {product.departmentProductsId}
+                  {product.department.name}
                 </td>
                 <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">
-                  {product.productProductTypeId}
+                  {product.productType.name}
                 </td>
                 <td className="px-3 py-4 text-sm text-gray-500">
                   {product.placement}
                 </td>
                 <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-3 py-1.5 mb-1 border border-transparent text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
                     Ändra<span className="sr-only">, {product.name}</span>
-                  </a>
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-500"
+                  >
+                    Radera<span className="sr-only">, {product.name}</span>
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <Pagination />
       </div>
     </div>
   )

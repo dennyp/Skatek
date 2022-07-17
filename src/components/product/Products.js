@@ -36,10 +36,28 @@ const AddProduct = () => {
 
   async function fetchProducts() {
     try {
-      const productData = await API.graphql(graphqlOperation(listProducts))
+      const productData = await API.graphql(
+        graphqlOperation(`query fetchProducts { 
+          listProducts {
+            items {
+              id
+              name
+              placement
+              department {
+                id
+                name
+              }
+              productType {
+                id
+                name
+              }
+            }
+          }
+        }`)
+      )
+
       const products = productData.data.listProducts.items
       setProducts(products)
-      console.log(products)
     } catch (err) {
       console.log('error fetching products')
     }
@@ -120,17 +138,7 @@ const AddProduct = () => {
         <button style={styles.button} onClick={addProduct}>
           Skapa
         </button>
-        {/* {products.map((product, index) => (
-          <div key={product.id ? product.id : index} style={styles.product}>
-            <p>{product.name}</p>
-            <p>{product.department}</p>
-            <p>{product.productType}</p>
-            <p>{product.placement}</p>
-          </div>
-        ))} */}
       </div>
-      {/* <Heading level={1}>Hej {user.username}!</Heading> */}
-      {/* <Button onClick={signOut}>Sign out</Button> */}
       <ProductTable products={products} />
     </>
   )
