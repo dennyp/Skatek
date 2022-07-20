@@ -3,11 +3,8 @@ import { API, graphqlOperation } from 'aws-amplify'
 import { withAuthenticator } from '@aws-amplify/ui-react'
 
 import { createProduct } from '../../graphql/mutations'
-import {
-  listProducts,
-  listDepartments,
-  listProductTypes,
-} from '../../graphql/queries'
+import { listDepartments, listProductTypes } from '../../graphql/queries'
+import { listProductsWithExtraInfo } from '../../graphql/custom-queries'
 import Select from 'react-select'
 import ProductTable from './ProductTable.js'
 
@@ -37,23 +34,7 @@ const AddProduct = () => {
   async function fetchProducts() {
     try {
       const productData = await API.graphql(
-        graphqlOperation(`query fetchProducts { 
-          listProducts {
-            items {
-              id
-              name
-              placement
-              department {
-                id
-                name
-              }
-              productType {
-                id
-                name
-              }
-            }
-          }
-        }`)
+        graphqlOperation(listProductsWithExtraInfo)
       )
 
       const products = productData.data.listProducts.items
