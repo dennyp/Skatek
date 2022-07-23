@@ -1,6 +1,16 @@
-import Pagination from '../Pagination.js'
+import { useState } from 'react'
+import Pagination from './Pagination.js'
+import ProductSlideover from './ProductSlideover.js'
 
 const ProductTable = ({ products }) => {
+  const [openSlider, setOpenSlider] = useState(false)
+  const [productId, setProductId] = useState('')
+
+  const handleEditClick = async (event) => {
+    setOpenSlider(true)
+    setProductId(event.target.value)
+  }
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -77,16 +87,20 @@ const ProductTable = ({ products }) => {
                 <td className="px-3 py-4 text-sm text-gray-500">
                   {product.placement}
                 </td>
-                <td className="py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                <td className="py-4 pl-1.5 pr-1.5 text-right text-sm font-medium sm:pr-3">
                   <button
                     type="button"
-                    className="inline-flex items-center px-3 py-1.5 mb-1 border border-transparent text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="inline-flex items-center px-1 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={handleEditClick}
+                    value={product.id}
                   >
                     Ändra<span className="sr-only">, {product.name}</span>
                   </button>
+                </td>
+                <td className="py-4 pl-1.5 pr-1.5 text-right text-sm font-medium sm:pr-3">
                   <button
                     type="button"
-                    className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-500"
+                    className="inline-flex items-center px-1 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-500"
                   >
                     Radera<span className="sr-only">, {product.name}</span>
                   </button>
@@ -95,7 +109,14 @@ const ProductTable = ({ products }) => {
             ))}
           </tbody>
         </table>
-        <Pagination />
+        {openSlider && (
+          <ProductSlideover
+            open={openSlider}
+            setOpen={setOpenSlider}
+            productId={productId}
+          />
+        )}
+        {/* <Pagination /> */}
       </div>
     </div>
   )

@@ -5,7 +5,6 @@ import { withAuthenticator } from '@aws-amplify/ui-react'
 import { createProduct } from '../../graphql/mutations'
 import { listDepartments, listProductTypes } from '../../graphql/queries'
 import { listProductsWithExtraInfo } from '../../graphql/custom-queries'
-import Select from 'react-select'
 import ProductTable from './ProductTable.js'
 
 const initialState = {
@@ -15,11 +14,13 @@ const initialState = {
   placement: '',
 }
 
-const AddProduct = () => {
+const Product = () => {
   const [formState, setFormState] = useState(initialState)
   const [products, setProducts] = useState([])
   const [departments, setDepartments] = useState([])
   const [productTypes, setProductTypes] = useState([])
+  // const [isEditing, setIsEditing] = useState(false)
+  // const [selectedProduct, setSelectedProduct] = useState('')
 
   useEffect(() => {
     fetchProducts()
@@ -86,71 +87,16 @@ const AddProduct = () => {
     }
   }
 
+  // const handleEditClick = (event) => {
+  //   setSelectedProduct(event.target.value)
+  //   setIsEditing(true)
+  // }
+
   return (
     <>
-      <div style={styles.container}>
-        <h2>Skapa Produkt</h2>
-        <input
-          onChange={(event) => setInput('name', event.target.value)}
-          style={styles.input}
-          value={formState.name}
-          placeholder="Märke"
-        />
-        <Select
-          placeholder="Avdelning"
-          onChange={(event) => setInput('productDepartmentId', event.id)}
-          options={departments}
-          getOptionLabel={(options) => options['name']}
-          getOptionValue={(options) => options['id']}
-        />
-        <Select
-          placeholder="Produkttyp"
-          onChange={(event) => setInput('productProductTypeId', event.id)}
-          options={productTypes}
-          getOptionLabel={(options) => options['name']}
-          getOptionValue={(options) => options['id']}
-        />
-        <input
-          onChange={(event) => setInput('placement', event.target.value)}
-          style={styles.input}
-          value={formState.placement}
-          placeholder="Placering"
-        />
-        <button style={styles.button} onClick={addProduct}>
-          Skapa
-        </button>
-      </div>
       <ProductTable products={products} />
     </>
   )
 }
 
-const styles = {
-  container: {
-    width: 400,
-    margin: '0 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  product: { marginBottom: 15 },
-  input: {
-    border: 'none',
-    backgroundColor: '#ddd',
-    marginBottom: 10,
-    padding: 8,
-    fontSize: 18,
-  },
-  productName: { fontSize: 20, fontWeight: 'bold' },
-  productDescription: { marginBottom: 0 },
-  button: {
-    backgroundColor: 'black',
-    color: 'white',
-    outline: 'none',
-    fontSize: 18,
-    padding: '12px 0px',
-  },
-}
-
-export default withAuthenticator(AddProduct)
+export default withAuthenticator(Product)
