@@ -73,39 +73,20 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
                         </div>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        <div
-                          className="pb-4 border-gray-200"
-                          aria-hidden="true"
-                        >
-                          <TextInputGroup label="Märke" value={product.name} />
-                        </div>
-                        <div
-                          className="pb-4 border-gray-200"
-                          aria-hidden="true"
-                        >
-                          <TextInputGroup
-                            label="Avdelning"
-                            value={product.department.name}
-                          />
-                        </div>
-                        <div
-                          className="pb-4 border-gray-200"
-                          aria-hidden="true"
-                        >
-                          <TextInputGroup
-                            label="Produkttyp"
-                            value={product.productType.name}
-                          />
-                        </div>
-                        <div
-                          className="pb-4 border-gray-200"
-                          aria-hidden="true"
-                        >
-                          <TextInputGroup
-                            label="Placering"
-                            value={product.placement}
-                          />
-                        </div>
+                        <TextInputGroup label="Märke" value={product.name} />
+                        <TextInputGroup
+                          label="Avdelning"
+                          value={product.department.name}
+                        />
+
+                        <TextInputGroup
+                          label="Produkttyp"
+                          value={product.productType.name}
+                        />
+                        <TextInputGroup
+                          label="Placering"
+                          value={product.placement}
+                        />
                       </div>
                     </div>
                     <div className="flex flex-shrink-0 justify-end px-4 py-4">
