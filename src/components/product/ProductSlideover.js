@@ -4,6 +4,8 @@ import { XIcon } from '@heroicons/react/outline'
 import { API, graphqlOperation } from 'aws-amplify'
 import { getProduct } from '../../graphql/queries'
 import TextInputGroup from '../TextInputGroup.js'
+import DepartmentInputGroup from '../DepartmentInputGroup.js'
+import ProductTypeInputGroup from '../ProductTypeInputGroup.js'
 
 const initialState = {
   name: '',
@@ -24,7 +26,7 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
         const product = productData.data.getProduct
         setProduct(product)
       } catch (err) {
-        console.log('error fetching product')
+        console.error('error fetching product')
       }
     }
 
@@ -35,6 +37,21 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
     setOpen(false)
   }
 
+  const handleDepartmentChange = (department) => {
+    setProduct({ ...product, department })
+  }
+
+  const handleNameChange = (name) => {
+    setProduct({ ...product, name })
+  }
+
+  const handleProductTypeChange = (productType) => {
+    setProduct({ ...product, productType })
+  }
+
+  const handlePlacement = (placement) => {
+    setProduct({ ...product, placement })
+  }
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={handleClose}>
@@ -73,19 +90,25 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
                         </div>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        <TextInputGroup label="Märke" value={product.name} />
                         <TextInputGroup
-                          label="Avdelning"
-                          value={product.department.name}
+                          label="Märke"
+                          value={product.name}
+                          onChange={handleNameChange}
                         />
-
-                        <TextInputGroup
+                        <DepartmentInputGroup
+                          label="Avdelning"
+                          value={product.department}
+                          onChange={handleDepartmentChange}
+                        />
+                        <ProductTypeInputGroup
                           label="Produkttyp"
-                          value={product.productType.name}
+                          value={product.productType}
+                          onChange={handleProductTypeChange}
                         />
                         <TextInputGroup
                           label="Placering"
                           value={product.placement}
+                          onChange={handlePlacement}
                         />
                       </div>
                     </div>

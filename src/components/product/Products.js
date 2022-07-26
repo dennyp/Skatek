@@ -17,56 +17,26 @@ const initialState = {
 const Product = () => {
   const [formState, setFormState] = useState(initialState)
   const [products, setProducts] = useState([])
-  const [departments, setDepartments] = useState([])
-  const [productTypes, setProductTypes] = useState([])
-  // const [isEditing, setIsEditing] = useState(false)
-  // const [selectedProduct, setSelectedProduct] = useState('')
 
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const productData = await API.graphql(
+          graphqlOperation(listProductsWithExtraInfo)
+        )
+
+        const products = productData.data.listProducts.items
+        setProducts(products)
+      } catch (err) {
+        console.error('error fetching products')
+      }
+    }
+
     fetchProducts()
-    fetchDepartments()
-    fetchProductTypes()
   }, [])
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
-  }
-
-  async function fetchProducts() {
-    try {
-      const productData = await API.graphql(
-        graphqlOperation(listProductsWithExtraInfo)
-      )
-
-      const products = productData.data.listProducts.items
-      setProducts(products)
-    } catch (err) {
-      console.log('error fetching products')
-    }
-  }
-
-  async function fetchDepartments() {
-    try {
-      const departmentData = await API.graphql(
-        graphqlOperation(listDepartments)
-      )
-      const departments = departmentData.data.listDepartments.items
-      setDepartments(departments)
-    } catch (err) {
-      console.log('error fetching departments')
-    }
-  }
-
-  async function fetchProductTypes() {
-    try {
-      const productTypeData = await API.graphql(
-        graphqlOperation(listProductTypes)
-      )
-      const productTypes = productTypeData.data.listProductTypes.items
-      setProductTypes(productTypes)
-    } catch (err) {
-      console.log('error fetching product types')
-    }
   }
 
   async function addProduct() {
@@ -83,20 +53,11 @@ const Product = () => {
       setFormState(initialState)
       await API.graphql(graphqlOperation(createProduct, { input: product }))
     } catch (err) {
-      console.log('error creating product:', err)
+      console.error('error creating product:', err)
     }
   }
 
-  // const handleEditClick = (event) => {
-  //   setSelectedProduct(event.target.value)
-  //   setIsEditing(true)
-  // }
-
-  return (
-    <>
-      <ProductTable products={products} />
-    </>
-  )
+  return <>{<ProductTable products={products} />}</>
 }
 
 export default withAuthenticator(Product)
