@@ -1,11 +1,13 @@
 import { Fragment, useEffect, useState } from 'react'
+
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { API, graphqlOperation } from 'aws-amplify'
 import { getProduct } from '../../graphql/queries'
-import TextInputGroup from '../TextInputGroup.js'
+import { updateProduct } from '../../graphql/mutations'
 import DepartmentInputGroup from '../DepartmentInputGroup.js'
 import ProductTypeInputGroup from '../ProductTypeInputGroup.js'
+import TextInputGroup from '../TextInputGroup.js'
 
 const initialState = {
   name: '',
@@ -16,6 +18,8 @@ const initialState = {
 
 const ProductSlideover = ({ open, setOpen, productId }) => {
   const [product, setProduct] = useState(initialState)
+  const [isChanged, setIsChanged] = useState(false)
+  const [userMessage, setUserMessage] = useState('')
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -38,20 +42,56 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
   }
 
   const handleDepartmentChange = (department) => {
+    if (isChanged) return
+
     setProduct({ ...product, department })
+    setIsChanged(true)
   }
 
   const handleNameChange = (name) => {
+    if (isChanged) return
+
     setProduct({ ...product, name })
+    setIsChanged(true)
   }
 
   const handleProductTypeChange = (productType) => {
+    if (isChanged) return
+
     setProduct({ ...product, productType })
+    setIsChanged(true)
   }
 
   const handlePlacement = (placement) => {
+    if (isChanged) return
+
     setProduct({ ...product, placement })
+    setIsChanged(true)
   }
+
+  const handleSave = async (event) => {
+    try {
+      if (!isChanged) return
+
+      const data = await API.graphql(
+        graphqlOperation(updateProduct, {
+          input: {
+            id: product.id,
+            name: product.name,
+            departmentProductsId: product.department.id,
+            productProductTypeId: product.productType.id,
+            placement: product.placement,
+          },
+        })
+      )
+
+      setIsChanged(false)
+      handleClose()
+    } catch (err) {
+      console.error('error saving product', err)
+    }
+  }
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={handleClose}>
@@ -123,6 +163,7 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
                       <button
                         type="submit"
                         className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        onClick={handleSave}
                       >
                         Save
                       </button>
