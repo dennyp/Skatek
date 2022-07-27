@@ -3,8 +3,8 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { API, graphqlOperation } from 'aws-amplify'
-import { getProduct } from '../../graphql/queries'
 import { updateProduct } from '../../graphql/mutations'
+import { getProduct } from '../../graphql/queries'
 import DepartmentInputGroup from '../DepartmentInputGroup.js'
 import ProductTypeInputGroup from '../ProductTypeInputGroup.js'
 import TextInputGroup from '../TextInputGroup.js'
@@ -16,10 +16,9 @@ const initialState = {
   placement: '',
 }
 
-const ProductSlideover = ({ open, setOpen, productId }) => {
+const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
   const [product, setProduct] = useState(initialState)
   const [isChanged, setIsChanged] = useState(false)
-  const [userMessage, setUserMessage] = useState('')
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -42,29 +41,21 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
   }
 
   const handleDepartmentChange = (department) => {
-    if (isChanged) return
-
     setProduct({ ...product, department })
     setIsChanged(true)
   }
 
   const handleNameChange = (name) => {
-    if (isChanged) return
-
     setProduct({ ...product, name })
     setIsChanged(true)
   }
 
   const handleProductTypeChange = (productType) => {
-    if (isChanged) return
-
     setProduct({ ...product, productType })
     setIsChanged(true)
   }
 
   const handlePlacement = (placement) => {
-    if (isChanged) return
-
     setProduct({ ...product, placement })
     setIsChanged(true)
   }
@@ -87,6 +78,7 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
 
       setIsChanged(false)
       handleClose()
+      onSave(product)
     } catch (err) {
       console.error('error saving product', err)
     }
