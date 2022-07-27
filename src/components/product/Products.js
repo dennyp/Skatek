@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { API, graphqlOperation } from 'aws-amplify'
-import { withAuthenticator } from '@aws-amplify/ui-react'
 
-import { createProduct } from '../../graphql/mutations'
-import { listDepartments, listProductTypes } from '../../graphql/queries'
+import { withAuthenticator } from '@aws-amplify/ui-react'
+import { API, graphqlOperation } from 'aws-amplify'
 import { listProductsWithExtraInfo } from '../../graphql/custom-queries'
+import { createProduct } from '../../graphql/mutations'
 import ProductTable from './ProductTable.js'
 
 const initialState = {
@@ -14,6 +13,8 @@ const initialState = {
   placement: '',
 }
 
+// TODO: add delete functionality. The product should perhaps be "inactivated" instead of deleted so that we can still use history of activity etc.
+// TODO: add functionality to add a product.
 const Product = () => {
   const [formState, setFormState] = useState(initialState)
   const [products, setProducts] = useState([])
@@ -33,11 +34,7 @@ const Product = () => {
     }
 
     fetchProducts()
-  }, [products])
-
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
-  }
+  }, [])
 
   async function addProduct() {
     try {
@@ -58,11 +55,11 @@ const Product = () => {
   }
 
   const handleSave = (editedProduct) => {
-    products.map((product) => {
-      if (product.id === editedProduct.id) {
-        return { ...products, editedProduct }
-      }
+    const productList = products.map((product) => {
+      return product.id === editedProduct.id ? editedProduct : product
     })
+
+    setProducts(productList)
   }
 
   return <>{<ProductTable products={products} onSave={handleSave} />}</>
