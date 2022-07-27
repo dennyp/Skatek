@@ -2,13 +2,17 @@ import { useState } from 'react'
 import Pagination from './Pagination.js'
 import ProductSlideover from './ProductSlideover.js'
 
-const ProductTable = ({ products }) => {
+const ProductTable = ({ products, onSave }) => {
   const [openSlider, setOpenSlider] = useState(false)
   const [productId, setProductId] = useState('')
 
   const handleEditClick = async (event) => {
     setOpenSlider(true)
     setProductId(event.target.value)
+  }
+
+  const handleSave = (product) => {
+    onSave(product)
   }
 
   return (
@@ -114,6 +118,7 @@ const ProductTable = ({ products }) => {
             open={openSlider}
             setOpen={setOpenSlider}
             productId={productId}
+            onSave={handleSave}
           />
         )}
         {/* <Pagination /> */}

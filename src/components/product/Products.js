@@ -33,7 +33,7 @@ const Product = () => {
     }
 
     fetchProducts()
-  }, [])
+  }, [products])
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value })
@@ -57,7 +57,15 @@ const Product = () => {
     }
   }
 
-  return <>{<ProductTable products={products} />}</>
+  const handleSave = (editedProduct) => {
+    products.map((product) => {
+      if (product.id === editedProduct.id) {
+        return { ...products, editedProduct }
+      }
+    })
+  }
+
+  return <>{<ProductTable products={products} onSave={handleSave} />}</>
 }
 
 export default withAuthenticator(Product)
