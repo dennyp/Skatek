@@ -64,6 +64,9 @@ const ProductTable = ({ products, onSave }) => {
               <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                 <span className="sr-only">Ändra</span>
               </th>
+              <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                <span className="sr-only">Radera</span>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
