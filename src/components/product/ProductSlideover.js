@@ -55,7 +55,7 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
     setIsChanged(true)
   }
 
-  const handlePlacement = (placement) => {
+  const handlePlacementChange = (placement) => {
     setProduct({ ...product, placement })
     setIsChanged(true)
   }
@@ -123,24 +123,20 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <TextInputGroup
-                          label="Märke"
                           value={product.name}
                           onChange={handleNameChange}
                         />
                         <DepartmentInputGroup
-                          label="Avdelning"
                           value={product.department}
                           onChange={handleDepartmentChange}
                         />
                         <ProductTypeInputGroup
-                          label="Produkttyp"
                           value={product.productType}
                           onChange={handleProductTypeChange}
                         />
                         <TextInputGroup
-                          label="Placering"
                           value={product.placement}
-                          onChange={handlePlacement}
+                          onChange={handlePlacementChange}
                         />
                       </div>
                     </div>

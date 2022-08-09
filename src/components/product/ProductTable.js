@@ -6,7 +6,7 @@ const ProductTable = ({ products, onSave }) => {
   const [openSlider, setOpenSlider] = useState(false)
   const [productId, setProductId] = useState('')
 
-  const handleEditClick = async (event) => {
+  const handleEditClick = (event) => {
     setOpenSlider(true)
     setProductId(event.target.value)
   }
