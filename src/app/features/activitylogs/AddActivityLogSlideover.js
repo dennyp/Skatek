@@ -61,10 +61,6 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
       const savedActivityLog = await API.graphql(
         graphqlOperation(createActivityLog, newActivityLog)
       )
-      console.log(
-        '🚀 ~ file: AddActivityLogSlideover.js ~ line 56 ~ handleCreateClick ~ savedActivityLog',
-        savedActivityLog
-      )
     } catch (err) {
       console.error('error creating an activity log', err)
     }
