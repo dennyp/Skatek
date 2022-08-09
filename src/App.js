@@ -1,13 +1,13 @@
-/* src/App.js */
 import React from 'react'
-import { withAuthenticator, Button } from '@aws-amplify/ui-react'
+
+import { Button, withAuthenticator } from '@aws-amplify/ui-react'
 import '@aws-amplify/ui-react/styles.css'
-import { Routes, Route } from 'react-router-dom'
-import Navigation from './components/Navigation.js'
+import { Route, Routes } from 'react-router-dom'
+import ActivityLog from './app/features/activitylogs/ActivityLog.js'
 import Dashboard from './components/Dashboard.js'
-import Products from './components/product/Products.js'
-import ActivityLog from './components/ActivityLog.js'
+import Navigation from './components/Navigation.js'
 import NotFound from './components/NotFound.js'
+import Products from './components/product/Products.js'
 
 const App = ({ signOut, user }) => {
   return (

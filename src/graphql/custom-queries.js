@@ -22,3 +22,30 @@ export const listProductsWithExtraInfo = /* GraphQL */ `
     }
   }
 `
+
+export const listActivityLogsWithExtraInfo = /* GraphQL */ `
+  query ListActivityLogsWithExtraInfo(
+    $filter: ModelActivityLogFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listActivityLogs(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        activity
+        comment
+        dateLogged
+        product {
+          id
+          name
+          placement
+          department {
+            id
+            name
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`
