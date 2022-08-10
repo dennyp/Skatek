@@ -133,10 +133,18 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                           />
                         </div>
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <label
+                            for="date-logged"
+                            className="block text-xs font-medium text-gray-900"
+                          >
+                            Loggad datum
+                          </label>
                           <input
+                            id="date-logged"
                             type="date"
                             value={selectedDateLogged}
                             onChange={handleDateChange}
+                            className="rounded-md border-gray-300"
                           />
                         </div>
                       </div>
