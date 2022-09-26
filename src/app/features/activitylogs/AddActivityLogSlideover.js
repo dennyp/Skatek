@@ -1,15 +1,15 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
 import { API, graphqlOperation } from 'aws-amplify'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
+import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
 import { createActivityLog } from '../../../graphql/mutations'
-import { listProducts } from '../../../graphql/queries'
 
 const AddActivityLogSlideover = ({ open, setOpen }) => {
-  const [products, setProducts] = useState([])
+  const [selectedDepartment, setSelectedDepartment] = useState({})
   const [selectedProduct, setSelectedProduct] = useState({})
   const [selectedActivity, setSelectedActivity] = useState(0)
   const [selectedComment, setSelectedComment] = useState('')
@@ -17,20 +17,9 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
     new Date().toISOString().slice(0, 10)
   )
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productData = await API.graphql(graphqlOperation(listProducts))
-
-        const products = productData.data.listProducts.items
-        setProducts(products)
-      } catch (err) {
-        console.error('error fetching products', err)
-      }
-    }
-
-    fetchProducts()
-  }, [])
+  const handleDepartmentChange = (department) => {
+    setSelectedDepartment(department)
+  }
 
   const handleProductChange = (product) => {
     setSelectedProduct(product)
@@ -54,16 +43,28 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
         input: {
           activity: selectedActivity,
           activityLogProductId: selectedProduct.id,
-          dateLogged: selectedDateLogged,
+          dateLogged: selectedDateLogged + 'Z',
           comment: selectedComment,
         },
       }
+      console.log(
+        '🚀 ~ file: AddActivityLogSlideover.js ~ line 71 ~ handleCreateClick ~ newActivityLog',
+        newActivityLog
+      )
       const savedActivityLog = await API.graphql(
         graphqlOperation(createActivityLog, newActivityLog)
+      )
+      console.log(
+        '🚀 ~ file: AddActivityLogSlideover.js ~ line 78 ~ handleCreateClick ~ savedActivityLog',
+        savedActivityLog
       )
     } catch (err) {
       console.error('error creating an activity log', err)
     }
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
   }
 
   return (
@@ -83,7 +84,10 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                 leaveTo="translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-2xl">
-                  <form className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
+                  >
                     <div className="flex-1">
                       {/* Header */}
                       <div className="bg-gray-50 px-4 py-6 sm:px-6">
@@ -113,9 +117,16 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
 
                       <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <DepartmentInputGroup
+                            value={selectedDepartment}
+                            onChange={handleDepartmentChange}
+                          />
+                        </div>
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
                           <ProductInputGroup
                             value={selectedProduct}
                             onChange={handleProductChange}
+                            department={selectedDepartment}
                           />
                         </div>
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
@@ -134,7 +145,7 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                         </div>
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
                           <label
-                            for="date-logged"
+                            htmlFor="date-logged"
                             className="block text-xs font-medium text-gray-900"
                           >
                             Loggad datum

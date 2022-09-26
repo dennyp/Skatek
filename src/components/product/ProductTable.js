@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Pagination from './Pagination.js'
 import ProductSlideover from './ProductSlideover.js'
 
 const ProductTable = ({ products, onSave }) => {
@@ -124,7 +123,6 @@ const ProductTable = ({ products, onSave }) => {
             onSave={handleSave}
           />
         )}
-        {/* <Pagination /> */}
       </div>
     </div>
   )

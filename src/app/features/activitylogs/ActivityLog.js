@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { withAuthenticator } from '@aws-amplify/ui-react'
 import { useDispatch, useSelector } from 'react-redux'
+import Pagination from '../../../components/Pagination'
 import ActivityLogRow from './ActivityLogRow'
 import {
   fetchActivityLogs,
@@ -9,10 +10,12 @@ import {
   getLogsStatus,
   selectAllLogs,
 } from './activitylogSlice'
+import ActivityLogSlideover from './ActivityLogSlideover'
 import AddActivityLogSlideover from './AddActivityLogSlideover'
 
 const ActivityLog = () => {
   const [openAddLog, setOpenAddLog] = useState(false)
+  const [openEditLog, setOpenEditLog] = useState(false)
   const dispatch = useDispatch()
 
   const logs = useSelector(selectAllLogs)
@@ -121,7 +124,10 @@ const ActivityLog = () => {
               setOpen={setOpenAddLog}
             />
           )}
-          {/* <Pagination /> */}
+          {openEditLog && (
+            <ActivityLogSlideover open={openEditLog} setOpen={setOpenEditLog} />
+          )}
+          <Pagination />
         </div>
       </div>
     </>

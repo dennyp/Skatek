@@ -1,13 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit'
 import { API, graphqlOperation } from 'aws-amplify'
 import { listActivityLogsWithExtraInfo } from '../../../graphql/custom-queries'
 import { createActivityLog } from '../../../graphql/mutations'
 
-const initialState = {
-  logs: [],
-  error: null,
-  status: 'idle',
-}
+const activityLogAdapter = createEntityAdapter({
+  sortComparer: (a, b) => b.date.localeCompare(a.date),
+})
 
 export const fetchActivityLogs = createAsyncThunk(
   'logs/fetchLogs',
@@ -31,7 +33,11 @@ export const addNewLog = createAsyncThunk(
 
 export const activitylogSlice = createSlice({
   name: 'activity',
-  initialState,
+  initialState: activityLogAdapter.getInitialState({
+    logs: [],
+    error: null,
+    status: 'idle',
+  }),
   reducers: {},
   extraReducers(builder) {
     builder
@@ -47,11 +53,14 @@ export const activitylogSlice = createSlice({
         state.error = action.error.message
       })
       .addCase(addNewLog.fulfilled, (state, action) => {
-        console.log(action.payload)
         state.logs.push(action.payload)
       })
   },
 })
+
+// export const { selectAllLogs, selectLogById } = activityLogAdapter.getSelectors(
+//   (state) => state.activity
+// )
 
 export const selectAllLogs = (state) => state.activity.logs
 export const getLogsError = (state) => state.activity.error

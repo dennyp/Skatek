@@ -10,7 +10,7 @@ function classNames(...classes) {
 }
 
 // TODO: sort products before user filters?
-const ProductInputGroup = ({ value, onChange }) => {
+const ProductInputGroup = ({ value, onChange, department = {} }) => {
   const [query, setQuery] = useState('')
   const [products, setProducts] = useState([])
 
@@ -30,11 +30,13 @@ const ProductInputGroup = ({ value, onChange }) => {
           .sort((product1, product2) => product1.name - product2.name)
 
   useEffect(() => {
-    // TODO: fetch all products, not just the first 100
     const fetchProducts = async () => {
       try {
         const productsData = await API.graphql(
-          graphqlOperation(listProductsWithExtraInfo)
+          graphqlOperation(listProductsWithExtraInfo, {
+            filter: { departmentProductsId: { eq: department?.id } },
+            limit: 500,
+          })
         )
         const productsList = productsData.data.listProducts.items
 
@@ -45,7 +47,7 @@ const ProductInputGroup = ({ value, onChange }) => {
     }
 
     fetchProducts()
-  }, [value])
+  }, [value, department])
 
   const handleChange = (productValue) => {
     onChange(productValue)
