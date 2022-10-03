@@ -8,6 +8,9 @@ import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
 import { createActivityLog } from '../../../graphql/mutations'
 
+const SUCCESS_MESSAGE = 'Logg sparad'
+const FAILURE_MESSAGE = 'Logg kunde inte sparas'
+
 const AddActivityLogSlideover = ({ open, setOpen }) => {
   const [selectedDepartment, setSelectedDepartment] = useState({})
   const [selectedProduct, setSelectedProduct] = useState({})
@@ -16,6 +19,7 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
   const [selectedDateLogged, setSelectedDateLogged] = useState(
     new Date().toISOString().slice(0, 10)
   )
+  const [flashMessage, setFlashMessage] = useState()
 
   const handleDepartmentChange = (department) => {
     setSelectedDepartment(department)
@@ -47,19 +51,15 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
           comment: selectedComment,
         },
       }
-      console.log(
-        '🚀 ~ file: AddActivityLogSlideover.js ~ line 71 ~ handleCreateClick ~ newActivityLog',
-        newActivityLog
-      )
+
       const savedActivityLog = await API.graphql(
         graphqlOperation(createActivityLog, newActivityLog)
       )
-      console.log(
-        '🚀 ~ file: AddActivityLogSlideover.js ~ line 78 ~ handleCreateClick ~ savedActivityLog',
-        savedActivityLog
-      )
+
+      if (savedActivityLog) setFlashMessage(SUCCESS_MESSAGE)
     } catch (err) {
       console.error('error creating an activity log', err)
+      setFlashMessage(FAILURE_MESSAGE)
     }
   }
 
@@ -163,6 +163,9 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
 
                     {/* Action buttons */}
                     <div className="flex-shrink-0 border-t border-gray-200 px-4 py-5 sm:px-6">
+                      {/* TOAST */}
+
+                      {/* /TOAST */}
                       <div className="flex justify-end space-x-3">
                         <button
                           type="button"
@@ -176,6 +179,10 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                           className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                           onClick={handleCreateClick}
                         >
+                          <svg
+                            className="animate-spin h-5 w-5 mr-3 ..."
+                            viewBox="0 0 24 24"
+                          ></svg>
                           Skapa
                         </button>
                       </div>

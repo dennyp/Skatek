@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 
 import { withAuthenticator } from '@aws-amplify/ui-react'
 import { useDispatch, useSelector } from 'react-redux'
+import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
 import Pagination from '../../../components/Pagination'
 import ActivityLogRow from './ActivityLogRow'
 import {
-  fetchActivityLogs,
+  fetchActivityLogsFromDepartment,
   getLogsError,
   getLogsStatus,
   selectAllLogs,
@@ -16,6 +17,8 @@ import AddActivityLogSlideover from './AddActivityLogSlideover'
 const ActivityLog = () => {
   const [openAddLog, setOpenAddLog] = useState(false)
   const [openEditLog, setOpenEditLog] = useState(false)
+  const [selectedDepartment, setSelectedDepartment] = useState()
+
   const dispatch = useDispatch()
 
   const logs = useSelector(selectAllLogs)
@@ -23,10 +26,8 @@ const ActivityLog = () => {
   const error = useSelector(getLogsError)
 
   useEffect(() => {
-    if (logsStatus === 'idle') {
-      dispatch(fetchActivityLogs())
-    }
-  }, [logsStatus, dispatch])
+    dispatch(fetchActivityLogsFromDepartment(selectedDepartment))
+  }, [dispatch, selectedDepartment])
 
   let tableBody
   switch (logsStatus) {
@@ -46,8 +47,14 @@ const ActivityLog = () => {
       )
       break
     default:
-      tableBody = logs.map((log) => <ActivityLogRow key={log.id} log={log} />)
+      if (logs.length !== 0) {
+        tableBody = logs.map((log) => <ActivityLogRow key={log.id} log={log} />)
+      }
       break
+  }
+
+  const handleDepartmentChange = (department) => {
+    setSelectedDepartment(department)
   }
 
   return (
@@ -71,6 +78,13 @@ const ActivityLog = () => {
               Lägg till
             </button>
           </div>
+        </div>
+        <div>
+          <p>Filter</p>
+          <DepartmentInputGroup
+            value={selectedDepartment}
+            onChange={handleDepartmentChange}
+          />
         </div>
         <div className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
           <table className="min-w-full divide-y divide-gray-300">

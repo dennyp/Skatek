@@ -7,7 +7,6 @@ import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
 import ProductTypeInputGroup from '../../../components/ProductTypeInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
 import { updateProduct } from '../../../graphql/mutations'
-import { getProduct } from '../../../graphql/queries'
 import { fetchActivityLogs } from './activitylogSlice'
 
 const initialState = {
@@ -23,8 +22,8 @@ const ActivityLogSlideover = ({ open, setOpen, productId, onSave }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // dispatch(fetchActivityLog(productId))
-  }, [dispatch])
+    dispatch(fetchActivityLogs(productId))
+  }, [dispatch, productId])
 
   const handleClose = () => {
     setOpen(false)

@@ -21,6 +21,21 @@ export const fetchActivityLogs = createAsyncThunk(
   }
 )
 
+// should probably restructure the tables so it's possible to filter in backend
+export const fetchActivityLogsFromDepartment = createAsyncThunk(
+  'logs/fetchLogsFromDepartment',
+  async (department) => {
+    const activityLogsData = await API.graphql(
+      graphqlOperation(listActivityLogsWithExtraInfo, { limit: 10000 })
+    )
+    const filteredData = activityLogsData.data.listActivityLogs.items.filter(
+      (log) => department?.id === log.product.department.id
+    )
+
+    return filteredData
+  }
+)
+
 export const addNewLog = createAsyncThunk(
   'logs/addNewLog',
   async (initialLog) => {
@@ -54,6 +69,17 @@ export const activitylogSlice = createSlice({
       })
       .addCase(addNewLog.fulfilled, (state, action) => {
         state.logs.push(action.payload)
+      })
+      .addCase(fetchActivityLogsFromDepartment.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchActivityLogsFromDepartment.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.logs = action.payload
+      })
+      .addCase(fetchActivityLogsFromDepartment.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
       })
   },
 })
