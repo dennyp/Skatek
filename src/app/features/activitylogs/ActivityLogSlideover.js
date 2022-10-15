@@ -1,4 +1,5 @@
-import { Fragment, useDispatch, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
