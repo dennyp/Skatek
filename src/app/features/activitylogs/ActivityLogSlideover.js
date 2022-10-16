@@ -1,52 +1,55 @@
 import { Fragment, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { XIcon } from '@heroicons/react/outline'
-import { API, graphqlOperation } from 'aws-amplify'
-import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
-import ProductTypeInputGroup from '../../../components/ProductTypeInputGroup'
+import NumberInputGroup from '../../../components/NumberInputGroup'
+import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
-import { updateProduct } from '../../../graphql/mutations'
-import { fetchActivityLogs } from './activitylogSlice'
+import {
+  fetchActivityLogById,
+  selectLogById,
+  updateLog,
+} from './activitylogSlice'
 
-const initialState = {
-  name: '',
-  department: {},
-  productType: {},
-  placement: '',
-}
-
-const ActivityLogSlideover = ({ open, setOpen, productId, onSave }) => {
-  const [activityLog, setActivityLog] = useState(initialState)
+const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
   const [isChanged, setIsChanged] = useState(false)
   const dispatch = useDispatch()
 
+  const selectedLog = useSelector((state) => selectLogById(state, id))
+
+  const [activity, setActivity] = useState(selectedLog?.activity)
+  const [comment, setComment] = useState(selectedLog?.comment)
+  const [dateLogged, setDateLogged] = useState(
+    selectedLog?.dateLogged.slice(0, 10)
+  )
+  const [product, setProduct] = useState(selectedLog?.product)
+
   useEffect(() => {
-    dispatch(fetchActivityLogs(productId))
-  }, [dispatch, productId])
+    dispatch(fetchActivityLogById(id))
+  }, [dispatch, id])
 
   const handleClose = () => {
     setOpen(false)
   }
 
-  const handleDepartmentChange = (department) => {
-    setActivityLog({ ...activityLog, department })
+  const handleProductChange = (changedProduct) => {
+    setProduct(changedProduct)
     setIsChanged(true)
   }
 
-  const handleNameChange = (name) => {
-    setActivityLog({ ...activityLog, name })
+  const handleActivityChange = (changedActivity) => {
+    setActivity(changedActivity)
     setIsChanged(true)
   }
 
-  const handleProductTypeChange = (productType) => {
-    setActivityLog({ ...activityLog, productType })
+  const handleCommentChange = (changedComment) => {
+    setComment(changedComment)
     setIsChanged(true)
   }
 
-  const handlePlacementChange = (placement) => {
-    setActivityLog({ ...activityLog, placement })
+  const handleDateLoggedChange = (event) => {
+    setDateLogged(event.target.value)
     setIsChanged(true)
   }
 
@@ -54,21 +57,23 @@ const ActivityLogSlideover = ({ open, setOpen, productId, onSave }) => {
     try {
       if (!isChanged) return
 
-      const data = await API.graphql(
-        graphqlOperation(updateProduct, {
-          input: {
-            id: activityLog.id,
-            name: activityLog.name,
-            departmentProductsId: activityLog.department.id,
-            productProductTypeId: activityLog.productType.id,
-            placement: activityLog.placement,
-          },
+      dispatch(
+        updateLog({
+          id,
+          activity,
+          comment,
+          dateLogged,
+          activityLogProductId: product.id,
         })
-      )
+      ).unwrap()
 
       setIsChanged(false)
+      setActivity(0)
+      setComment('')
+      setDateLogged('')
+      setProduct({})
+
       handleClose()
-      onSave(activityLog)
     } catch (err) {
       console.error('error saving product', err)
     }
@@ -97,7 +102,7 @@ const ActivityLogSlideover = ({ open, setOpen, productId, onSave }) => {
                         <div className="flex items-start justify-between">
                           <Dialog.Title className="text-lg font-medium text-gray-900">
                             {' '}
-                            Ändra produkt{' '}
+                            Ändra aktivitetslogg{' '}
                           </Dialog.Title>
                           <div className="ml-3 flex h-7 items-center">
                             <button
@@ -105,29 +110,55 @@ const ActivityLogSlideover = ({ open, setOpen, productId, onSave }) => {
                               className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                               onClick={handleClose}
                             >
-                              <span className="sr-only">Close panel</span>
+                              <span className="sr-only">Stäng</span>
                               <XIcon className="h-6 w-6" aria-hidden="true" />
                             </button>
                           </div>
                         </div>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        <TextInputGroup
-                          value={activityLog.name}
-                          onChange={handleNameChange}
-                        />
-                        <DepartmentInputGroup
-                          value={activityLog.department}
-                          onChange={handleDepartmentChange}
-                        />
-                        <ProductTypeInputGroup
-                          value={activityLog.productType}
-                          onChange={handleProductTypeChange}
-                        />
-                        <TextInputGroup
-                          value={activityLog.placement}
-                          onChange={handlePlacementChange}
-                        />
+                        {/* <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <DepartmentInputGroup
+                            value={activityLog.product.departmentsProductId}
+                            onChange={handleDepartmentChange}
+                          />
+                        </div> */}
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <ProductInputGroup
+                            value={product}
+                            onChange={handleProductChange}
+                            department={product.department}
+                          />
+                        </div>
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <NumberInputGroup
+                            label="Aktivitet"
+                            value={activity}
+                            onChange={handleActivityChange}
+                          />
+                        </div>
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <TextInputGroup
+                            label="Kommentar"
+                            value={comment}
+                            onChange={handleCommentChange}
+                          />
+                        </div>
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <label
+                            htmlFor="date-logged"
+                            className="block text-xs font-medium text-gray-900"
+                          >
+                            Loggad datum
+                          </label>
+                          <input
+                            id="date-logged"
+                            type="date"
+                            value={dateLogged}
+                            onChange={handleDateLoggedChange}
+                            className="rounded-md border-gray-300"
+                          />
+                        </div>
                       </div>
                     </div>
                     <div className="flex flex-shrink-0 justify-end px-4 py-4">
@@ -136,14 +167,14 @@ const ActivityLogSlideover = ({ open, setOpen, productId, onSave }) => {
                         className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         onClick={handleClose}
                       >
-                        Cancel
+                        Avbryt
                       </button>
                       <button
                         type="submit"
                         className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         onClick={handleSave}
                       >
-                        Save
+                        Spara
                       </button>
                     </div>
                   </div>

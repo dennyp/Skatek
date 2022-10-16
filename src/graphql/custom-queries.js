@@ -49,3 +49,49 @@ export const listActivityLogsWithExtraInfo = /* GraphQL */ `
     }
   }
 `
+
+export const getActivityLogWithExtraInfo = /* GraphQL */ `
+  query GetActivityLogWithExtraInfo($id: ID!) {
+    getActivityLog(id: $id) {
+      id
+      activity
+      comment
+      dateLogged
+      product {
+        id
+        name
+        placement
+        department {
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
+export const updateActivityLogWithExtraInfo = /* GraphQL */ `
+  mutation UpdateActivityLogWithExtraInfo(
+    $input: UpdateActivityLogInput!
+    $condition: ModelActivityLogConditionInput
+  ) {
+    updateActivityLog(input: $input, condition: $condition) {
+      id
+      product {
+        id
+        name
+        placement
+        department {
+          id
+          name
+        }
+      }
+      dateLogged
+      activity
+      comment
+      createdAt
+      updatedAt
+      activityLogProductId
+    }
+  }
+`

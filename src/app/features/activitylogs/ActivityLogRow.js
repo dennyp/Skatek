@@ -1,6 +1,10 @@
 import React from 'react'
 
-const ActivityLogRow = ({ log }) => {
+const ActivityLogRow = ({ log, showEditSlideover, setSelectedLogId }) => {
+  const handleEditClick = (event) => {
+    showEditSlideover(true)
+    setSelectedLogId(event.target.value)
+  }
   return (
     <tr>
       <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
@@ -24,7 +28,7 @@ const ActivityLogRow = ({ log }) => {
         <button
           type="button"
           className="inline-flex items-center px-1 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          // onClick={handleEditClick}
+          onClick={handleEditClick}
           value={log.id}
         >
           Ändra<span className="sr-only">, {log.product.name}</span>

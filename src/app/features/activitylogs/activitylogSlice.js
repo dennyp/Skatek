@@ -4,8 +4,13 @@ import {
   createSlice,
 } from '@reduxjs/toolkit'
 import { API, graphqlOperation } from 'aws-amplify'
-import { listActivityLogsWithExtraInfo } from '../../../graphql/custom-queries'
+import {
+  getActivityLogWithExtraInfo,
+  listActivityLogsWithExtraInfo,
+  updateActivityLogWithExtraInfo,
+} from '../../../graphql/custom-queries'
 import { createActivityLog } from '../../../graphql/mutations'
+import { getDepartment } from '../../../graphql/queries'
 
 const activityLogAdapter = createEntityAdapter({
   sortComparer: (a, b) => b.date.localeCompare(a.date),
@@ -36,6 +41,40 @@ export const fetchActivityLogsFromDepartment = createAsyncThunk(
   }
 )
 
+export const fetchActivityLogById = createAsyncThunk(
+  'logs/fetchLogById',
+  async (id) => {
+    try {
+      const activityLogData = await API.graphql(
+        graphqlOperation(getActivityLogWithExtraInfo, { id: id })
+      )
+
+      return activityLogData.data.getActivityLog
+    } catch (err) {
+      console.error(err)
+    }
+  }
+)
+
+export const updateLog = createAsyncThunk('logs/updateLog', async (log) => {
+  try {
+    const response = await API.graphql(
+      graphqlOperation(updateActivityLogWithExtraInfo, {
+        input: {
+          id: log.id,
+          activity: log.activity,
+          activityLogProductId: log.activityLogProductId,
+          comment: log.comment,
+          dateLogged: log.dateLogged,
+        },
+      })
+    )
+    return response.data.updateActivityLog
+  } catch (err) {
+    console.error(err)
+  }
+})
+
 export const addNewLog = createAsyncThunk(
   'logs/addNewLog',
   async (initialLog) => {
@@ -46,9 +85,19 @@ export const addNewLog = createAsyncThunk(
   }
 )
 
+export const fetchDepartmentById = createAsyncThunk(
+  'logs/fetchDepartmentById',
+  async (id) => {
+    const response = API.graphql(graphqlOperation(getDepartment, { id: id }))
+
+    return response.data
+  }
+)
+
 export const activitylogSlice = createSlice({
   name: 'activity',
   initialState: activityLogAdapter.getInitialState({
+    selectedLog: {},
     logs: [],
     error: null,
     status: 'idle',
@@ -81,17 +130,23 @@ export const activitylogSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message
       })
+      .addCase(fetchActivityLogById.fulfilled, (state, action) => {
+        state.selectedLog = action.payload
+      })
+      .addCase(updateLog.fulfilled, (state, action) => {
+        const { id } = action.payload
+
+        const logs = state.logs.filter((log) => log.id !== id)
+        state.logs = [...logs, action.payload]
+      })
   },
 })
-
-// export const { selectAllLogs, selectLogById } = activityLogAdapter.getSelectors(
-//   (state) => state.activity
-// )
 
 export const selectAllLogs = (state) => state.activity.logs
 export const getLogsError = (state) => state.activity.error
 export const getLogsStatus = (state) => state.activity.status
 
-// export const { fetchActivityLogs } = activitylogSlice.actions
+export const selectLogById = (state, logId) =>
+  state.activity.logs.find((log) => log.id === logId)
 
 export default activitylogSlice.reducer
