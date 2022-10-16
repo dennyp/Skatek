@@ -1,10 +1,25 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteLog, selectLogById } from './activitylogSlice'
 
 const ActivityLogRow = ({ log, showEditSlideover, setSelectedLogId }) => {
+  const dispatch = useDispatch()
+
+  const selectedLog = useSelector((state) => selectLogById(state, log.id))
+
   const handleEditClick = (event) => {
     showEditSlideover(true)
     setSelectedLogId(event.target.value)
   }
+
+  const handleDeleteClick = () => {
+    try {
+      dispatch(deleteLog(selectedLog)).unwrap()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <tr>
       <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
@@ -38,6 +53,8 @@ const ActivityLogRow = ({ log, showEditSlideover, setSelectedLogId }) => {
         <button
           type="button"
           className="inline-flex items-center px-1 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-500"
+          onClick={handleDeleteClick}
+          value={log.id}
         >
           Radera
           <span className="sr-only">, {log.product.name}</span>

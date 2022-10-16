@@ -9,7 +9,10 @@ import {
   listActivityLogsWithExtraInfo,
   updateActivityLogWithExtraInfo,
 } from '../../../graphql/custom-queries'
-import { createActivityLog } from '../../../graphql/mutations'
+import {
+  createActivityLog,
+  deleteActivityLog,
+} from '../../../graphql/mutations'
 import { getDepartment } from '../../../graphql/queries'
 
 const activityLogAdapter = createEntityAdapter({
@@ -56,6 +59,16 @@ export const fetchActivityLogById = createAsyncThunk(
   }
 )
 
+export const addNewLog = createAsyncThunk(
+  'logs/addNewLog',
+  async (initialLog) => {
+    const response = await API.graphql(
+      graphqlOperation(createActivityLog, initialLog)
+    )
+    return response.data
+  }
+)
+
 export const updateLog = createAsyncThunk('logs/updateLog', async (log) => {
   try {
     const response = await API.graphql(
@@ -75,15 +88,18 @@ export const updateLog = createAsyncThunk('logs/updateLog', async (log) => {
   }
 })
 
-export const addNewLog = createAsyncThunk(
-  'logs/addNewLog',
-  async (initialLog) => {
+export const deleteLog = createAsyncThunk('logs/deleteLog', async (log) => {
+  try {
+    const { id } = log
     const response = await API.graphql(
-      graphqlOperation(createActivityLog, initialLog)
+      graphqlOperation(deleteActivityLog, { input: { id: id } })
     )
-    return response.data
+
+    return response.data.deleteActivityLog
+  } catch (err) {
+    console.error(err)
   }
-)
+})
 
 export const fetchDepartmentById = createAsyncThunk(
   'logs/fetchDepartmentById',
@@ -138,6 +154,11 @@ export const activitylogSlice = createSlice({
 
         const logs = state.logs.filter((log) => log.id !== id)
         state.logs = [...logs, action.payload]
+      })
+      .addCase(deleteLog.fulfilled, (state, action) => {
+        const { id } = action.payload
+        const logs = state.logs.filter((log) => log.id !== id)
+        state.logs = logs
       })
   },
 })

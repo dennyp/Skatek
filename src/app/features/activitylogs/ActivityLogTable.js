@@ -8,6 +8,7 @@ import ActivityLogSlideover from './ActivityLogSlideover'
 const ActivityLogTable = ({ logsStatus, department }) => {
   const [openEditLogSlider, setOpenEditLogSlider] = useState(false)
   const [selectedLogId, setSelectedLogId] = useState('')
+  const [deleteLogId, setDeleteLogId] = useState('')
 
   const logs = useSelector(selectAllLogs)
   const error = useSelector(getLogsError)
@@ -37,6 +38,7 @@ const ActivityLogTable = ({ logsStatus, department }) => {
             log={log}
             showEditSlideover={setOpenEditLogSlider}
             setSelectedLogId={setSelectedLogId}
+            setDeleteLogId={setDeleteLogId}
           />
         ))
       }
