@@ -1,25 +1,23 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { deleteLog, selectLogById } from './activitylogSlice'
-// import DeleteLogModal from './DeleteLogModal'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { selectLogById } from './activitylogSlice'
 
-const ActivityLogRow = ({ log, showEditSlideover, setSelectedLogId }) => {
-  const [showModal, setShowModal] = useState()
-  const dispatch = useDispatch()
-
+const ActivityLogRow = ({
+  log,
+  showEditSlideover,
+  setSelectedLog,
+  setShowDeleteModal,
+}) => {
   const selectedLog = useSelector((state) => selectLogById(state, log.id))
 
-  const handleEditClick = (event) => {
+  const handleEditClick = () => {
+    setSelectedLog(selectedLog)
     showEditSlideover(true)
-    setSelectedLogId(event.target.value)
   }
 
   const handleDeleteClick = () => {
-    try {
-      dispatch(deleteLog(selectedLog)).unwrap()
-    } catch (err) {
-      console.error(err)
-    }
+    setSelectedLog(selectedLog)
+    setShowDeleteModal(true)
   }
 
   return (
@@ -66,7 +64,6 @@ const ActivityLogRow = ({ log, showEditSlideover, setSelectedLogId }) => {
           </button>
         </td>
       </tr>
-      {/* <DeleteLogModal /> */}
     </>
   )
 }

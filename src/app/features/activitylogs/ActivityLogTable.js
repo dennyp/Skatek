@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Pagination from '../../../components/Pagination'
 import ActivityLogRow from './ActivityLogRow'
-import { getLogsError, selectAllLogs } from './activitylogSlice'
+import { deleteLog, getLogsError, selectAllLogs } from './activitylogSlice'
 import ActivityLogSlideover from './ActivityLogSlideover'
+import DeleteLogModal from './DeleteLogModal'
 
 const ActivityLogTable = ({ logsStatus, department }) => {
   const [openEditLogSlider, setOpenEditLogSlider] = useState(false)
-  const [selectedLogId, setSelectedLogId] = useState('')
+  const [selectedLog, setSelectedLog] = useState('')
+  const [showDeleteModal, setShowDeleteModal] = useState()
 
   const logs = useSelector(selectAllLogs)
   const error = useSelector(getLogsError)
+
+  const dispatch = useDispatch()
 
   let tableBody
   switch (logsStatus) {
@@ -36,11 +40,28 @@ const ActivityLogTable = ({ logsStatus, department }) => {
             key={log.id}
             log={log}
             showEditSlideover={setOpenEditLogSlider}
-            setSelectedLogId={setSelectedLogId}
+            setSelectedLog={setSelectedLog}
+            setShowDeleteModal={setShowDeleteModal}
           />
         ))
       }
       break
+  }
+
+  const handleComfirmedDeleteClick = () => {
+    try {
+      if (!selectedLog) return
+
+      dispatch(deleteLog(selectedLog)).unwrap()
+
+      setShowDeleteModal(false)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleCancelClick = () => {
+    setShowDeleteModal(false)
   }
 
   return (
@@ -92,7 +113,13 @@ const ActivityLogTable = ({ logsStatus, department }) => {
         <ActivityLogSlideover
           open={openEditLogSlider}
           setOpen={setOpenEditLogSlider}
-          id={selectedLogId}
+          id={selectedLog.id}
+        />
+      )}
+      {showDeleteModal && (
+        <DeleteLogModal
+          onConfirmDeleteClick={handleComfirmedDeleteClick}
+          onCancelClick={handleCancelClick}
         />
       )}
       <Pagination />
