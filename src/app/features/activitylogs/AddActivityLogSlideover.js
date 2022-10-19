@@ -1,12 +1,13 @@
+import { useDispatch } from 'react-redux'
+
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { API, graphqlOperation } from 'aws-amplify'
 import { Fragment, useState } from 'react'
 import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
-import { createActivityLog } from '../../../graphql/mutations'
+import { createLog } from '../activitylogs/activitylogSlice'
 
 const SUCCESS_MESSAGE = 'Logg sparad'
 const FAILURE_MESSAGE = 'Logg kunde inte sparas'
@@ -20,6 +21,8 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
     new Date().toISOString().slice(0, 10)
   )
   const [flashMessage, setFlashMessage] = useState()
+
+  const dispatch = useDispatch()
 
   const handleDepartmentChange = (department) => {
     setSelectedDepartment(department)
@@ -52,11 +55,11 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
         },
       }
 
-      const savedActivityLog = await API.graphql(
-        graphqlOperation(createActivityLog, newActivityLog)
-      )
+      if (selectedActivity > 100) return
 
-      if (savedActivityLog) setFlashMessage(SUCCESS_MESSAGE)
+      const success = await dispatch(createLog(newActivityLog)).unwrap()
+
+      if (success) setFlashMessage(SUCCESS_MESSAGE)
     } catch (err) {
       console.error('error creating an activity log', err)
       setFlashMessage(FAILURE_MESSAGE)

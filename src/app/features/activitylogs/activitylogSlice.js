@@ -5,14 +5,12 @@ import {
 } from '@reduxjs/toolkit'
 import { API, graphqlOperation } from 'aws-amplify'
 import {
+  createActivityLogWithExtraInfo,
   getActivityLogWithExtraInfo,
   listActivityLogsWithExtraInfo,
   updateActivityLogWithExtraInfo,
 } from '../../../graphql/custom-queries'
-import {
-  createActivityLog,
-  deleteActivityLog,
-} from '../../../graphql/mutations'
+import { deleteActivityLog } from '../../../graphql/mutations'
 import { getDepartment } from '../../../graphql/queries'
 
 const activityLogAdapter = createEntityAdapter({
@@ -59,15 +57,18 @@ export const fetchActivityLogById = createAsyncThunk(
   }
 )
 
-export const addNewLog = createAsyncThunk(
-  'logs/addNewLog',
-  async (initialLog) => {
+export const createLog = createAsyncThunk('logs/createLog', async (log) => {
+  try {
+    if (log.input.activity > 100) return
+
     const response = await API.graphql(
-      graphqlOperation(createActivityLog, initialLog)
+      graphqlOperation(createActivityLogWithExtraInfo, log)
     )
-    return response.data
+    return response.data.createActivityLog
+  } catch (err) {
+    console.error(err)
   }
-)
+})
 
 export const updateLog = createAsyncThunk('logs/updateLog', async (log) => {
   try {
@@ -132,9 +133,6 @@ export const activitylogSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message
       })
-      .addCase(addNewLog.fulfilled, (state, action) => {
-        state.logs.push(action.payload)
-      })
       .addCase(fetchActivityLogsFromDepartment.pending, (state, action) => {
         state.status = 'loading'
       })
@@ -148,6 +146,9 @@ export const activitylogSlice = createSlice({
       })
       .addCase(fetchActivityLogById.fulfilled, (state, action) => {
         state.selectedLog = action.payload
+      })
+      .addCase(createLog.fulfilled, (state, action) => {
+        state.logs = [...state.logs, action.payload]
       })
       .addCase(updateLog.fulfilled, (state, action) => {
         const { id } = action.payload

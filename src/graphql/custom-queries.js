@@ -95,3 +95,31 @@ export const updateActivityLogWithExtraInfo = /* GraphQL */ `
     }
   }
 `
+
+export const createActivityLogWithExtraInfo = /* GraphQL */ `
+  mutation CreateActivityLogWithExtraInfo(
+    $input: CreateActivityLogInput!
+    $condition: ModelActivityLogConditionInput
+  ) {
+    createActivityLog(input: $input, condition: $condition) {
+      id
+      product {
+        id
+        name
+        placement
+        department {
+          id
+          name
+        }
+        productLocationId
+        productProductTypeId
+      }
+      dateLogged
+      activity
+      comment
+      createdAt
+      updatedAt
+      activityLogProductId
+    }
+  }
+`
