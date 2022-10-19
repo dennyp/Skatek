@@ -3,14 +3,13 @@ import { useDispatch } from 'react-redux'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment, useState } from 'react'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
 import { createLog } from '../activitylogs/activitylogSlice'
-
-const SUCCESS_MESSAGE = 'Logg sparad'
-const FAILURE_MESSAGE = 'Logg kunde inte sparas'
 
 const AddActivityLogSlideover = ({ open, setOpen }) => {
   const [selectedDepartment, setSelectedDepartment] = useState({})
@@ -20,7 +19,13 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
   const [selectedDateLogged, setSelectedDateLogged] = useState(
     new Date().toISOString().slice(0, 10)
   )
-  const [flashMessage, setFlashMessage] = useState()
+
+  const successMessage = () => toast.success('Logg sparad')
+  const failureMessage = () => toast.error('Logg kunde inte sparas')
+  const failureActivityMessage = () =>
+    toast.error('Aktivitet får inte vara över 100')
+  const failureProductMessage = () => toast.error('Ingen produkt vald')
+  const failureDateMessage = () => toast.error('Inget datum valt')
 
   const dispatch = useDispatch()
 
@@ -46,6 +51,21 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
 
   const handleCreateClick = async (event) => {
     try {
+      if (selectedActivity > 100) {
+        failureActivityMessage()
+        return
+      }
+
+      if (!selectedProduct.id) {
+        failureProductMessage()
+        return
+      }
+
+      if (!selectedDateLogged) {
+        failureDateMessage()
+        return
+      }
+
       const newActivityLog = {
         input: {
           activity: selectedActivity,
@@ -55,14 +75,14 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
         },
       }
 
-      if (selectedActivity > 100) return
-
       const success = await dispatch(createLog(newActivityLog)).unwrap()
 
-      if (success) setFlashMessage(SUCCESS_MESSAGE)
+      if (success) {
+        successMessage()
+      }
     } catch (err) {
       console.error('error creating an activity log', err)
-      setFlashMessage(FAILURE_MESSAGE)
+      failureMessage()
     }
   }
 
@@ -169,9 +189,6 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
 
                     {/* Action buttons */}
                     <div className="flex-shrink-0 border-t border-gray-200 px-4 py-5 sm:px-6">
-                      {/* TOAST */}
-
-                      {/* /TOAST */}
                       <div className="flex justify-end space-x-3">
                         <button
                           type="button"
