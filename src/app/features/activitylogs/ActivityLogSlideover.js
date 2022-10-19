@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Dialog, Transition } from '@headlessui/react'
-import { XIcon } from '@heroicons/react/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
@@ -111,7 +111,10 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
                               onClick={handleClose}
                             >
                               <span className="sr-only">Stäng</span>
-                              <XIcon className="h-6 w-6" aria-hidden="true" />
+                              <XMarkIcon
+                                className="h-6 w-6"
+                                aria-hidden="true"
+                              />
                             </button>
                           </div>
                         </div>

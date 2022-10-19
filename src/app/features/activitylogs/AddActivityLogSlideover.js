@@ -1,5 +1,5 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { XIcon } from '@heroicons/react/outline'
+import { XMarkIcon } from '@heroicons/react/24/outline'
 import { API, graphqlOperation } from 'aws-amplify'
 import { Fragment, useState } from 'react'
 import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
@@ -109,7 +109,10 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                               onClick={() => setOpen(false)}
                             >
                               <span className="sr-only">Stäng panelen</span>
-                              <XIcon className="h-6 w-6" aria-hidden="true" />
+                              <XMarkIcon
+                                className="h-6 w-6"
+                                aria-hidden="true"
+                              />
                             </button>
                           </div>
                         </div>

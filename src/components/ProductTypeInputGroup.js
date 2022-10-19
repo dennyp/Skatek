@@ -1,9 +1,8 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { API, graphqlOperation } from 'aws-amplify'
-import { listProductTypes } from '../graphql/queries'
-import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { Combobox } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
+import { API, graphqlOperation } from 'aws-amplify'
+import React, { useEffect, useState } from 'react'
+import { listProductTypes } from '../graphql/queries'
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
@@ -54,7 +53,10 @@ const DepartmentInputGroup = ({ value, onChange }) => {
           displayValue={(productType) => productType?.name}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-          <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+          <ChevronUpDownIcon
+            className="h-5 w-5 text-gray-400"
+            aria-hidden="true"
+          />
         </Combobox.Button>
 
         {filteredProductTypes.length > 0 && (
