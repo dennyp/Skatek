@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { toast } from 'react-toastify'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
@@ -24,6 +25,8 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
     selectedLog?.dateLogged.slice(0, 10)
   )
   const [product, setProduct] = useState(selectedLog?.product)
+
+  const noChangeMessage = () => toast.warn('Ingen ändring att spara')
 
   useEffect(() => {
     dispatch(fetchActivityLogById(id))
@@ -55,7 +58,10 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
 
   const handleSave = async (event) => {
     try {
-      if (!isChanged) return
+      if (!isChanged) {
+        noChangeMessage()
+        return
+      }
 
       dispatch(
         updateLog({
