@@ -21,7 +21,7 @@ export const fetchActivityLogs = createAsyncThunk(
   'logs/fetchLogs',
   async () => {
     const activityLogsData = await API.graphql(
-      graphqlOperation(listActivityLogsWithExtraInfo)
+      graphqlOperation(listActivityLogsWithExtraInfo, { limit: 10000 })
     )
     return activityLogsData.data.listActivityLogs.items
   }
@@ -31,14 +31,18 @@ export const fetchActivityLogs = createAsyncThunk(
 export const fetchActivityLogsFromDepartment = createAsyncThunk(
   'logs/fetchLogsFromDepartment',
   async (department) => {
-    const activityLogsData = await API.graphql(
-      graphqlOperation(listActivityLogsWithExtraInfo, { limit: 10000 })
-    )
-    const filteredData = activityLogsData.data.listActivityLogs.items.filter(
-      (log) => department?.id === log.product.department.id
-    )
+    try {
+      const activityLogsData = await API.graphql(
+        graphqlOperation(listActivityLogsWithExtraInfo, { limit: 10000 })
+      )
+      const filteredData = activityLogsData.data.listActivityLogs.items.filter(
+        (log) => department?.id === log.product.department.id
+      )
 
-    return filteredData
+      return filteredData
+    } catch (err) {
+      console.error(err)
+    }
   }
 )
 

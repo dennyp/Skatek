@@ -43,9 +43,16 @@ export const listActivityLogsWithExtraInfo = /* GraphQL */ `
             id
             name
           }
+          # location {
+          #   id
+          #   name
+          # }
+          productType {
+            id
+            name
+          }
         }
       }
-      nextToken
     }
   }
 `
