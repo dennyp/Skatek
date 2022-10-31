@@ -81,7 +81,7 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
 
       handleClose()
     } catch (err) {
-      console.error('error saving product', err)
+      console.error('error saving activity log', err)
     }
   }
 
@@ -126,12 +126,6 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
                         </div>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        {/* <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <DepartmentInputGroup
-                            value={activityLog.product.departmentsProductId}
-                            onChange={handleDepartmentChange}
-                          />
-                        </div> */}
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
                           <ProductInputGroup
                             value={product}

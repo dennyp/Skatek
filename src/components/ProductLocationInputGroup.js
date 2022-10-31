@@ -2,55 +2,57 @@ import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
 import { API, graphqlOperation } from 'aws-amplify'
 import React, { useEffect, useState } from 'react'
-import { listProductTypes } from '../graphql/queries'
+import { listLocations } from '../graphql/queries'
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const ProductTypeInputGroup = ({ value, onChange }) => {
+const ProductLocationInputGroup = ({ value, onChange }) => {
   const [query, setQuery] = useState('')
-  const [productTypes, setProductTypes] = useState([])
+  const [productLocations, setProductLocations] = useState([])
 
-  const filteredProductTypes =
+  const filteredProductLocations =
     query === ''
-      ? productTypes
-      : productTypes.filter((productType) => {
-          return productType.name.toLowerCase().includes(query.toLowerCase())
+      ? productLocations
+      : productLocations.filter((productLocation) => {
+          return productLocation.name
+            .toLowerCase()
+            .includes(query.toLowerCase())
         })
 
   useEffect(() => {
     const fetchProductTypes = async () => {
       try {
-        const productTypesData = await API.graphql(
-          graphqlOperation(listProductTypes)
+        const productLocationsData = await API.graphql(
+          graphqlOperation(listLocations)
         )
-        const productTypes = productTypesData.data.listProductTypes.items
+        const productLocation = productLocationsData.data.listLocations.items
 
-        setProductTypes(productTypes)
+        setProductLocations(productLocation)
       } catch (err) {
-        console.error('error fetching product types')
+        console.error('error fetching product location')
       }
     }
 
     fetchProductTypes()
   }, [value])
 
-  const handleChange = (productTypesValue) => {
-    onChange(productTypesValue)
+  const handleChange = (productLocationValue) => {
+    onChange(productLocationValue)
   }
 
   return (
     <Combobox as="div" value={value} onChange={handleChange}>
       <div className="relative mt-1 pb-4">
         <Combobox.Label className="block text-xs font-medium text-gray-900">
-          Produkttyp
+          Invändig/utvändig
         </Combobox.Label>
         <Combobox.Input
           className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
           onChange={(event) => setQuery(event.target.value)}
-          displayValue={(productType) => productType?.name}
+          displayValue={(productLocation) => productLocation?.name}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           <ChevronUpDownIcon
@@ -59,12 +61,12 @@ const ProductTypeInputGroup = ({ value, onChange }) => {
           />
         </Combobox.Button>
 
-        {filteredProductTypes.length > 0 && (
+        {filteredProductLocations.length > 0 && (
           <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {filteredProductTypes.map((productType) => (
+            {filteredProductLocations.map((productLocation) => (
               <Combobox.Option
-                key={productType.id}
-                value={productType}
+                key={productLocation.id}
+                value={productLocation}
                 className={({ active }) =>
                   classNames(
                     'relative cursor-default select-none py-2 pl-8 pr-4',
@@ -80,7 +82,7 @@ const ProductTypeInputGroup = ({ value, onChange }) => {
                         selected && 'font-semibold'
                       )}
                     >
-                      {productType.name}
+                      {productLocation.name}
                     </span>
 
                     {selected && (
@@ -104,4 +106,4 @@ const ProductTypeInputGroup = ({ value, onChange }) => {
   )
 }
 
-export default ProductTypeInputGroup
+export default ProductLocationInputGroup

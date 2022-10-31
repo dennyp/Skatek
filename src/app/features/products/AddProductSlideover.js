@@ -1,31 +1,24 @@
-import { useDispatch } from 'react-redux'
-
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
-import NumberInputGroup from '../../../components/NumberInputGroup'
-import ProductInputGroup from '../../../components/ProductInputGroup'
+import ProductLocationInputGroup from '../../../components/ProductLocationInputGroup'
+import ProductTypeInputGroup from '../../../components/ProductTypeInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
-import { createLog } from '../activitylogs/activitylogSlice'
+import { createProduct } from './productSlice'
 
-const AddActivityLogSlideover = ({ open, setOpen }) => {
+const AddProductSlideover = ({ open, setOpen }) => {
   const [selectedDepartment, setSelectedDepartment] = useState({})
-  const [selectedProduct, setSelectedProduct] = useState({})
-  const [selectedActivity, setSelectedActivity] = useState(0)
-  const [selectedComment, setSelectedComment] = useState('')
-  const [selectedDateLogged, setSelectedDateLogged] = useState(
-    new Date().toISOString().slice(0, 10)
-  )
+  const [selectedName, setSelectedName] = useState('')
+  const [selectedPlacement, setSelectedPlacement] = useState('')
+  const [selectedProductLocation, setSelectedProductLocation] = useState({})
+  const [selectedProductType, setSelectedProductType] = useState({})
 
-  const successMessage = () => toast.success('Logg sparad')
-  const failureMessage = () => toast.error('Logg kunde inte sparas')
-  const failureActivityMessage = () =>
-    toast.error('Aktivitet får inte vara över 100')
-  const failureProductMessage = () => toast.error('Ingen produkt vald')
-  const failureDateMessage = () => toast.error('Inget datum valt')
+  const successMessage = () => toast.success('Produkt sparad')
+  const failureMessage = () => toast.error('Produkt kunde inte sparas')
 
   const dispatch = useDispatch()
 
@@ -33,55 +26,41 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
     setSelectedDepartment(department)
   }
 
-  const handleProductChange = (product) => {
-    setSelectedProduct(product)
+  const handleNameChange = (name) => {
+    setSelectedName(name)
   }
 
-  const handleActivityChange = (activity) => {
-    setSelectedActivity(activity)
+  const handlePlacementChange = (placement) => {
+    setSelectedPlacement(placement)
   }
 
-  const handleCommentChange = (comment) => {
-    setSelectedComment(comment)
+  const handleProductTypeChange = (productType) => {
+    setSelectedProductType(productType)
   }
 
-  const handleDateChange = (event) => {
-    setSelectedDateLogged(event.target.value)
+  const handleProductLocationChange = (productLocation) => {
+    setSelectedProductLocation(productLocation)
   }
 
   const handleCreateClick = async (event) => {
     try {
-      if (selectedActivity > 100) {
-        failureActivityMessage()
-        return
-      }
-
-      if (!selectedProduct.id) {
-        failureProductMessage()
-        return
-      }
-
-      if (!selectedDateLogged) {
-        failureDateMessage()
-        return
-      }
-
-      const newActivityLog = {
+      const newProduct = {
         input: {
-          activity: selectedActivity,
-          activityLogProductId: selectedProduct.id,
-          dateLogged: selectedDateLogged + 'Z',
-          comment: selectedComment,
+          departmentProductsId: selectedDepartment.id,
+          name: selectedName,
+          placement: selectedPlacement,
+          productLocationId: selectedProductLocation.id,
+          productProductTypeId: selectedProductType.id,
         },
       }
 
-      const success = await dispatch(createLog(newActivityLog)).unwrap()
+      const success = await dispatch(createProduct(newProduct)).unwrap()
 
       if (success) {
         successMessage()
       }
     } catch (err) {
-      console.error('error creating an activity log', err)
+      console.error('error creating a product', err)
       failureMessage()
     }
   }
@@ -118,11 +97,11 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                           <div className="space-y-1">
                             <Dialog.Title className="text-lg font-medium text-gray-900">
                               {' '}
-                              Ny aktivitetslogg{' '}
+                              Ny produkt{' '}
                             </Dialog.Title>
                             <p className="text-sm text-gray-500">
                               Fyll i fälten nedan och klicka på skapa för att
-                              logga en aktivitet.
+                              skapa en produkt.
                             </p>
                           </div>
                           <div className="flex h-7 items-center">
@@ -149,27 +128,48 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                           />
                         </div>
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <ProductInputGroup
-                            value={selectedProduct}
-                            onChange={handleProductChange}
-                            department={selectedDepartment}
+                          <TextInputGroup
+                            label="Märke"
+                            value={selectedName}
+                            onChange={handleNameChange}
                           />
                         </div>
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <NumberInputGroup
-                            label="Aktivitet"
+                          <TextInputGroup
+                            label="Placering"
+                            value={selectedPlacement}
+                            onChange={handlePlacementChange}
+                          />
+                        </div>
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <ProductTypeInputGroup
+                            label="Produkttyp"
+                            value={selectedProductType}
+                            onChange={handleProductTypeChange}
+                          />
+                        </div>
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <ProductLocationInputGroup
+                            label="Invändig/utvändig"
+                            value={selectedProductLocation}
+                            onChange={handleProductLocationChange}
+                          />
+                        </div>
+                        {/*
+                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                          <TextInputGroup
+                            label="Placering"
                             value={selectedActivity}
                             onChange={handleActivityChange}
                           />
                         </div>
                         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <TextInputGroup
-                            label="Kommentar"
+                          <ProductTypeInputGroup
                             value={selectedComment}
                             onChange={handleCommentChange}
                           />
-                        </div>
-                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+                        </div> */}
+                        {/* <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
                           <label
                             htmlFor="date-logged"
                             className="block text-xs font-medium text-gray-900"
@@ -183,7 +183,7 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                             onChange={handleDateChange}
                             className="rounded-md border-gray-300"
                           />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
 
@@ -221,4 +221,4 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
   )
 }
 
-export default AddActivityLogSlideover
+export default AddProductSlideover

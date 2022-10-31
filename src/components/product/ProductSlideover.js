@@ -3,22 +3,27 @@ import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { API, graphqlOperation } from 'aws-amplify'
+import { toast } from 'react-toastify'
 import { updateProduct } from '../../graphql/mutations'
 import { getProduct } from '../../graphql/queries'
-import DepartmentInputGroup from '../DepartmentInputGroup.js'
-import ProductTypeInputGroup from '../ProductTypeInputGroup.js'
-import TextInputGroup from '../TextInputGroup.js'
+import DepartmentInputGroup from '../DepartmentInputGroup'
+import ProductLocationInputGroup from '../ProductLocationInputGroup'
+import ProductTypeInputGroup from '../ProductTypeInputGroup'
+import TextInputGroup from '../TextInputGroup'
 
 const initialState = {
   name: '',
   department: {},
   productType: {},
   placement: '',
+  location: {},
 }
 
 const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
   const [product, setProduct] = useState(initialState)
   const [isChanged, setIsChanged] = useState(false)
+
+  const noChangeMessage = () => toast.warn('Ingen ändring att spara')
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -60,25 +65,36 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
     setIsChanged(true)
   }
 
+  const handleLocationChange = (location) => {
+    setProduct({ ...product, location })
+    setIsChanged(true)
+  }
+
   const handleSave = async (event) => {
     try {
-      if (!isChanged) return
+      if (!isChanged) {
+        noChangeMessage()
+        return
+      }
 
       const data = await API.graphql(
         graphqlOperation(updateProduct, {
           input: {
             id: product.id,
             name: product.name,
+            placement: product.placement,
             departmentProductsId: product.department.id,
             productProductTypeId: product.productType.id,
-            placement: product.placement,
+            productLocationId: product.location.id,
           },
         })
       )
 
       setIsChanged(false)
-      handleClose()
       onSave(product)
+      setProduct({})
+
+      handleClose()
     } catch (err) {
       console.error('error saving product', err)
     }
@@ -125,21 +141,28 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
                         </div>
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        <TextInputGroup
-                          value={product.name}
-                          onChange={handleNameChange}
-                        />
                         <DepartmentInputGroup
                           value={product.department}
                           onChange={handleDepartmentChange}
+                        />
+                        <TextInputGroup
+                          label="Märke"
+                          value={product.name}
+                          onChange={handleNameChange}
+                        />
+                        <TextInputGroup
+                          label="Placering"
+                          value={product.placement}
+                          onChange={handlePlacementChange}
                         />
                         <ProductTypeInputGroup
                           value={product.productType}
                           onChange={handleProductTypeChange}
                         />
-                        <TextInputGroup
-                          value={product.placement}
-                          onChange={handlePlacementChange}
+                        <ProductLocationInputGroup
+                          label="Invändig/utvändig"
+                          value={product.location}
+                          onChange={handleLocationChange}
                         />
                       </div>
                     </div>
