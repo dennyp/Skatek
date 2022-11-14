@@ -79,6 +79,9 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
 
       if (success) {
         successMessage()
+        setSelectedProduct({})
+        setSelectedActivity(0)
+        setSelectedComment('')
       }
     } catch (err) {
       console.error('error creating an activity log', err)

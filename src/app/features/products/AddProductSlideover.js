@@ -58,6 +58,10 @@ const AddProductSlideover = ({ open, setOpen }) => {
 
       if (success) {
         successMessage()
+        setSelectedName('')
+        setSelectedPlacement('')
+        setSelectedProductType({})
+        setSelectedProductLocation({})
       }
     } catch (err) {
       console.error('error creating a product', err)
