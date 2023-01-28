@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
 import Products from './components/product/Products'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const App = ({ signOut, user }) => {
   return (
@@ -28,8 +29,22 @@ const App = ({ signOut, user }) => {
       />
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/logactivity" element={<ActivityLog />} />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute user={user}>
+              <Products />{' '}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/logactivity"
+          element={
+            <ProtectedRoute user={user}>
+              <ActivityLog />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Button onClick={signOut}>Logga ut</Button>
