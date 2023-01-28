@@ -29,10 +29,39 @@ const Dashboard = () => {
         return flattenedLogs
       }
 
-      const response = await fetchActivityLogData()
-      const ws = utils.json_to_sheet(response)
+      const calculateLogStatistics = (logs) => {
+        const result = logs.reduce(
+          (acc, current) => ({
+            ...acc,
+            [current.productId]: {
+              productId: current.productId,
+              productName: current.productName,
+              departmentName: current.departmentName,
+              activity:
+                current.activity +
+                (acc[current.productId] ? acc[current.productId].activity : 0),
+              numberOfLogs: acc[current.productId]
+                ? acc[current.productId].numberOfLogs + 1
+                : 1,
+              averageActivity: acc[current.productId]
+                ? (current.activity + acc[current.productId].activity) /
+                  (acc[current.productId].numberOfLogs + 1)
+                : 0,
+            },
+          }),
+          {}
+        )
+
+        return Object.values(result)
+      }
+
+      const logs = await fetchActivityLogData()
+      const logStatistics = calculateLogStatistics(logs)
+      const ws1 = utils.json_to_sheet(logs)
+      const ws2 = utils.json_to_sheet(logStatistics)
       const wb = utils.book_new()
-      utils.book_append_sheet(wb, ws, 'Data')
+      utils.book_append_sheet(wb, ws1, 'Data')
+      utils.book_append_sheet(wb, ws2, 'Statistik')
       writeFileXLSX(wb, 'Sammanställning aktivitet.xlsx')
     } catch (err) {
       console.error(err)
