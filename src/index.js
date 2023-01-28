@@ -1,16 +1,17 @@
+import '@aws-amplify/ui-react/styles.css'
+import { Amplify, Auth } from 'aws-amplify'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
-import { BrowserRouter } from 'react-router-dom'
-import { Amplify } from 'aws-amplify'
-import awsExports from './aws-exports'
-import '@aws-amplify/ui-react/styles.css'
-import { store } from './app/store'
 import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App'
+import { store } from './app/store'
+import awsExports from './aws-exports'
+import './index.css'
+import reportWebVitals from './reportWebVitals'
 
 Amplify.configure(awsExports)
+Auth.configure(awsExports)
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
