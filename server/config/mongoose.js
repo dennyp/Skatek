@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 
 // Connection string to MongoDb
 const CONNECTION_STRING = `${process.env.DB_URL}`
-console.log('🚀 ~ file: mongoose.js:5 ~ CONNECTION_STRING', CONNECTION_STRING)
 
 export const connectDatabase = async () => {
   mongoose.connection.on('connected', () =>
