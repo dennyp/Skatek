@@ -9,5 +9,6 @@ const controller = new HomeController()
 
 router.get('/', controller.index)
 router.use('/products', productRouter)
+router.use('/products', productRouter)
 
 router.use('*', (req, res, next) => next(createError(404)))
