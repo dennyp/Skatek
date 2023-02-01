@@ -1,8 +1,6 @@
 import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
-import { API, graphqlOperation } from 'aws-amplify'
 import React, { useEffect, useState } from 'react'
-import { listLocations } from '../graphql/queries'
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
@@ -22,22 +20,22 @@ const ProductLocationInputGroup = ({ value, onChange }) => {
             .includes(query.toLowerCase())
         })
 
-  useEffect(() => {
-    const fetchProductTypes = async () => {
-      try {
-        const productLocationsData = await API.graphql(
-          graphqlOperation(listLocations)
-        )
-        const productLocation = productLocationsData.data.listLocations.items
+  // useEffect(() => {
+  //   const fetchProductTypes = async () => {
+  //     try {
+  //       const productLocationsData = await API.graphql(
+  //         graphqlOperation(listLocations)
+  //       )
+  //       const productLocation = productLocationsData.data.listLocations.items
 
-        setProductLocations(productLocation)
-      } catch (err) {
-        console.error('error fetching product location')
-      }
-    }
+  //       setProductLocations(productLocation)
+  //     } catch (err) {
+  //       console.error('error fetching product location')
+  //     }
+  //   }
 
-    fetchProductTypes()
-  }, [value])
+  //   fetchProductTypes()
+  // }, [value])
 
   const handleChange = (productLocationValue) => {
     onChange(productLocationValue)

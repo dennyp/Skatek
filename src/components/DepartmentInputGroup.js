@@ -1,8 +1,6 @@
 import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
-import { API, graphqlOperation } from 'aws-amplify'
 import React, { useEffect, useState } from 'react'
-import { listDepartments } from '../graphql/queries'
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
@@ -20,22 +18,22 @@ const DepartmentInputGroup = ({ value = '', onChange }) => {
           return department.name.toLowerCase().includes(query.toLowerCase())
         })
 
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const departmentData = await API.graphql(
-          graphqlOperation(listDepartments)
-        )
-        const departments = departmentData.data.listDepartments.items
+  // useEffect(() => {
+  //   const fetchDepartments = async () => {
+  //     try {
+  //       const departmentData = await API.graphql(
+  //         graphqlOperation(listDepartments)
+  //       )
+  //       const departments = departmentData.data.listDepartments.items
 
-        setDepartments(departments)
-      } catch (err) {
-        console.error('error fetching departments', err)
-      }
-    }
+  //       setDepartments(departments)
+  //     } catch (err) {
+  //       console.error('error fetching departments', err)
+  //     }
+  //   }
 
-    fetchDepartments()
-  }, [value])
+  //   fetchDepartments()
+  // }, [value])
 
   const handleChange = (departmentValue) => {
     onChange(departmentValue)

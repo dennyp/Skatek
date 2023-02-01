@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-import { withAuthenticator } from '@aws-amplify/ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
 import {
@@ -72,4 +71,4 @@ const ActivityLog = () => {
   )
 }
 
-export default withAuthenticator(ActivityLog)
+export default ActivityLog

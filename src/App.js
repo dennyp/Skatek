@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { Button, withAuthenticator } from '@aws-amplify/ui-react'
-import '@aws-amplify/ui-react/styles.css'
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import ActivityLog from './app/features/activitylogs/ActivityLog'
@@ -47,9 +45,9 @@ const App = ({ signOut, user }) => {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Button onClick={signOut}>Logga ut</Button>
+      {/* <Button onClick={signOut}>Logga ut</Button> */}
     </>
   )
 }
 
-export default withAuthenticator(App)
+export default App

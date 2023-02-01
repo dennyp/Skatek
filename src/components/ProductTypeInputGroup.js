@@ -1,8 +1,6 @@
 import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
-import { API, graphqlOperation } from 'aws-amplify'
 import React, { useEffect, useState } from 'react'
-import { listProductTypes } from '../graphql/queries'
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
@@ -20,22 +18,22 @@ const ProductTypeInputGroup = ({ value, onChange }) => {
           return productType.name.toLowerCase().includes(query.toLowerCase())
         })
 
-  useEffect(() => {
-    const fetchProductTypes = async () => {
-      try {
-        const productTypesData = await API.graphql(
-          graphqlOperation(listProductTypes)
-        )
-        const productTypes = productTypesData.data.listProductTypes.items
+  // useEffect(() => {
+  //   const fetchProductTypes = async () => {
+  //     try {
+  //       const productTypesData = await API.graphql(
+  //         graphqlOperation(listProductTypes)
+  //       )
+  //       const productTypes = productTypesData.data.listProductTypes.items
 
-        setProductTypes(productTypes)
-      } catch (err) {
-        console.error('error fetching product types')
-      }
-    }
+  //       setProductTypes(productTypes)
+  //     } catch (err) {
+  //       console.error('error fetching product types')
+  //     }
+  //   }
 
-    fetchProductTypes()
-  }, [value])
+  //   fetchProductTypes()
+  // }, [value])
 
   const handleChange = (productTypesValue) => {
     onChange(productTypesValue)

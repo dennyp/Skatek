@@ -2,10 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { API, graphqlOperation } from 'aws-amplify'
 import { toast } from 'react-toastify'
-import { updateProduct } from '../../graphql/mutations'
-import { getProduct } from '../../graphql/queries'
 import DepartmentInputGroup from '../DepartmentInputGroup'
 import ProductLocationInputGroup from '../ProductLocationInputGroup'
 import ProductTypeInputGroup from '../ProductTypeInputGroup'
@@ -25,21 +22,21 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
 
   const noChangeMessage = () => toast.warn('Ingen ändring att spara')
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const productData = await API.graphql(
-          graphqlOperation(getProduct, { id: productId })
-        )
-        const product = productData.data.getProduct
-        setProduct(product)
-      } catch (err) {
-        console.error('error fetching product')
-      }
-    }
+  // useEffect(() => {
+  //   const fetchProduct = async () => {
+  //     try {
+  //       const productData = await API.graphql(
+  //         graphqlOperation(getProduct, { id: productId })
+  //       )
+  //       const product = productData.data.getProduct
+  //       setProduct(product)
+  //     } catch (err) {
+  //       console.error('error fetching product')
+  //     }
+  //   }
 
-    fetchProduct()
-  }, [productId])
+  //   fetchProduct()
+  // }, [productId])
 
   const handleClose = () => {
     setOpen(false)
@@ -77,18 +74,18 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
         return
       }
 
-      const data = await API.graphql(
-        graphqlOperation(updateProduct, {
-          input: {
-            id: product.id,
-            name: product.name,
-            placement: product.placement,
-            departmentProductsId: product.department.id,
-            productProductTypeId: product.productType.id,
-            productLocationId: product.location.id,
-          },
-        })
-      )
+      // const data = await API.graphql(
+      //   graphqlOperation(updateProduct, {
+      //     input: {
+      //       id: product.id,
+      //       name: product.name,
+      //       placement: product.placement,
+      //       departmentProductsId: product.department.id,
+      //       productProductTypeId: product.productType.id,
+      //       productLocationId: product.location.id,
+      //     },
+      //   })
+      // )
 
       setIsChanged(false)
       onSave(product)

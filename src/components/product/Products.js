@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { withAuthenticator } from '@aws-amplify/ui-react'
 import { fetchProducts } from '../../app/features/products/productSlice'
 import ProductTable from './ProductTable'
 
@@ -36,4 +35,4 @@ const Product = () => {
   return <>{<ProductTable products={products} onSave={handleSave} />}</>
 }
 
-export default withAuthenticator(Product)
+export default Product

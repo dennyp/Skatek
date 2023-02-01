@@ -1,4 +1,3 @@
-import { Button } from '@aws-amplify/ui-react'
 import { Fragment, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { utils, writeFileXLSX } from 'xlsx'
@@ -80,9 +79,9 @@ const Dashboard = () => {
           <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div className="px-4 py-6 sm:px-0">
               <div className="border-4 border-dashed border-gray-200 rounded-lg h-auto p-5">
-                <Button onClick={handleDownloadExcelClick}>
-                  Exportera excel
-                </Button>
+                {/* <Button onClick={handleDownloadExcelClick}> */}
+                Exportera excel
+                {/* </Button> */}
               </div>
             </div>
           </div>

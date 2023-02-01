@@ -1,8 +1,6 @@
 import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
-import { API, graphqlOperation } from 'aws-amplify'
 import React, { useEffect, useState } from 'react'
-import { listProductsWithExtraInfo } from '../graphql/custom-queries'
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
@@ -29,25 +27,25 @@ const ProductInputGroup = ({ value, onChange, department = {} }) => {
           })
           .sort((product1, product2) => product1.name - product2.name)
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productsData = await API.graphql(
-          graphqlOperation(listProductsWithExtraInfo, {
-            filter: { departmentProductsId: { eq: department?.id } },
-            limit: 500,
-          })
-        )
-        const productsList = productsData.data.listProducts.items
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       const productsData = await API.graphql(
+  //         graphqlOperation(listProductsWithExtraInfo, {
+  //           filter: { departmentProductsId: { eq: department?.id } },
+  //           limit: 500,
+  //         })
+  //       )
+  //       const productsList = productsData.data.listProducts.items
 
-        setProducts(productsList)
-      } catch (err) {
-        console.error('error fetching products', err)
-      }
-    }
+  //       setProducts(productsList)
+  //     } catch (err) {
+  //       console.error('error fetching products', err)
+  //     }
+  //   }
 
-    fetchProducts()
-  }, [value, department])
+  //   fetchProducts()
+  // }, [value, department])
 
   const handleChange = (productValue) => {
     onChange(productValue)
