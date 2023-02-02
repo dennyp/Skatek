@@ -12,6 +12,8 @@ export class departmentController {
         next(createError(404))
         return
       }
+
+      res.json(departmentObj)
     } catch (error) {
       next(createError(404))
     }
