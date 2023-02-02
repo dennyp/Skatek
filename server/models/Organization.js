@@ -1,8 +1,10 @@
 import mongoose, { Schema } from 'mongoose'
-const organizationSchema = mongoose.Schema({
-  _id: Schema.Types.ObjectId,
-  name: Schema.Types.String,
-})
+const organizationSchema = mongoose.Schema(
+  {
+    name: Schema.Types.String,
+  },
+  { timestamps: true }
+)
 
 organizationSchema.statics.getAll = async function () {
   return this.find()

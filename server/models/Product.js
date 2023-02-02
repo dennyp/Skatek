@@ -1,10 +1,12 @@
 import mongoose, { Schema } from 'mongoose'
 
-const productSchema = mongoose.Schema({
-  _id: Schema.Types.ObjectId,
-  name: Schema.Types.String,
-  placement: Schema.Types.String,
-})
+const productSchema = mongoose.Schema(
+  {
+    name: Schema.Types.String,
+    placement: Schema.Types.String,
+  },
+  { timestamps: true }
+)
 
 productSchema.statics.getAll = async function (
   reqPageSize,
