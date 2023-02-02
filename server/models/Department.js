@@ -7,6 +7,7 @@ const departmentSchema = mongoose.Schema(
     organization: {
       type: Schema.Types.ObjectId,
       ref: 'organization',
+      required: true,
     },
   },
   { timestamps: true }
