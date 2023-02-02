@@ -1,6 +1,7 @@
 import express from 'express'
 import createError from 'http-errors'
 import { HomeController } from '../controllers/homeController.js'
+import { router as activityLogRouter } from '../routes/activityLogRouter.js'
 import { router as departmentRouter } from '../routes/departmentRouter.js'
 import { router as locationRouter } from '../routes/locationRouter.js'
 import { router as organizationRouter } from '../routes/organizationRouter.js'
@@ -17,5 +18,6 @@ router.use('/organizations', organizationRouter)
 router.use('/departments', departmentRouter)
 router.use('/producttypes', productTypeRouter)
 router.use('/locations', locationRouter)
+router.use('/activitylogs', activityLogRouter)
 
 router.use('*', (req, res, next) => next(createError(404)))
