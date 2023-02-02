@@ -4,6 +4,7 @@ import { HomeController } from '../controllers/homeController.js'
 import { router as departmentRouter } from '../routes/departmentRouter.js'
 import { router as organizationRouter } from '../routes/organizationRouter.js'
 import { router as productRouter } from '../routes/productRouter.js'
+import { router as productTypeRouter } from '../routes/productTypeRouter.js'
 
 export const router = express.Router()
 
@@ -13,5 +14,6 @@ router.get('/', controller.index)
 router.use('/products', productRouter)
 router.use('/organizations', organizationRouter)
 router.use('/departments', departmentRouter)
+router.use('/producttypes', productTypeRouter)
 
 router.use('*', (req, res, next) => next(createError(404)))
