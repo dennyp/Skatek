@@ -45,15 +45,12 @@ const AddProductSlideover = ({ open, setOpen }) => {
   const handleCreateClick = async (event) => {
     try {
       const newProduct = {
-        input: {
-          departmentProductsId: selectedDepartment.id,
-          name: selectedName,
-          placement: selectedPlacement,
-          productLocationId: selectedProductLocation.id,
-          productProductTypeId: selectedProductType.id,
-        },
+        department: selectedDepartment._id,
+        name: selectedName,
+        placement: selectedPlacement,
+        location: selectedProductLocation._id,
+        productType: selectedProductType._id,
       }
-
       const success = await dispatch(createProduct(newProduct)).unwrap()
 
       if (success) {
@@ -159,35 +156,6 @@ const AddProductSlideover = ({ open, setOpen }) => {
                             onChange={handleProductLocationChange}
                           />
                         </div>
-                        {/*
-                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <TextInputGroup
-                            label="Placering"
-                            value={selectedActivity}
-                            onChange={handleActivityChange}
-                          />
-                        </div>
-                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <ProductTypeInputGroup
-                            value={selectedComment}
-                            onChange={handleCommentChange}
-                          />
-                        </div> */}
-                        {/* <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <label
-                            htmlFor="date-logged"
-                            className="block text-xs font-medium text-gray-900"
-                          >
-                            Loggad datum
-                          </label>
-                          <input
-                            id="date-logged"
-                            type="date"
-                            value={selectedDateLogged}
-                            onChange={handleDateChange}
-                            className="rounded-md border-gray-300"
-                          />
-                        </div> */}
                       </div>
                     </div>
 

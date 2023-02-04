@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import AddProductSlideover from '../../app/features/products/AddProductSlideover'
+import AddProductSlideover from './AddProductSlideover'
 import ProductSlideover from './ProductSlideover'
 
 const ProductTable = ({ products, onSave }) => {

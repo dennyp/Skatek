@@ -4,14 +4,11 @@ import { useDispatch } from 'react-redux'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { toast } from 'react-toastify'
-import {
-  fetchProductById,
-  updateProduct,
-} from '../../app/features/products/productSlice'
-import DepartmentInputGroup from '../DepartmentInputGroup'
-import ProductLocationInputGroup from '../ProductLocationInputGroup'
-import ProductTypeInputGroup from '../ProductTypeInputGroup'
-import TextInputGroup from '../TextInputGroup'
+import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
+import ProductLocationInputGroup from '../../../components/ProductLocationInputGroup'
+import ProductTypeInputGroup from '../../../components/ProductTypeInputGroup'
+import TextInputGroup from '../../../components/TextInputGroup'
+import { fetchProductById, updateProduct } from './productSlice'
 
 const initialState = {
   name: '',
@@ -78,11 +75,7 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
         return
       }
 
-      const updatedProduct = await dispatch(updateProduct(product)).unwrap()
-      console.log(
-        '🚀 ~ file: ProductSlideover.js:82 ~ handleSave ~ updatedProduct',
-        updatedProduct
-      )
+      const response = await dispatch(updateProduct(product)).unwrap()
 
       setIsChanged(false)
       onSave(product)

@@ -1,6 +1,9 @@
 import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+
+const { REACT_APP_API_URL } = process.env
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
@@ -18,22 +21,21 @@ const ProductTypeInputGroup = ({ value, onChange }) => {
           return productType.name.toLowerCase().includes(query.toLowerCase())
         })
 
-  // useEffect(() => {
-  //   const fetchProductTypes = async () => {
-  //     try {
-  //       const productTypesData = await API.graphql(
-  //         graphqlOperation(listProductTypes)
-  //       )
-  //       const productTypes = productTypesData.data.listProductTypes.items
+  useEffect(() => {
+    const fetchProductTypes = async () => {
+      try {
+        const productTypes = await axios.get(
+          `${REACT_APP_API_URL}/producttypes`
+        )
 
-  //       setProductTypes(productTypes)
-  //     } catch (err) {
-  //       console.error('error fetching product types')
-  //     }
-  //   }
+        setProductTypes(productTypes.data)
+      } catch (err) {
+        console.error('error fetching product types')
+      }
+    }
 
-  //   fetchProductTypes()
-  // }, [value])
+    fetchProductTypes()
+  }, [value])
 
   const handleChange = (productTypesValue) => {
     onChange(productTypesValue)
@@ -61,7 +63,7 @@ const ProductTypeInputGroup = ({ value, onChange }) => {
           <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {filteredProductTypes.map((productType) => (
               <Combobox.Option
-                key={productType.id}
+                key={productType._id}
                 value={productType}
                 className={({ active }) =>
                   classNames(

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { fetchProducts } from '../../app/features/products/productSlice'
+import { fetchProducts } from './productSlice'
 import ProductTable from './ProductTable'
 
 // TODO: add delete functionality. The product should perhaps be "inactivated" instead of deleted so that we can still use history of activity etc.

@@ -3,10 +3,10 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 // import ActivityLog from './app/features/activitylogs/ActivityLog'
+import Products from './app/features/products/Products'
 import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
-import Products from './components/product/Products'
 // import ProtectedRoute from './components/ProtectedRoute'
 
 const App = ({ signOut, user }) => {
