@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import ProductSlideover from './ProductSlideover'
 import AddProductSlideover from '../../app/features/products/AddProductSlideover'
+import ProductSlideover from './ProductSlideover'
 
 const ProductTable = ({ products, onSave }) => {
   const [openSlider, setOpenSlider] = useState(false)
@@ -73,15 +73,15 @@ const ProductTable = ({ products, onSave }) => {
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
             {products.map((product) => (
-              <tr key={product.id}>
+              <tr key={product._id}>
                 <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
                   {product.name}
                   <dl className="font-normal lg:hidden">
-                    <dt className="sr-only">Title</dt>
+                    <dt className="sr-only">Avdelning</dt>
                     <dd className="mt-1 truncate text-gray-700">
                       {product.department.name}
                     </dd>
-                    <dt className="sr-only sm:hidden">Email</dt>
+                    <dt className="sr-only sm:hidden">Produkttyp</dt>
                     <dd className="mt-1 truncate text-gray-500 sm:hidden">
                       {product.productType.name}
                     </dd>
@@ -101,7 +101,7 @@ const ProductTable = ({ products, onSave }) => {
                     type="button"
                     className="inline-flex items-center px-1 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={handleEditClick}
-                    value={product.id}
+                    value={product._id}
                   >
                     Ändra<span className="sr-only">, {product.name}</span>
                   </button>

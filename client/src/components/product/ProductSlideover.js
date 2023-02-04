@@ -1,8 +1,13 @@
 import { Fragment, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { toast } from 'react-toastify'
+import {
+  fetchProductById,
+  updateProduct,
+} from '../../app/features/products/productSlice'
 import DepartmentInputGroup from '../DepartmentInputGroup'
 import ProductLocationInputGroup from '../ProductLocationInputGroup'
 import ProductTypeInputGroup from '../ProductTypeInputGroup'
@@ -20,23 +25,22 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
   const [product, setProduct] = useState(initialState)
   const [isChanged, setIsChanged] = useState(false)
 
+  const dispatch = useDispatch()
+
   const noChangeMessage = () => toast.warn('Ingen ändring att spara')
 
-  // useEffect(() => {
-  //   const fetchProduct = async () => {
-  //     try {
-  //       const productData = await API.graphql(
-  //         graphqlOperation(getProduct, { id: productId })
-  //       )
-  //       const product = productData.data.getProduct
-  //       setProduct(product)
-  //     } catch (err) {
-  //       console.error('error fetching product')
-  //     }
-  //   }
+  useEffect(() => {
+    try {
+      const fetchProduct = async () => {
+        const product = await dispatch(fetchProductById(productId)).unwrap()
+        setProduct(product)
+      }
 
-  //   fetchProduct()
-  // }, [productId])
+      fetchProduct()
+    } catch (err) {
+      console.error('error fetching product')
+    }
+  }, [dispatch, productId])
 
   const handleClose = () => {
     setOpen(false)
@@ -74,18 +78,11 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
         return
       }
 
-      // const data = await API.graphql(
-      //   graphqlOperation(updateProduct, {
-      //     input: {
-      //       id: product.id,
-      //       name: product.name,
-      //       placement: product.placement,
-      //       departmentProductsId: product.department.id,
-      //       productProductTypeId: product.productType.id,
-      //       productLocationId: product.location.id,
-      //     },
-      //   })
-      // )
+      const updatedProduct = await dispatch(updateProduct(product)).unwrap()
+      console.log(
+        '🚀 ~ file: ProductSlideover.js:82 ~ handleSave ~ updatedProduct',
+        updatedProduct
+      )
 
       setIsChanged(false)
       onSave(product)

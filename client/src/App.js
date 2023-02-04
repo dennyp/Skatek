@@ -2,12 +2,12 @@ import React from 'react'
 
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import ActivityLog from './app/features/activitylogs/ActivityLog'
+// import ActivityLog from './app/features/activitylogs/ActivityLog'
 import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
 import Products from './components/product/Products'
-import ProtectedRoute from './components/ProtectedRoute'
+// import ProtectedRoute from './components/ProtectedRoute'
 
 const App = ({ signOut, user }) => {
   return (
@@ -29,19 +29,20 @@ const App = ({ signOut, user }) => {
         <Route path="/" element={<Dashboard />} />
         <Route
           path="/products"
-          element={
-            <ProtectedRoute user={user}>
-              <Products />{' '}
-            </ProtectedRoute>
-          }
+          // element={
+          //   <ProtectedRoute user={user}>
+          //     <Products />{' '}
+          //   </ProtectedRoute>
+          // }
+          element={<Products />}
         />
         <Route
           path="/logactivity"
-          element={
-            <ProtectedRoute user={user}>
-              <ActivityLog />
-            </ProtectedRoute>
-          }
+          // element={
+          //   <ProtectedRoute user={user}>
+          //     <ActivityLog />
+          //   </ProtectedRoute>
+          // }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
