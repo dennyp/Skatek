@@ -58,7 +58,6 @@ export const updateProduct = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   'product/create',
   async (product) => {
-    console.log('🚀 ~ file: productSlice.js:61 ~ product', product)
     try {
       const response = await axios.post(`${REACT_APP_API_URL}/products`, {
         name: product.name,

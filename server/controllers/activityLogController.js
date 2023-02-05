@@ -49,10 +49,6 @@ export class activityLogController {
 
       res.json(activityLogsFromProducts)
     } catch (error) {
-      console.log(
-        '🚀 ~ file: activityLogController.js:52 ~ activityLogController ~ findByDepartment ~ error',
-        error
-      )
       next(createError(400))
     }
   }
@@ -67,6 +63,25 @@ export class activityLogController {
       })
 
       await obj.save()
+
+      const newURL = `https://${req.get('host')}${req.originalUrl}/${obj._id}`
+      res.location(newURL).status(201).json(obj)
+    } catch (error) {
+      next()
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      const id = req.params.id
+      const obj = await ActivityLog.getById(id)
+
+      await obj.updateOne({
+        activity: req.body.activity,
+        comment: req.body.comment,
+        dateLogged: req.body.dateLogged,
+        product: req.body.product,
+      })
 
       const newURL = `https://${req.get('host')}${req.originalUrl}/${obj._id}`
       res.location(newURL).status(201).json(obj)

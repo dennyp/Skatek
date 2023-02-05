@@ -64,24 +64,18 @@ export const fetchActivityLogsFromDepartment = createAsyncThunk(
 //   }
 // })
 
-// export const updateLog = createAsyncThunk('logs/updateLog', async (log) => {
-//   try {
-//     const response = await API.graphql(
-//       graphqlOperation(updateActivityLogWithExtraInfo, {
-//         input: {
-//           id: log.id,
-//           activity: log.activity,
-//           activityLogProductId: log.activityLogProductId,
-//           comment: log.comment,
-//           dateLogged: log.dateLogged,
-//         },
-//       })
-//     )
-//     return response.data.updateActivityLog
-//   } catch (err) {
-//     console.error(err)
-//   }
-// })
+export const updateLog = createAsyncThunk('logs/updateLog', async (log) => {
+  try {
+    const response = await axios.put(
+      `${REACT_APP_API_URL}/activitylogs/${log._id}`,
+      log
+    )
+
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 // export const deleteLog = createAsyncThunk('logs/deleteLog', async (log) => {
 //   try {
@@ -127,17 +121,19 @@ export const activitylogSlice = createSlice({
         state.status = 'failed'
         state.error = action.error.message
       })
+      .addCase(updateLog.fulfilled, (state, action) => {
+        const { _id } = action.payload
+
+        const logs = state.logs.filter((log) => {
+          return log._id !== _id
+        })
+        state.logs = [...logs, action.payload]
+      })
     // .addCase(fetchActivityLogById.fulfilled, (state, action) => {
     //   state.selectedLog = action.payload
     // })
     // .addCase(createLog.fulfilled, (state, action) => {
     //   state.logs = [...state.logs, action.payload]
-    // })
-    // .addCase(updateLog.fulfilled, (state, action) => {
-    //   const { id } = action.payload
-
-    //   const logs = state.logs.filter((log) => log.id !== id)
-    //   state.logs = [...logs, action.payload]
     // })
     // .addCase(deleteLog.fulfilled, (state, action) => {
     //   const { id } = action.payload

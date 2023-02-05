@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Dialog, Transition } from '@headlessui/react'
@@ -7,11 +7,7 @@ import { toast } from 'react-toastify'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
-import {
-  fetchActivityLogById,
-  selectLogById,
-  updateLog,
-} from './activitylogSlice'
+import { selectLogById, updateLog } from './activitylogSlice'
 
 const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
   const [isChanged, setIsChanged] = useState(false)
@@ -26,10 +22,6 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
   )
   const [product, setProduct] = useState(selectedLog?.product)
   const noChangeMessage = () => toast.warn('Ingen ändring att spara')
-
-  useEffect(() => {
-    // dispatch(fetchActivityLogById(id))
-  }, [dispatch, selectedLog])
 
   const handleClose = () => {
     setOpen(false)
@@ -62,15 +54,15 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
         return
       }
 
-      // dispatch(
-      //   updateLog({
-      //     id,
-      //     activity,
-      //     comment,
-      //     dateLogged,
-      //     activityLogProductId: product.id,
-      //   })
-      // ).unwrap()
+      dispatch(
+        updateLog({
+          _id: id,
+          activity,
+          comment,
+          dateLogged,
+          product: product._id,
+        })
+      ).unwrap()
 
       setIsChanged(false)
       setActivity(0)
