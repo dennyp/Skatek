@@ -18,7 +18,8 @@ const ActivityLog = () => {
   const logsStatus = useSelector(getLogsStatus)
 
   useEffect(() => {
-    dispatch(fetchActivityLogsFromDepartment(selectedDepartment))
+    if (selectedDepartment)
+      dispatch(fetchActivityLogsFromDepartment(selectedDepartment))
   }, [dispatch, selectedDepartment])
 
   const handleDepartmentChange = (department) => {

@@ -25,12 +25,11 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
     selectedLog?.dateLogged.slice(0, 10)
   )
   const [product, setProduct] = useState(selectedLog?.product)
-
   const noChangeMessage = () => toast.warn('Ingen ändring att spara')
 
   useEffect(() => {
-    dispatch(fetchActivityLogById(id))
-  }, [dispatch, id])
+    // dispatch(fetchActivityLogById(id))
+  }, [dispatch, selectedLog])
 
   const handleClose = () => {
     setOpen(false)
@@ -63,15 +62,15 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
         return
       }
 
-      dispatch(
-        updateLog({
-          id,
-          activity,
-          comment,
-          dateLogged,
-          activityLogProductId: product.id,
-        })
-      ).unwrap()
+      // dispatch(
+      //   updateLog({
+      //     id,
+      //     activity,
+      //     comment,
+      //     dateLogged,
+      //     activityLogProductId: product.id,
+      //   })
+      // ).unwrap()
 
       setIsChanged(false)
       setActivity(0)

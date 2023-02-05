@@ -46,4 +46,13 @@ productSchema.statics.getById = async function (id) {
     return this.findOne({ _id: id }).populate('department location productType')
 }
 
+productSchema.statics.getByDepartment = async function (id) {
+  const isValidObjectId = mongoose.isValidObjectId(id)
+
+  if (isValidObjectId)
+    return this.find({ department: id }).populate(
+      'department location productType'
+    )
+}
+
 export const Product = mongoose.model('product', productSchema)

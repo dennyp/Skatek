@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-// import ActivityLog from './app/features/activitylogs/ActivityLog'
+import ActivityLog from './app/features/activitylogs/ActivityLog'
 import Products from './app/features/products/Products'
 import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
@@ -43,6 +43,7 @@ const App = ({ signOut, user }) => {
           //     <ActivityLog />
           //   </ProtectedRoute>
           // }
+          element={<ActivityLog />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

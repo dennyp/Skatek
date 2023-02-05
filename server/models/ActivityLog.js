@@ -18,15 +18,28 @@ const activityLogSchema = mongoose.Schema({
   },
 })
 
-activityLogSchema.statics.getAll = async function () {
-  console.log('test')
-  return this.find().populate('product')
+activityLogSchema.statics.getAll = async function (
+  reqPageSize,
+  reqStartIndex,
+  filter = {}
+) {
+  const pageSize = Math.abs(reqPageSize) || 1000
+  const startIndex = (Math.abs(reqStartIndex) || 1) - 1
+
+  return this.find(filter).skip(startIndex).limit(pageSize).populate('product')
 }
 
 activityLogSchema.statics.getById = async function (id) {
   const isValidObjectId = mongoose.isValidObjectId(id)
 
   if (isValidObjectId) return this.findOne({ _id: id }).populate('product')
+}
+
+activityLogSchema.statics.getByProducts = async function (productIds) {
+  return this.find({ product: { $in: productIds } }).populate({
+    path: 'product',
+    populate: { path: 'department' },
+  })
 }
 
 export const ActivityLog = mongoose.model('activitylog', activityLogSchema)

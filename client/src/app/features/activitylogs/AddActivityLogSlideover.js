@@ -75,14 +75,14 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
         },
       }
 
-      const success = await dispatch(createLog(newActivityLog)).unwrap()
+      // const success = await dispatch(createLog(newActivityLog)).unwrap()
 
-      if (success) {
-        successMessage()
-        setSelectedProduct({})
-        setSelectedActivity(0)
-        setSelectedComment('')
-      }
+      // if (success) {
+      //   successMessage()
+      //   setSelectedProduct({})
+      //   setSelectedActivity(0)
+      //   setSelectedComment('')
+      // }
     } catch (err) {
       console.error('error creating an activity log', err)
       failureMessage()

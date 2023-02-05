@@ -27,17 +27,13 @@ const ActivityLogTable = ({ logsStatus, department }) => {
       )
       break
     case 'failed':
-      tableBody = (
-        <tr>
-          <td>{error}</td>
-        </tr>
-      )
+      tableBody = <tr>{/* <td>{error}</td> */}</tr>
       break
     default:
-      if (logs.length !== 0) {
+      if (logs.length > 0) {
         tableBody = logs.map((log) => (
           <ActivityLogRow
-            key={log.id}
+            key={log._id}
             log={log}
             showEditSlideover={setOpenEditLogSlider}
             setSelectedLog={setSelectedLog}
@@ -52,7 +48,7 @@ const ActivityLogTable = ({ logsStatus, department }) => {
     try {
       if (!selectedLog) return
 
-      dispatch(deleteLog(selectedLog)).unwrap()
+      // dispatch(deleteLog(selectedLog)).unwrap()
 
       setShowDeleteModal(false)
     } catch (err) {
@@ -113,7 +109,7 @@ const ActivityLogTable = ({ logsStatus, department }) => {
         <ActivityLogSlideover
           open={openEditLogSlider}
           setOpen={setOpenEditLogSlider}
-          id={selectedLog.id}
+          id={selectedLog._id}
         />
       )}
       {showDeleteModal && (

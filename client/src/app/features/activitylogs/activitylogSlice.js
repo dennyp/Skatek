@@ -1,12 +1,15 @@
-// import {
-//   createAsyncThunk,
-//   createEntityAdapter,
-//   createSlice,
-// } from '@reduxjs/toolkit'
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit'
+import axios from 'axios'
 
-// const activityLogAdapter = createEntityAdapter({
-//   sortComparer: (a, b) => b.date.localeCompare(a.date),
-// })
+const activityLogAdapter = createEntityAdapter({
+  sortComparer: (a, b) => b.date.localeCompare(a.date),
+})
+
+const { REACT_APP_API_URL } = process.env
 
 // export const fetchActivityLogs = createAsyncThunk(
 //   'logs/fetchLogs',
@@ -18,24 +21,20 @@
 //   }
 // )
 
-// // should probably restructure the tables so it's possible to filter in backend
-// export const fetchActivityLogsFromDepartment = createAsyncThunk(
-//   'logs/fetchLogsFromDepartment',
-//   async (department) => {
-//     try {
-//       const activityLogsData = await API.graphql(
-//         graphqlOperation(listActivityLogsWithExtraInfo, { limit: 10000 })
-//       )
-//       const filteredData = activityLogsData.data.listActivityLogs.items.filter(
-//         (log) => department?.id === log.product.department.id
-//       )
+export const fetchActivityLogsFromDepartment = createAsyncThunk(
+  'logs/fetchLogsFromDepartment',
+  async (department) => {
+    try {
+      const activityLogs = await axios.get(
+        `${REACT_APP_API_URL}/activityLogs/department/${department._id}`
+      )
 
-//       return filteredData
-//     } catch (err) {
-//       console.error(err)
-//     }
-//   }
-// )
+      return activityLogs.data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+)
 
 // export const fetchActivityLogById = createAsyncThunk(
 //   'logs/fetchLogById',
@@ -106,64 +105,53 @@
 //   }
 // )
 
-// export const activitylogSlice = createSlice({
-//   name: 'activity',
-//   initialState: activityLogAdapter.getInitialState({
-//     selectedLog: {},
-//     logs: [],
-//     error: null,
-//     status: 'idle',
-//   }),
-//   reducers: {},
-//   extraReducers(builder) {
-//     builder
-//       .addCase(fetchActivityLogs.pending, (state, action) => {
-//         state.status = 'loading'
-//       })
-//       .addCase(fetchActivityLogs.fulfilled, (state, action) => {
-//         state.status = 'succeeded'
-//         state.logs = action.payload
-//       })
-//       .addCase(fetchActivityLogs.rejected, (state, action) => {
-//         state.status = 'failed'
-//         state.error = action.error.message
-//       })
-//       .addCase(fetchActivityLogsFromDepartment.pending, (state, action) => {
-//         state.status = 'loading'
-//       })
-//       .addCase(fetchActivityLogsFromDepartment.fulfilled, (state, action) => {
-//         state.status = 'succeeded'
-//         state.logs = action.payload
-//       })
-//       .addCase(fetchActivityLogsFromDepartment.rejected, (state, action) => {
-//         state.status = 'failed'
-//         state.error = action.error.message
-//       })
-//       .addCase(fetchActivityLogById.fulfilled, (state, action) => {
-//         state.selectedLog = action.payload
-//       })
-//       .addCase(createLog.fulfilled, (state, action) => {
-//         state.logs = [...state.logs, action.payload]
-//       })
-//       .addCase(updateLog.fulfilled, (state, action) => {
-//         const { id } = action.payload
+export const activitylogSlice = createSlice({
+  name: 'activity',
+  initialState: activityLogAdapter.getInitialState({
+    selectedLog: {},
+    logs: [],
+    error: null,
+    status: 'idle',
+  }),
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchActivityLogsFromDepartment.pending, (state, action) => {
+        state.status = 'loading'
+      })
+      .addCase(fetchActivityLogsFromDepartment.fulfilled, (state, action) => {
+        state.status = 'succeeded'
+        state.logs = action.payload
+      })
+      .addCase(fetchActivityLogsFromDepartment.rejected, (state, action) => {
+        state.status = 'failed'
+        state.error = action.error.message
+      })
+    // .addCase(fetchActivityLogById.fulfilled, (state, action) => {
+    //   state.selectedLog = action.payload
+    // })
+    // .addCase(createLog.fulfilled, (state, action) => {
+    //   state.logs = [...state.logs, action.payload]
+    // })
+    // .addCase(updateLog.fulfilled, (state, action) => {
+    //   const { id } = action.payload
 
-//         const logs = state.logs.filter((log) => log.id !== id)
-//         state.logs = [...logs, action.payload]
-//       })
-//       .addCase(deleteLog.fulfilled, (state, action) => {
-//         const { id } = action.payload
-//         const logs = state.logs.filter((log) => log.id !== id)
-//         state.logs = logs
-//       })
-//   },
-// })
+    //   const logs = state.logs.filter((log) => log.id !== id)
+    //   state.logs = [...logs, action.payload]
+    // })
+    // .addCase(deleteLog.fulfilled, (state, action) => {
+    //   const { id } = action.payload
+    //   const logs = state.logs.filter((log) => log.id !== id)
+    //   state.logs = logs
+    // })
+  },
+})
 
-// export const selectAllLogs = (state) => state.activity.logs
-// export const getLogsError = (state) => state.activity.error
-// export const getLogsStatus = (state) => state.activity.status
+export const selectAllLogs = (state) => state.activity.logs
+export const getLogsError = (state) => state.activity.error
+export const getLogsStatus = (state) => state.activity.status
 
-// export const selectLogById = (state, logId) =>
-//   state.activity.logs.find((log) => log.id === logId)
+export const selectLogById = (state, logId) =>
+  state.activity.logs.find((log) => log._id === logId)
 
-// export default activitylogSlice.reducer
+export default activitylogSlice.reducer

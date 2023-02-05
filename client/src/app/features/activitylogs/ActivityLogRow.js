@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectLogById } from './activitylogSlice'
 
@@ -8,7 +8,7 @@ const ActivityLogRow = ({
   setSelectedLog,
   setShowDeleteModal,
 }) => {
-  const selectedLog = useSelector((state) => selectLogById(state, log.id))
+  const selectedLog = useSelector((state) => selectLogById(state, log._id))
 
   const handleEditClick = () => {
     setSelectedLog(selectedLog)
@@ -16,7 +16,7 @@ const ActivityLogRow = ({
   }
 
   const handleDeleteClick = () => {
-    setSelectedLog(selectedLog)
+    // setSelectedLog(selectedLog)
     setShowDeleteModal(true)
   }
 
@@ -30,15 +30,17 @@ const ActivityLogRow = ({
             <dd className="mt-1 text-gray-700">
               {log.product.department.name}
             </dd>
-            <dt className="sr-only sm:hidden">Email</dt>
-            <dd className="mt-1 truncate text-gray-500">{log.dateLogged}</dd>
+            <dt className="sr-only sm:hidden">Datum</dt>
+            <dd className="mt-1 truncate text-gray-500">
+              {log.dateLogged.slice(0, 10)}
+            </dd>
           </dl>
         </td>
         <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
           {log.product.department.name}
         </td>
         <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">
-          {log.dateLogged}
+          {log.dateLogged.slice(0, 10)}
         </td>
         <td className="px-3 py-4 text-sm text-gray-500">{log.activity}</td>
         <td className="px-3 py-4 text-sm text-gray-500">{log.comment}</td>
@@ -47,7 +49,7 @@ const ActivityLogRow = ({
             type="button"
             className="inline-flex items-center px-1 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             onClick={handleEditClick}
-            value={log.id}
+            value={log._id}
           >
             Ändra<span className="sr-only">, {log.product.name}</span>
           </button>
@@ -57,7 +59,7 @@ const ActivityLogRow = ({
             type="button"
             className="inline-flex items-center px-1 py-1.5 text-xs font-medium rounded-full text-indigo-600 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-indigo-500"
             onClick={handleDeleteClick}
-            value={log.id}
+            value={log._id}
           >
             Radera
             <span className="sr-only">, {log.product.name}</span>
