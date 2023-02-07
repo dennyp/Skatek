@@ -2,7 +2,9 @@
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { logout } from '../app/features/auth/authSlice'
 
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
@@ -14,7 +16,10 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Navigation = ({ signOut, user }) => {
+const Navigation = () => {
+  const { userInfo } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -24,7 +29,7 @@ const Navigation = ({ signOut, user }) => {
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
+                  <span className="sr-only">Öppna meny</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
                   ) : (
@@ -132,12 +137,12 @@ const Navigation = ({ signOut, user }) => {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to="/logout"
+                            to="/"
                             className={classNames(
                               active ? 'bg-gray-100' : '',
                               'block px-4 py-2 text-sm text-gray-700'
                             )}
-                            onClick={signOut}
+                            onClick={() => dispatch(logout())}
                           >
                             Logga ut
                           </Link>

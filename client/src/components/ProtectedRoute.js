@@ -1,12 +1,13 @@
+import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
-const ProtectedRoute = ({ user, children }) => {
-  const admin =
-    user.signInUserSession.accessToken.payload['cognito:groups'][0] === 'admin'
+const ProtectedRoute = ({ children }) => {
+  const { userInfo } = useSelector((state) => state.auth)
 
-  if (!admin) {
-    return <Navigate to="/" replace />
+  if (!Object.keys(userInfo).length === 0) {
+    return <Navigate to="/login" replace />
   }
+
   return children
 }
 
