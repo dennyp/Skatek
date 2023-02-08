@@ -1,34 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-
-import { fetchProducts } from './productSlice'
+import { useGetProductsQuery } from '../products/productsApiSlice'
+import { setProducts } from './productSlice'
 import ProductTable from './ProductTable'
 
 // TODO: add delete functionality. The product should perhaps be "inactivated" instead of deleted so that we can still use history of activity etc.
 // TODO: add functionality to add a product.
 const Product = () => {
-  const [products, setProducts] = useState([])
-
+  const { isLoading, error, data: products } = useGetProductsQuery()
   const dispatch = useDispatch()
 
   useEffect(() => {
-    try {
-      const fetchProductsData = async () => {
-        const products = await dispatch(fetchProducts()).unwrap()
-        setProducts(products)
-      }
-
-      fetchProductsData()
-    } catch (err) {
-      console.error('error fetching products')
-    }
+    dispatch(setProducts())
   }, [dispatch])
 
   const handleSave = (editedProduct) => {
     const productList = products.map((product) => {
       return product.id === editedProduct.id ? editedProduct : product
     })
-
     setProducts(productList)
   }
 

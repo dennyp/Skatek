@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
+import DepartmentInputGroup from '../departments/DepartmentInputGroup'
 import {
   fetchActivityLogsFromDepartment,
   getLogsStatus,

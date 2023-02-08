@@ -19,9 +19,9 @@ export class AccountController {
         isAdmin: user.isAdmin,
       }
 
-      const token = jwt.sign(userInfo, process.env.TOKEN_SECRET)
+      const accessToken = jwt.sign(userInfo, process.env.TOKEN_SECRET)
 
-      res.status(201).json({ userInfo, token })
+      res.status(201).json({ userInfo, accessToken })
     } catch (error) {
       next(createError(401))
     }

@@ -5,11 +5,11 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
 import NumberInputGroup from '../../../components/NumberInputGroup'
-import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
 import { createLog } from '../activitylogs/activitylogSlice'
+import DepartmentInputGroup from '../departments/DepartmentInputGroup'
+import ProductInputGroup from '../products/ProductInputGroup'
 
 const AddActivityLogSlideover = ({ open, setOpen }) => {
   const [selectedDepartment, setSelectedDepartment] = useState({})

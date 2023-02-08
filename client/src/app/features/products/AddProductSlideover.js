@@ -4,10 +4,10 @@ import { Fragment, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import DepartmentInputGroup from '../../../components/DepartmentInputGroup'
-import ProductLocationInputGroup from '../../../components/ProductLocationInputGroup'
-import ProductTypeInputGroup from '../../../components/ProductTypeInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
+import DepartmentInputGroup from '../departments/DepartmentInputGroup'
+import ProductLocationInputGroup from '../locations/ProductLocationInputGroup'
+import ProductTypeInputGroup from '../producttypes/ProductTypeInputGroup'
 import { createProduct } from './productSlice'
 
 const AddProductSlideover = ({ open, setOpen }) => {

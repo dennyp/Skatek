@@ -2,7 +2,7 @@ import { useState } from 'react'
 import AddProductSlideover from './AddProductSlideover'
 import ProductSlideover from './ProductSlideover'
 
-const ProductTable = ({ products, onSave }) => {
+const ProductTable = ({ products = [], onSave }) => {
   const [openSlider, setOpenSlider] = useState(false)
   const [productId, setProductId] = useState('')
   const [openAddLog, setOpenAddLog] = useState(false)

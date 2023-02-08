@@ -5,8 +5,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { toast } from 'react-toastify'
 import NumberInputGroup from '../../../components/NumberInputGroup'
-import ProductInputGroup from '../../../components/ProductInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
+import ProductInputGroup from '../products/ProductInputGroup'
 import { selectLogById, updateLog } from './activitylogSlice'
 
 const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {

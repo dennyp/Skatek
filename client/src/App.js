@@ -7,6 +7,7 @@ import ActivityLog from './app/features/activitylogs/ActivityLog'
 // import { useGetDetailsQuery } from './app/features/api/apiSlice'
 import { setCredentials } from './app/features/auth/authSlice'
 import Login from './app/features/auth/Login'
+import RequireAuth from './app/features/auth/RequireAuth'
 import Products from './app/features/products/Products'
 import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
@@ -42,9 +43,12 @@ const App = () => {
         theme="light"
       />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route
+        <Route index element={<Dashboard />} />
+        <Route path="login" element={<Login />} />
+        <Route element={<RequireAuth />}>
+          <Route path="products" element={<Products />} />
+        </Route>
+        {/* <Route
           path="/products"
           element={
             <ProtectedRoute>
@@ -59,7 +63,7 @@ const App = () => {
               <ActivityLog />
             </ProtectedRoute>
           }
-        />
+        /> */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

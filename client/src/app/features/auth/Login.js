@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import Spinner from '../../../components/Spinner'
 import { useLoginMutation } from './authApiSlice'
 import { setCredentials } from './authSlice'
 
@@ -29,6 +28,7 @@ const Login = () => {
 
     try {
       const userData = await login({ email, password }).unwrap()
+
       dispatch(setCredentials({ ...userData, email }))
       setEmail('')
       setPassword('')
@@ -50,9 +50,6 @@ const Login = () => {
 
   const handlePasswordInput = (e) => setPassword(e.target.value)
 
-  // isLoading ? (
-  //   <h1>Loggar in...</h1>
-  // ) :
   const content = (
     <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
       <section className="login">

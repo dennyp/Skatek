@@ -1,9 +1,9 @@
 import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-
-const { REACT_APP_API_URL } = process.env
+import { useDispatch } from 'react-redux'
+import { useGetDepartmentsQuery } from './departmentsApiSlice'
+import { setDepartments } from './departmentSlice'
 
 // Only keeping truthy values, filtering out nulls and undefined
 function classNames(...classes) {
@@ -12,28 +12,23 @@ function classNames(...classes) {
 
 const DepartmentInputGroup = ({ value = '', onChange }) => {
   const [query, setQuery] = useState('')
-  const [departments, setDepartments] = useState([])
 
-  const filteredDepartments =
-    query === ''
-      ? departments
-      : departments.filter((department) => {
-          return department.name.toLowerCase().includes(query.toLowerCase())
-        })
+  const { isLoading, error, data: departments } = useGetDepartmentsQuery()
+  const dispatch = useDispatch()
+
+  let filteredDepartments = []
+  if (departments) {
+    filteredDepartments =
+      query === ''
+        ? departments
+        : departments.filter((department) => {
+            return department.name.toLowerCase().includes(query.toLowerCase())
+          })
+  }
 
   useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const departments = await axios.get(`${REACT_APP_API_URL}/departments`)
-
-        setDepartments(departments.data)
-      } catch (err) {
-        console.error('error fetching departments', err)
-      }
-    }
-
-    fetchDepartments()
-  }, [value])
+    dispatch(setDepartments())
+  }, [dispatch])
 
   const handleChange = (departmentValue) => {
     onChange(departmentValue)
