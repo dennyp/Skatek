@@ -9,7 +9,7 @@ import {
 import ActivityLogTable from './ActivityLogTable'
 import AddActivityLogSlideover from './AddActivityLogSlideover'
 
-const ActivityLog = () => {
+const ActivityLogs = () => {
   const [selectedDepartment, setSelectedDepartment] = useState()
   const [openAddLog, setOpenAddLog] = useState(false)
 
@@ -72,4 +72,4 @@ const ActivityLog = () => {
   )
 }
 
-export default ActivityLog
+export default ActivityLogs

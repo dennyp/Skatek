@@ -9,7 +9,7 @@ import { logout } from '../app/features/auth/authSlice'
 const navigation = [
   { name: 'Dashboard', href: '/', current: true },
   { name: 'Produkter', href: '/products', current: false },
-  { name: 'Logga aktivitet', href: '/logactivity', current: false },
+  { name: 'Logga aktivitet', href: '/activitylogs', current: false },
 ]
 
 function classNames(...classes) {
