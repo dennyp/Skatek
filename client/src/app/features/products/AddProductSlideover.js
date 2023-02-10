@@ -1,14 +1,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import TextInputGroup from '../../../components/TextInputGroup'
 import DepartmentInputGroup from '../departments/DepartmentInputGroup'
 import ProductLocationInputGroup from '../locations/ProductLocationInputGroup'
 import ProductTypeInputGroup from '../producttypes/ProductTypeInputGroup'
-import { createProduct } from './productSlice'
+import { useCreateProductMutation } from './productsApiSlice'
 
 const AddProductSlideover = ({ open, setOpen }) => {
   const [selectedDepartment, setSelectedDepartment] = useState({})
@@ -17,10 +16,10 @@ const AddProductSlideover = ({ open, setOpen }) => {
   const [selectedProductLocation, setSelectedProductLocation] = useState({})
   const [selectedProductType, setSelectedProductType] = useState({})
 
+  const [createProduct] = useCreateProductMutation()
+
   const successMessage = () => toast.success('Produkt sparad')
   const failureMessage = () => toast.error('Produkt kunde inte sparas')
-
-  const dispatch = useDispatch()
 
   const handleDepartmentChange = (department) => {
     setSelectedDepartment(department)
@@ -51,14 +50,12 @@ const AddProductSlideover = ({ open, setOpen }) => {
         location: selectedProductLocation._id,
         productType: selectedProductType._id,
       }
-      const success = await dispatch(createProduct(newProduct)).unwrap()
+      const response = await createProduct(newProduct)
 
-      if (success) {
+      if (response) {
         successMessage()
         setSelectedName('')
         setSelectedPlacement('')
-        setSelectedProductType({})
-        setSelectedProductLocation({})
       }
     } catch (err) {
       console.error('error creating a product', err)
@@ -158,8 +155,6 @@ const AddProductSlideover = ({ open, setOpen }) => {
                         </div>
                       </div>
                     </div>
-
-                    {/* Action buttons */}
                     <div className="flex-shrink-0 border-t border-gray-200 px-4 py-5 sm:px-6">
                       <div className="flex justify-end space-x-3">
                         <button

@@ -1,9 +1,9 @@
 import { Fragment, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { toast } from 'react-toastify'
+import { ButtonWithSpinner } from '../../../components/ButtonWithSpinner'
 import TextInputGroup from '../../../components/TextInputGroup'
 import DepartmentInputGroup from '../departments/DepartmentInputGroup'
 import ProductLocationInputGroup from '../locations/ProductLocationInputGroup'
@@ -12,9 +12,9 @@ import {
   useGetProductQuery,
   useUpdateProductMutation,
 } from './productsApiSlice'
-import { setProduct, updateProduct } from './productSlice'
+import { setProduct } from './productSlice'
 
-const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
+const ProductSlideover = ({ open, setOpen, productId }) => {
   const {
     isLoading,
     isSuccess,
@@ -31,7 +31,6 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
 
   const [updateProduct, { isLoading: isLoadingUpdate }] =
     useUpdateProductMutation()
-  const dispatch = useDispatch()
 
   const noChangeMessage = () => toast.warn('Ingen ändring att spara')
 
@@ -90,10 +89,15 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
         location: location,
       }
       await updateProduct(updatedProduct).unwrap()
-      // TODO: I think I should update the products array in the store here to reflect the changes
+
       setIsChanged(false)
-      onSave(updatedProduct)
       setProduct({})
+
+      setDepartment({})
+      setName('')
+      setProductType({})
+      setPlacement('')
+      setLocation({})
 
       handleClose()
     } catch (err) {
@@ -179,35 +183,12 @@ const ProductSlideover = ({ open, setOpen, productId, onSave }) => {
                         >
                           Avbryt
                         </button>
-                        <button
-                          type="submit"
-                          className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          onClick={handleSave}
+                        <ButtonWithSpinner
+                          isLoading={isLoadingUpdate}
+                          handleClick={handleSave}
                         >
-                          {isLoadingUpdate ? (
-                            <svg
-                              className="animate-spin h-5 w-5 mr-3 ..."
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              />
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              ></path>
-                            </svg>
-                          ) : (
-                            ''
-                          )}
                           {isLoadingUpdate ? 'Sparar...' : 'Spara'}
-                        </button>
+                        </ButtonWithSpinner>
                       </div>
                     </div>
                   </Dialog.Panel>

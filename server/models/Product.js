@@ -30,7 +30,7 @@ productSchema.statics.getAll = async function (
   reqStartIndex,
   filter = {}
 ) {
-  const pageSize = Math.abs(reqPageSize) || 100
+  const pageSize = Math.abs(reqPageSize) || 1000
   const startIndex = (Math.abs(reqStartIndex) || 1) - 1
 
   return this.find(filter)
