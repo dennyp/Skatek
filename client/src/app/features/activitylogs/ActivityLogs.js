@@ -1,73 +1,152 @@
 import React, { useEffect, useState } from 'react'
 
-import { useDispatch, useSelector } from 'react-redux'
-import DepartmentInputGroup from '../departments/DepartmentInputGroup'
-import {
-  fetchActivityLogsFromDepartment,
-  getLogsStatus,
-} from './activitylogSlice'
-import ActivityLogTable from './ActivityLogTable'
+import { Box } from '@mui/material'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import { useGetActivityLogsQuery } from './activityLogsApiSlice'
+import ActivityLogSlideover from './ActivityLogSlideover'
 import AddActivityLogSlideover from './AddActivityLogSlideover'
 
 const ActivityLogs = () => {
-  const [selectedDepartment, setSelectedDepartment] = useState()
-  const [openAddLog, setOpenAddLog] = useState(false)
+  const [openEditSlider, setOpenEditSlider] = useState(false)
+  const [openAddSlider, setOpenAddSlider] = useState(false)
 
-  const dispatch = useDispatch()
+  const [logId, setLogId] = useState('')
+  const [page, setPage] = useState(0)
+  const [pageSize, setPageSize] = useState(100)
+  const [sort, setSort] = useState({})
+  const [search, setSearch] = useState('')
 
-  const logsStatus = useSelector(getLogsStatus)
+  const {
+    isLoading,
+    error,
+    data: logs,
+  } = useGetActivityLogsQuery({
+    page,
+    pageSize,
+    sort: JSON.stringify(sort),
+    search,
+  })
 
-  useEffect(() => {
-    if (selectedDepartment)
-      dispatch(fetchActivityLogsFromDepartment(selectedDepartment))
-  }, [dispatch, selectedDepartment])
+  const onEditClick = (e, row) => {
+    e.stopPropagation()
 
-  const handleDepartmentChange = (department) => {
-    setSelectedDepartment(department)
+    setOpenEditSlider(true)
+    setLogId(row._id)
   }
+
+  const onDeleteClick = (e, row) => {
+    e.stopPropagation()
+
+    setLogId(row._id)
+  }
+
+  const columns = [
+    {
+      field: 'product',
+      headerName: 'Produkt',
+      flex: 1,
+      valueGetter: (params) => params.row?.product?.name,
+    },
+    {
+      field: 'department',
+      headerName: 'Avdelning',
+      flex: 1,
+      valueGetter: (params) => params.row?.product?.department?.name,
+    },
+    {
+      field: 'dateLogged',
+      headerName: 'Datum',
+      flex: 1,
+      valueGetter: (params) => params.row?.dateLogged?.slice(0, 10),
+    },
+    { field: 'activity', headerName: 'Aktivitet', flex: 1 },
+    { field: 'comment', headerName: 'Kommentar', flex: 1 },
+    {
+      field: 'actions',
+      headerName: 'Ändra',
+      flex: 0.3,
+      renderCell: (params) => {
+        return (
+          <button
+            onClick={(e) => onEditClick(e, params.row)}
+            variant="contained"
+          >
+            Ändra
+          </button>
+        )
+      },
+    },
+    // {
+    //   field: 'actions',
+    //   headerName: 'Radera',
+    //   flex: 0.3,
+    //   renderCell: (params) => {
+    //     return (
+    //       <button
+    //         onClick={(e) => onDeleteClick(e, params.row)}
+    //         variant="contained"
+    //       >
+    //         Radera
+    //       </button>
+    //     )
+    //   },
+    // },
+  ]
 
   return (
     <>
       <div className="px-4 sm:px-6 lg:px-8">
-        <div
-          className="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black
-          ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg"
-        >
-          <div className="sm:flex sm:items-center">
-            <div className="sm:flex-auto">
-              <h1 className="text-xl font-semibold text-gray-900">
-                Aktivitetsloggar
-              </h1>
-              <p className="mt-2 text-sm text-gray-700">
-                Här listas alla aktivitetsloggar som finns skapade.
-              </p>
-            </div>
-            <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
-                onClick={() => setOpenAddLog(true)}
-              >
-                Lägg till
-              </button>
-            </div>
+        <div className="sm:flex sm:items-center mt-6 ml-5 mr-5">
+          <div className="sm:flex-auto">
+            <h1 className="text-xl font-semibold text-gray-900">
+              Aktivitetsloggar
+            </h1>
+            <p className="mt-2 text-sm text-gray-700">
+              Här listas alla aktivitetsloggar som finns skapade.
+            </p>
           </div>
-          <div>
-            <p>Filter</p>
-            <DepartmentInputGroup
-              value={selectedDepartment}
-              onChange={handleDepartmentChange}
-            />
+          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+            <button
+              type="button"
+              className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
+              onClick={() => setOpenAddSlider(true)}
+            >
+              Lägg till
+            </button>
           </div>
-          <ActivityLogTable
-            logsStatus={logsStatus}
-            department={selectedDepartment}
-          />
         </div>
+        <Box sx={{ height: '80vh', m: '1.5rem 1rem' }}>
+          <DataGrid
+            loading={isLoading || !logs}
+            getRowId={(row) => row._id}
+            rows={(logs && logs.activityLogs) || []}
+            columns={columns}
+            rowCount={(logs && logs.total) || 0}
+            pagination
+            page={page}
+            pageSize={pageSize}
+            paginationMode="server"
+            sortingMode="server"
+            onPageChange={(newPage) => setPage(newPage)}
+            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+            onSortModelChange={(newSortModel) => setSort(...newSortModel)}
+            components={{ Toolbar: GridToolbar }}
+          />
+        </Box>
+        {openEditSlider && (
+          <ActivityLogSlideover
+            open={openEditSlider}
+            setOpen={setOpenEditSlider}
+            id={logId}
+          />
+        )}
+        {openAddSlider && (
+          <AddActivityLogSlideover
+            open={openAddSlider}
+            setOpen={setOpenAddSlider}
+          />
+        )}
       </div>
-      {openAddLog && (
-        <AddActivityLogSlideover open={openAddLog} setOpen={setOpenAddLog} />
-      )}
     </>
   )
 }

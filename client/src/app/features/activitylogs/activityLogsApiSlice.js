@@ -4,22 +4,23 @@ export const activityLogsApiSlice = apiSlice.injectEndpoints({
   tagTypes: ['ActivityLogs', 'ActivityLog'],
   endpoints: (builder) => ({
     getActivityLogs: builder.query({
-      query: () => ({
+      query: ({ page, pageSize, sort, search }) => ({
         url: '/activitylogs',
         method: 'GET',
+        params: { page, pageSize, sort, search },
       }),
       providesTags: ['ActivityLogs'],
     }),
     getActivityLog: builder.query({
-      query: () => ({
-        url: '/activitylogs/:id',
+      query: (id) => ({
+        url: `/activitylogs/${id}`,
         method: 'GET',
       }),
       providesTags: ['ActivityLog'],
     }),
     updateActivityLog: builder.mutation({
       query: (activitylog) => ({
-        url: '/activitylogs/:id',
+        url: `/activitylogs/${activitylog._id}`,
         method: 'PUT',
         body: activitylog,
       }),

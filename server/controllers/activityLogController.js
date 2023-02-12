@@ -5,8 +5,26 @@ import { Product } from '../models/Product.js'
 export class activityLogController {
   async findAll(req, res, next) {
     try {
-      const activityLogs = await ActivityLog.getAll()
-      res.json(activityLogs)
+      const { page = 1, pageSize = 20, sort = null, search = '' } = req.query
+
+      const generateSort = () => {
+        const sortParsed = JSON.parse(sort)
+        const sortFormatted = {
+          [sortParsed.field]: sortParsed.sort === 'asc' ? 1 : -1,
+        }
+        return sortFormatted
+      }
+
+      const sortFormatted = Boolean(sort) ? generateSort() : {}
+
+      const activityLogs = await ActivityLog.getAll(
+        sortFormatted,
+        page,
+        pageSize
+      )
+      const total = await ActivityLog.countDocuments()
+
+      res.json({ activityLogs, total })
     } catch (error) {
       next()
     }
@@ -14,7 +32,7 @@ export class activityLogController {
 
   async find(req, res, next) {
     try {
-      const id = req.params.id
+      const { id } = req.params
       const obj = await ActivityLog.getById(id)
 
       if (!obj || typeof obj === undefined) {
