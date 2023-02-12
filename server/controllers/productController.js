@@ -21,7 +21,10 @@ export class productController {
 
   async findAll(req, res, next) {
     try {
-      const products = await Product.getAll()
+      const { search = '' } = req.query
+
+      const products = await Product.getAll(search)
+
       res.json(products)
     } catch (error) {
       next()

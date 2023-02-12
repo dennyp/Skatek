@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useGetProductsQuery } from '../products/productsApiSlice'
 import AddProductSlideover from './AddProductSlideover'
-import { setProducts } from './productSlice'
 import ProductSlideover from './ProductSlideover'
+import { setProducts } from './productsSlice'
 
 // TODO: add delete functionality. The product should perhaps be "inactivated" instead of deleted so that we can still use history of activity etc.
 // TODO: add functionality to add a product.

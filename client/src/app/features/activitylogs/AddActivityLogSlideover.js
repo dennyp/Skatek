@@ -1,15 +1,14 @@
-import { useDispatch } from 'react-redux'
-
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { ButtonWithSpinner } from '../../../components/ButtonWithSpinner'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
-import { createLog } from '../activitylogs/activitylogSlice'
 import DepartmentInputGroup from '../departments/DepartmentInputGroup'
 import ProductInputGroup from '../products/ProductInputGroup'
+import { useCreateActivityLogMutation } from './activityLogsApiSlice'
 
 const AddActivityLogSlideover = ({ open, setOpen }) => {
   const [selectedDepartment, setSelectedDepartment] = useState({})
@@ -20,6 +19,9 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
     new Date().toISOString().slice(0, 10)
   )
 
+  const [createActivityLog, { isLoading: isLoadingCreate }] =
+    useCreateActivityLogMutation()
+
   const successMessage = () => toast.success('Logg sparad')
   const failureMessage = () => toast.error('Logg kunde inte sparas')
   const failureActivityMessage = () =>
@@ -27,10 +29,9 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
   const failureProductMessage = () => toast.error('Ingen produkt vald')
   const failureDateMessage = () => toast.error('Inget datum valt')
 
-  const dispatch = useDispatch()
-
   const handleDepartmentChange = (department) => {
     setSelectedDepartment(department)
+    setSelectedProduct({})
   }
 
   const handleProductChange = (product) => {
@@ -49,40 +50,35 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
     setSelectedDateLogged(event.target.value)
   }
 
-  const handleCreateClick = async (event) => {
+  const handleSave = async (event) => {
     try {
       if (selectedActivity > 100) {
         failureActivityMessage()
         return
       }
-
-      if (!selectedProduct.id) {
+      if (!selectedProduct._id) {
         failureProductMessage()
         return
       }
-
       if (!selectedDateLogged) {
         failureDateMessage()
         return
       }
-
       const newActivityLog = {
-        input: {
-          activity: selectedActivity,
-          activityLogProductId: selectedProduct.id,
-          dateLogged: selectedDateLogged + 'Z',
-          comment: selectedComment,
-        },
+        activity: selectedActivity,
+        product: selectedProduct._id,
+        dateLogged: selectedDateLogged,
+        comment: selectedComment,
       }
 
-      // const success = await dispatch(createLog(newActivityLog)).unwrap()
+      const response = await createActivityLog(newActivityLog)
 
-      // if (success) {
-      //   successMessage()
-      //   setSelectedProduct({})
-      //   setSelectedActivity(0)
-      //   setSelectedComment('')
-      // }
+      if (response) {
+        successMessage()
+        setSelectedProduct({})
+        setSelectedActivity(0)
+        setSelectedComment('')
+      }
     } catch (err) {
       console.error('error creating an activity log', err)
       failureMessage()
@@ -91,6 +87,56 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+  }
+
+  let content
+  if (Object.keys(selectedDepartment).length > 0) {
+    content = (
+      <>
+        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+          <ProductInputGroup
+            value={selectedProduct}
+            onChange={handleProductChange}
+            departmentId={selectedDepartment._id}
+          />
+        </div>
+        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+          <NumberInputGroup
+            label="Aktivitet"
+            value={selectedActivity}
+            onChange={handleActivityChange}
+          />
+        </div>
+        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+          <TextInputGroup
+            label="Kommentar"
+            value={selectedComment}
+            onChange={handleCommentChange}
+          />
+        </div>
+        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+          <label
+            htmlFor="date-logged"
+            className="block text-xs font-medium text-gray-900"
+          >
+            Loggad datum
+          </label>
+          <input
+            id="date-logged"
+            type="date"
+            value={selectedDateLogged}
+            onChange={handleDateChange}
+            className="rounded-md border-gray-300"
+          />
+        </div>
+      </>
+    )
+  } else {
+    content = (
+      <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+        Välj en avdelning...
+      </div>
+    )
   }
 
   return (
@@ -151,66 +197,26 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
                             onChange={handleDepartmentChange}
                           />
                         </div>
-                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <ProductInputGroup
-                            value={selectedProduct}
-                            onChange={handleProductChange}
-                            department={selectedDepartment}
-                          />
-                        </div>
-                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <NumberInputGroup
-                            label="Aktivitet"
-                            value={selectedActivity}
-                            onChange={handleActivityChange}
-                          />
-                        </div>
-                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <TextInputGroup
-                            label="Kommentar"
-                            value={selectedComment}
-                            onChange={handleCommentChange}
-                          />
-                        </div>
-                        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-                          <label
-                            htmlFor="date-logged"
-                            className="block text-xs font-medium text-gray-900"
-                          >
-                            Loggad datum
-                          </label>
-                          <input
-                            id="date-logged"
-                            type="date"
-                            value={selectedDateLogged}
-                            onChange={handleDateChange}
-                            className="rounded-md border-gray-300"
-                          />
-                        </div>
+                        {content}
                       </div>
-                    </div>
 
-                    {/* Action buttons */}
-                    <div className="flex-shrink-0 border-t border-gray-200 px-4 py-5 sm:px-6">
-                      <div className="flex justify-end space-x-3">
-                        <button
-                          type="button"
-                          className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          onClick={() => setOpen(false)}
-                        >
-                          Avbryt
-                        </button>
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          onClick={handleCreateClick}
-                        >
-                          {/* <svg
-                            className="animate-spin h-5 w-5 mr-3 ..."
-                            viewBox="0 0 24 24"
-                          ></svg> */}
-                          Skapa
-                        </button>
+                      {/* Action buttons */}
+                      <div className="flex-shrink-0 border-t border-gray-200 px-4 py-5 sm:px-6">
+                        <div className="flex justify-end space-x-3">
+                          <button
+                            type="button"
+                            className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            onClick={() => setOpen(false)}
+                          >
+                            Avbryt
+                          </button>
+                          <ButtonWithSpinner
+                            isLoading={isLoadingCreate}
+                            handleClick={handleSave}
+                          >
+                            {isLoadingCreate ? 'Sparar...' : 'Spara'}
+                          </ButtonWithSpinner>
+                        </div>
                       </div>
                     </div>
                   </form>

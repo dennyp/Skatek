@@ -12,7 +12,7 @@ import {
   useGetProductQuery,
   useUpdateProductMutation,
 } from './productsApiSlice'
-import { setProduct } from './productSlice'
+import { setProduct } from './productsSlice'
 
 const ProductSlideover = ({ open, setOpen, productId }) => {
   const {

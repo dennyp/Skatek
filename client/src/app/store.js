@@ -4,7 +4,7 @@ import { apiSlice } from './features/api/apiSlice'
 import authReducer from './features/auth/authSlice'
 import departmentReducer from './features/departments/departmentSlice'
 import locationReducer from './features/locations/locationSlice'
-import productReducer from './features/products/productSlice'
+import productReducer from './features/products/productsSlice'
 import productTypeReducer from './features/producttypes/productTypeSlice'
 
 export const store = configureStore({

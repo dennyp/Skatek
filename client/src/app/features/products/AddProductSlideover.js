@@ -3,6 +3,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { Fragment, useState } from 'react'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { ButtonWithSpinner } from '../../../components/ButtonWithSpinner'
 import TextInputGroup from '../../../components/TextInputGroup'
 import DepartmentInputGroup from '../departments/DepartmentInputGroup'
 import ProductLocationInputGroup from '../locations/ProductLocationInputGroup'
@@ -16,7 +17,8 @@ const AddProductSlideover = ({ open, setOpen }) => {
   const [selectedProductLocation, setSelectedProductLocation] = useState({})
   const [selectedProductType, setSelectedProductType] = useState({})
 
-  const [createProduct] = useCreateProductMutation()
+  const [createProduct, { isLoading: isLoadingCreate }] =
+    useCreateProductMutation()
 
   const successMessage = () => toast.success('Produkt sparad')
   const failureMessage = () => toast.error('Produkt kunde inte sparas')
@@ -41,7 +43,7 @@ const AddProductSlideover = ({ open, setOpen }) => {
     setSelectedProductLocation(productLocation)
   }
 
-  const handleCreateClick = async (event) => {
+  const handleSave = async (event) => {
     try {
       const newProduct = {
         department: selectedDepartment._id,
@@ -164,17 +166,12 @@ const AddProductSlideover = ({ open, setOpen }) => {
                         >
                           Avbryt
                         </button>
-                        <button
-                          type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                          onClick={handleCreateClick}
+                        <ButtonWithSpinner
+                          isLoading={isLoadingCreate}
+                          handleClick={handleSave}
                         >
-                          {/* <svg
-                            className="animate-spin h-5 w-5 mr-3 ..."
-                            viewBox="0 0 24 24"
-                          ></svg> */}
-                          Skapa
-                        </button>
+                          {isLoadingCreate ? 'Sparar...' : 'Spara'}
+                        </ButtonWithSpinner>
                       </div>
                     </div>
                   </form>

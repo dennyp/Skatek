@@ -25,18 +25,13 @@ const productSchema = mongoose.Schema(
   { timestamps: true }
 )
 
-productSchema.statics.getAll = async function (
-  reqPageSize,
-  reqStartIndex,
-  filter = {}
-) {
-  const pageSize = Math.abs(reqPageSize) || 1000
-  const startIndex = (Math.abs(reqStartIndex) || 1) - 1
+productSchema.statics.getAll = async function (search) {
+  const isValidObjectId = mongoose.isValidObjectId(search)
 
-  return this.find(filter)
-    .skip(startIndex)
-    .limit(pageSize)
-    .populate('department location productType')
+  if (isValidObjectId)
+    return this.find({ department: search })
+      .sort('name')
+      .populate('department location productType')
 }
 
 productSchema.statics.getById = async function (id) {
