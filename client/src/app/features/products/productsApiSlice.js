@@ -4,6 +4,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   tagTypes: ['Products', 'Product'],
   endpoints: (builder) => ({
     getProducts: builder.query({
+      query: () => ({
+        url: '/products',
+        method: 'GET',
+      }),
+      providesTags: ['Products'],
+    }),
+    getProductsWithSearch: builder.query({
       query: ({ search }) => ({
         url: '/products',
         method: 'GET',
@@ -39,6 +46,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetProductsQuery,
+  useGetProductsWithSearchQuery,
   useGetProductQuery,
   useUpdateProductMutation,
   useCreateProductMutation,

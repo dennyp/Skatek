@@ -23,7 +23,12 @@ export class productController {
     try {
       const { search = '' } = req.query
 
-      const products = await Product.getAll(search)
+      let products
+      if (!search) {
+        products = await Product.getAll()
+      } else {
+        products = await Product.getAll(search)
+      }
 
       res.json(products)
     } catch (error) {

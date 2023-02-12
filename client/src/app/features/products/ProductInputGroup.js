@@ -2,7 +2,7 @@ import { Combobox } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/24/solid'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useGetProductsQuery } from './productsApiSlice'
+import { useGetProductsWithSearchQuery } from './productsApiSlice'
 import { setProducts } from './productsSlice'
 
 // Only keeping truthy values, filtering out nulls and undefined
@@ -17,7 +17,7 @@ const ProductInputGroup = ({ value, onChange, departmentId = '' }) => {
     isLoading,
     error,
     data: products,
-  } = useGetProductsQuery({ search: departmentId })
+  } = useGetProductsWithSearchQuery({ search: departmentId })
 
   const dispatch = useDispatch()
 

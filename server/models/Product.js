@@ -28,10 +28,13 @@ const productSchema = mongoose.Schema(
 productSchema.statics.getAll = async function (search) {
   const isValidObjectId = mongoose.isValidObjectId(search)
 
-  if (isValidObjectId)
+  if (isValidObjectId && search.length !== 0) {
     return this.find({ department: search })
       .sort('name')
       .populate('department location productType')
+  }
+
+  return this.find().sort('name').populate('department location productType')
 }
 
 productSchema.statics.getById = async function (id) {
