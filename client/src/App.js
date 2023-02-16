@@ -41,9 +41,9 @@ const App = () => {
         theme="light"
       />
       <Routes>
-        <Route index element={<Dashboard />} />
         <Route path="login" element={<Login />} />
         <Route element={<RequireAuth />}>
+          <Route index element={<Dashboard />} />
           <Route path="products" element={<Products />} />
           <Route path="activitylogs" element={<ActivityLogs />} />
         </Route>

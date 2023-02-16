@@ -32,7 +32,6 @@ const ActivityLogSlideover = ({ open, setOpen, id, onSave }) => {
       setComment(log?.comment)
       setDateLogged(log?.dateLogged.slice(0, 10))
       setProduct(log?.product)
-      console.log(log)
     }
   }, [isSuccess, log])
 

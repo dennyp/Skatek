@@ -1,6 +1,6 @@
-import 'dotenv/config'
-
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import 'dotenv/config'
 import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
@@ -21,25 +21,13 @@ const main = async () => {
 
   app.use(cors(corsOptions))
 
-  app.use((req, res, next) => {
-    // res.header('Access-Control-Allow-Origin', `${process.env.FRONTEND_URL}`)
-    // res.header(
-    //   'Access-Control-Allow-Methods',
-    //   'GET, POST, OPTIONS, PUT, DELETE'
-    // )
-    // res.header(
-    //   'Access-Control-Allow-Headers',
-    //   'Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization'
-    // )
-    // res.header('Access-Control-Allow-Credentials', true)
-    next()
-  })
-
   app.use(helmet())
 
   app.use(morgan('dev'))
 
   app.use(express.json())
+
+  app.use(cookieParser())
 
   app.use('/api/v1', router)
 

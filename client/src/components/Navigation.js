@@ -1,15 +1,20 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import {
+  Bars3Icon,
+  BellIcon,
+  UserCircleIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../app/features/auth/authSlice'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', current: true },
+  { name: 'Kontrollpanel', href: '/', current: true },
   { name: 'Produkter', href: '/products', current: false },
-  { name: 'Logga aktivitet', href: '/activitylogs', current: false },
+  { name: 'Aktivitet', href: '/activitylogs', current: false },
 ]
 
 function classNames(...classes) {
@@ -27,7 +32,7 @@ const Navigation = () => {
           <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
             <div className="relative flex items-center justify-between h-16">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
+                {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Öppna meny</span>
                   {open ? (
@@ -70,7 +75,7 @@ const Navigation = () => {
                   type="button"
                   className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                 >
-                  <span className="sr-only">View notifications</span>
+                  <span className="sr-only">Visa notifieringar</span>
                   <BellIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
 
@@ -78,11 +83,10 @@ const Navigation = () => {
                 <Menu as="div" className="ml-3 relative">
                   <div>
                     <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                      <span className="sr-only">Öppna meny</span>
+                      <UserCircleIcon
+                        className="block h-8 w-8 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+                        aria-hidden="true"
                       />
                     </Menu.Button>
                   </div>

@@ -19,7 +19,6 @@ const authSlice = createSlice({
       state.email = null
       state.loading = false
       state.error = null
-      localStorage.removeItem('userToken')
     },
     setCredentials: (state, { payload }) => {
       const { email, accessToken } = payload

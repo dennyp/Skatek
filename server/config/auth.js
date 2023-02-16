@@ -8,7 +8,8 @@ export const verifyToken = (req, res, next) => {
       next(createError(401))
     }
 
-    req.token = jwt.verify(authHeader[1], process.env.TOKEN_SECRET)
+    req.token = jwt.verify(authHeader[1], process.env.ACCESS_TOKEN_SECRET)
+
     req.user = {
       _id: req.token.id,
       firstName: req.token.firstname,
@@ -18,7 +19,6 @@ export const verifyToken = (req, res, next) => {
 
     next()
   } catch (error) {
-    console.log('🚀 ~ file: auth.js:21 ~ verifyToken ~ error', error)
     next(createError(403))
   }
 }
