@@ -42,8 +42,15 @@ activityLogSchema.statics.getById = async function (id) {
     })
 }
 
-activityLogSchema.statics.getByProducts = async function (productIds) {
-  return this.find({ product: { $in: productIds } }).populate({
+activityLogSchema.statics.getByProducts = async function (
+  productIds,
+  dateStart,
+  dateEnd
+) {
+  return this.find({
+    product: { $in: productIds },
+    dateLogged: { $gt: dateStart, $lt: dateEnd },
+  }).populate({
     path: 'product',
     populate: { path: 'department' },
   })

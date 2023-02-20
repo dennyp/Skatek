@@ -1,4 +1,5 @@
 import createError from 'http-errors'
+import mongoose from 'mongoose'
 import { ActivityLog } from '../models/ActivityLog.js'
 import { Product } from '../models/Product.js'
 
@@ -33,6 +34,7 @@ export class activityLogController {
   async find(req, res, next) {
     try {
       const { id } = req.params
+
       const obj = await ActivityLog.getById(id)
 
       if (!obj || typeof obj === undefined) {
@@ -46,28 +48,68 @@ export class activityLogController {
     }
   }
 
-  async findByDepartment(req, res, next) {
+  async findAllVisual(req, res, next) {
     try {
-      const departmentId = req.params.id
+      const { department, dateStart, dateEnd } = req.query
 
-      const products = await Product.getByDepartment(departmentId)
-
+      const products = await Product.getByDepartment(department)
       const productsIds = products.map((product) => product._id)
 
       const activityLogsFromProducts = await ActivityLog.getByProducts(
-        productsIds
+        productsIds,
+        dateStart,
+        dateEnd
       )
-      // TODO: fetch all logs from each product in array
-      // const logs = await ActivityLog.getByDepartmentId(departmentId)
 
-      // if (!obj || typeof obj === undefined) {
-      //   next(createError(404))
-      //   return
-      // }
+      const productObjects = activityLogsFromProducts.reduce(
+        (acc, current) => ({
+          ...acc,
+          [current.product._id]: {
+            product: current.product.name,
+            placement: current.product.placement,
+            department: current.product.department.name,
+            activity:
+              current.activity +
+              (acc[current.product._id]
+                ? acc[current.product._id].activity
+                : 0),
+            numberOfLogs: acc[current.product._id]
+              ? acc[current.product._id].numberOfLogs + 1
+              : 1,
+            averageActivity: acc[current.product._id]
+              ? (current.activity + acc[current.product._id].activity) /
+                (acc[current.product._id].numberOfLogs + 1)
+              : 0,
+          },
+        }),
+        {}
+      )
 
-      res.json(activityLogsFromProducts)
+      const filteredProducts = Object.keys(productObjects).map((key) => {
+        if (productObjects[key].averageActivity > 0) return productObjects[key]
+      })
+
+      const removedUndefinedProducts = filteredProducts.filter(
+        (product) => product !== undefined
+      )
+
+      const plotData = {
+        labels: removedUndefinedProducts.map(
+          (product) => `${product.product} - ${product.placement}`
+        ),
+        datasets: [
+          {
+            label: 'Aktivitetsgenomsnitt',
+            data: removedUndefinedProducts.map(
+              (product) => product.averageActivity
+            ),
+          },
+        ],
+      }
+
+      res.json(plotData)
     } catch (error) {
-      next(createError(400))
+      next()
     }
   }
 

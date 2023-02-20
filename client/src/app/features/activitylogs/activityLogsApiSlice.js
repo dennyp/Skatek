@@ -11,6 +11,14 @@ export const activityLogsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['ActivityLogs'],
     }),
+    getVisualActivityLogs: builder.query({
+      query: ({ department, dateStart, dateEnd }) => ({
+        url: '/activitylogs/visual',
+        method: 'GET',
+        params: { department, dateStart, dateEnd },
+      }),
+      providesTags: ['ActivityLogs'],
+    }),
     getActivityLog: builder.query({
       query: (id) => ({
         url: `/activitylogs/${id}`,
@@ -47,6 +55,7 @@ export const activityLogsApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetActivityLogsQuery,
   useGetActivityLogQuery,
+  useGetVisualActivityLogsQuery,
   useUpdateActivityLogMutation,
   useCreateActivityLogMutation,
   useDeleteActivityLogMutation,
