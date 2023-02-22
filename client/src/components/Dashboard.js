@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-// import { utils, writeFileXLSX } from 'xlsx'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
 import moment from 'moment'
+import React, { useState } from 'react'
 import { useGetDepartmentsQuery } from '../app/features/departments/departmentsApiSlice'
 import BarChart from './BarChart'
 
@@ -28,67 +27,6 @@ const Dashboard = () => {
     event.preventDefault()
   }
 
-  // const handleDownloadExcelClick = useCallback(async () => {
-  //   try {
-  //     const fetchActivityLogData = async () => {
-  //       const logs = await dispatch(fetchActivityLogs()).unwrap()
-
-  //       const flattenedLogs = logs.map((log) => ({
-  //         activityLogId: log.id,
-  //         departmentId: log.product.department.id,
-  //         departmentName: log.product.department.name,
-  //         productId: log.product.id,
-  //         productName: log.product.name,
-  //         productPlacement: log.product.placement,
-  //         productTypeId: log.product.productType.id,
-  //         productTypeName: log.product.productType.name,
-  //         activity: log.activity,
-  //         comment: log.comment,
-  //         dateLogged: log.dateLogged.slice(0, 10),
-  //       }))
-
-  //       return flattenedLogs
-  //     }
-
-  //     const calculateLogStatistics = (logs) => {
-  //       const result = logs.reduce(
-  //         (acc, current) => ({
-  //           ...acc,
-  //           [current.productId]: {
-  //             productId: current.productId,
-  //             productName: current.productName,
-  //             departmentName: current.departmentName,
-  //             activity:
-  //               current.activity +
-  //               (acc[current.productId] ? acc[current.productId].activity : 0),
-  //             numberOfLogs: acc[current.productId]
-  //               ? acc[current.productId].numberOfLogs + 1
-  //               : 1,
-  //             averageActivity: acc[current.productId]
-  //               ? (current.activity + acc[current.productId].activity) /
-  //                 (acc[current.productId].numberOfLogs + 1)
-  //               : 0,
-  //           },
-  //         }),
-  //         {}
-  //       )
-
-  //       return Object.values(result)
-  //     }
-
-  //     const logs = await fetchActivityLogData()
-  //     const logStatistics = calculateLogStatistics(logs)
-  //     const ws1 = utils.json_to_sheet(logs)
-  //     const ws2 = utils.json_to_sheet(logStatistics)
-  //     const wb = utils.book_new()
-  //     utils.book_append_sheet(wb, ws1, 'Data')
-  //     utils.book_append_sheet(wb, ws2, 'Statistik')
-  //     writeFileXLSX(wb, 'Sammanställning aktivitet.xlsx')
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }, [dispatch])
-
   let content
   if (isLoadingDepartments) {
     content = <p>Laddar...</p>
@@ -107,7 +45,7 @@ const Dashboard = () => {
             <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
               <div className="px-4 py-6 sm:px-0">
                 <div className="h-auto p-5">
-                  <div className="columns-2 pb-5">
+                  <div className="columns-2">
                     <Stack spacing={3}>
                       <DesktopDatePicker
                         label="Från"
@@ -137,16 +75,15 @@ const Dashboard = () => {
                       />
                     </Stack>
                   </div>
-                  {/* <Button onClick={handleDownloadExcelClick}> */}
-                  {/* Exportera excel */}
-                  {/* </Button> */}
                   {departments.map((department) => (
-                    <BarChart
-                      key={department._id}
-                      department={department}
-                      dateStart={moment(dateStart).format('YYYY-MM-DD')}
-                      dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
-                    />
+                    <>
+                      <BarChart
+                        key={department._id}
+                        department={department}
+                        dateStart={moment(dateStart).format('YYYY-MM-DD')}
+                        dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+                      />
+                    </>
                   ))}
                 </div>
               </div>

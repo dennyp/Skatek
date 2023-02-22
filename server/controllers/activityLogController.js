@@ -107,7 +107,7 @@ export class activityLogController {
         ],
       }
 
-      res.json(plotData)
+      res.json({ plotData, productObjects })
     } catch (error) {
       next()
     }
