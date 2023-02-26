@@ -12,10 +12,16 @@ export const activityLogsApiSlice = apiSlice.injectEndpoints({
       providesTags: ['ActivityLogs'],
     }),
     getVisualActivityLogs: builder.query({
-      query: ({ department, dateStart, dateEnd }) => ({
+      query: ({
+        department,
+        dateStart,
+        dateEnd,
+        dateStartTwo,
+        dateEndTwo,
+      }) => ({
         url: '/activitylogs/visual',
         method: 'GET',
-        params: { department, dateStart, dateEnd },
+        params: { department, dateStart, dateEnd, dateStartTwo, dateEndTwo },
       }),
       providesTags: ['ActivityLogs'],
     }),

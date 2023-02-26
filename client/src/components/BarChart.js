@@ -25,7 +25,13 @@ ChartJS.register(
   Tooltip
 )
 
-const BarChart = ({ department, dateStart, dateEnd }) => {
+const BarChart = ({
+  department,
+  dateStart,
+  dateEnd,
+  dateStartTwo,
+  dateEndTwo,
+}) => {
   const {
     isLoading: isLoadingActivityLogs,
     error: errorActivityLogs,
@@ -34,7 +40,31 @@ const BarChart = ({ department, dateStart, dateEnd }) => {
     department: department._id,
     dateStart,
     dateEnd,
+    dateStartTwo,
+    dateEndTwo,
   })
+
+  let activityData = { datasets: [], labels: [] }
+  if (!isLoadingActivityLogs) {
+    if (Object.keys(logs.plotData).length > 0) {
+      const periodOneData = {
+        label: 'Period 1',
+        data: logs.plotData.datasets[0].data,
+        backgroundColor: 'rgba(99, 132, 0, 0.5)',
+      }
+
+      const periodTwoData = {
+        label: 'Period 2',
+        data: logs.plotData.datasets[1].data,
+        backgroundColor: 'rgba(79, 70, 229, 0.5)',
+      }
+
+      activityData = {
+        labels: logs.plotData.labels,
+        datasets: [periodOneData, periodTwoData],
+      }
+    }
+  }
 
   const options = {
     responsive: true,
@@ -49,12 +79,12 @@ const BarChart = ({ department, dateStart, dateEnd }) => {
         },
         text: [
           `Aktivitetsgenomsnitt för produkter i avdelning ${department.name}`,
-          'Visar endast produkter med uppmätt aktivitet under vald tidsperiod',
-          `${dateStart} till ${dateEnd}`,
+          `Period 1: ${dateStart} till ${dateEnd}`,
+          `Period 2: ${dateStartTwo} till ${dateEndTwo}`,
         ],
       },
     },
-    backgroundColor: 'rgba(79, 70, 229, 0.5)',
+    // backgroundColor: 'rgba(79, 70, 229, 0.5)',
     borderColor: 'rgba(79, 70, 229, 1)',
     borderWidth: 1.5,
     borderSkipped: 'left',
@@ -109,17 +139,19 @@ const BarChart = ({ department, dateStart, dateEnd }) => {
   if (isLoadingActivityLogs) {
     content = <p>Laddar...</p>
   } else {
-    content = (
-      <>
-        <div className="mb-2 mt-8 -ml-4">
-          <ButtonWithSpinner handleClick={handleDownloadExcelClick}>
-            <DocumentArrowDownIcon className="h-4 w-4" />
-            &nbsp; Ladda ner
-          </ButtonWithSpinner>
-        </div>
-        <Bar className="p-5 border" data={logs.plotData} options={options} />
-      </>
-    )
+    if (Object.keys(logs.plotData).length > 0) {
+      content = (
+        <>
+          <div className="mb-2 mt-8 -ml-4">
+            <ButtonWithSpinner handleClick={handleDownloadExcelClick}>
+              <DocumentArrowDownIcon className="h-4 w-4" />
+              &nbsp; Ladda ner
+            </ButtonWithSpinner>
+          </div>
+          <Bar className="p-5 border" data={activityData} options={options} />
+        </>
+      )
+    }
   }
 
   return <>{content}</>

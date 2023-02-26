@@ -3,6 +3,50 @@ import mongoose from 'mongoose'
 import { ActivityLog } from '../models/ActivityLog.js'
 import { Product } from '../models/Product.js'
 
+const createProductObjects = (array) => {
+  return array.reduce(
+    (acc, current) => ({
+      ...acc,
+      [current.product._id]: {
+        product: current.product.name,
+        placement: current.product.placement,
+        department: current.product.department.name,
+        activity:
+          current.activity +
+          (acc[current.product._id] ? acc[current.product._id].activity : 0),
+        numberOfLogs: acc[current.product._id]
+          ? acc[current.product._id].numberOfLogs + 1
+          : 1,
+        averageActivity: acc[current.product._id]
+          ? (current.activity + acc[current.product._id].activity) /
+            (acc[current.product._id].numberOfLogs + 1)
+          : 0,
+      },
+    }),
+    {}
+  )
+}
+
+const getPlotData = async (productsIds, dateStart, dateEnd) => {
+  const activityLogsFromProducts = await ActivityLog.getByProducts(
+    productsIds,
+    dateStart,
+    dateEnd
+  )
+
+  const productObjects = createProductObjects(activityLogsFromProducts)
+
+  const filteredProducts = Object.keys(productObjects).map((key) => {
+    if (productObjects[key].averageActivity > 0) return productObjects[key]
+  })
+
+  const readyToPlotProducts = filteredProducts.filter(
+    (product) => product !== undefined
+  )
+
+  return { readyToPlotProducts, productObjects }
+}
+
 export class activityLogController {
   async findAll(req, res, next) {
     try {
@@ -50,64 +94,54 @@ export class activityLogController {
 
   async findAllVisual(req, res, next) {
     try {
-      const { department, dateStart, dateEnd } = req.query
+      const {
+        department,
+        dateStart,
+        dateEnd,
+        dateStartTwo = '',
+        dateEndTwo = '',
+      } = req.query
 
       const products = await Product.getByDepartment(department)
       const productsIds = products.map((product) => product._id)
 
-      const activityLogsFromProducts = await ActivityLog.getByProducts(
-        productsIds,
-        dateStart,
-        dateEnd
-      )
+      const {
+        readyToPlotProducts: activityLogsFromProductsPeriodOne,
+        productObjects: productObjectsPeriodOne,
+      } = await getPlotData(productsIds, dateStart, dateEnd)
 
-      const productObjects = activityLogsFromProducts.reduce(
-        (acc, current) => ({
-          ...acc,
-          [current.product._id]: {
-            product: current.product.name,
-            placement: current.product.placement,
-            department: current.product.department.name,
-            activity:
-              current.activity +
-              (acc[current.product._id]
-                ? acc[current.product._id].activity
-                : 0),
-            numberOfLogs: acc[current.product._id]
-              ? acc[current.product._id].numberOfLogs + 1
-              : 1,
-            averageActivity: acc[current.product._id]
-              ? (current.activity + acc[current.product._id].activity) /
-                (acc[current.product._id].numberOfLogs + 1)
-              : 0,
-          },
-        }),
-        {}
-      )
+      const {
+        readyToPlotProducts: activityLogsFromProductsPeriodTwo,
+        productObjects: productsObjectsPeriodTwo,
+      } = await getPlotData(productsIds, dateStartTwo, dateEndTwo)
 
-      const filteredProducts = Object.keys(productObjects).map((key) => {
-        if (productObjects[key].averageActivity > 0) return productObjects[key]
-      })
-
-      const removedUndefinedProducts = filteredProducts.filter(
-        (product) => product !== undefined
-      )
-
-      const plotData = {
-        labels: removedUndefinedProducts.map(
-          (product) => `${product.product} - ${product.placement}`
-        ),
-        datasets: [
-          {
-            label: 'Aktivitetsgenomsnitt',
-            data: removedUndefinedProducts.map(
-              (product) => product.averageActivity
-            ),
-          },
-        ],
+      let plotData = {}
+      if (activityLogsFromProductsPeriodOne.length > 0) {
+        plotData = {
+          labels: activityLogsFromProductsPeriodOne.map(
+            (product) => `${product.product} - ${product.placement}`
+          ),
+          datasets: [
+            {
+              label: 'Period 1',
+              data: activityLogsFromProductsPeriodOne.map(
+                (product) => product.averageActivity
+              ),
+            },
+            {
+              label: 'Period 2',
+              data: activityLogsFromProductsPeriodTwo.map(
+                (product) => product.averageActivity
+              ),
+            },
+          ],
+        }
       }
 
-      res.json({ plotData, productObjects })
+      res.json({
+        plotData,
+        productObjects: productObjectsPeriodOne,
+      })
     } catch (error) {
       next()
     }
