@@ -84,7 +84,6 @@ const BarChart = ({
         ],
       },
     },
-    // backgroundColor: 'rgba(79, 70, 229, 0.5)',
     borderColor: 'rgba(79, 70, 229, 1)',
     borderWidth: 1.5,
     borderSkipped: 'left',
@@ -112,20 +111,24 @@ const BarChart = ({
         'Genomsnittlig aktivitet',
       ]
 
-      const excelRows = Object.keys(logs.productObjects).map(
-        (key) => logs.productObjects[key]
-      )
-
-      const ws = utils.json_to_sheet([], {
-        header: header,
-      })
-      utils.sheet_add_json(ws, excelRows, {
-        origin: 'A2',
-        skipHeader: true,
-      })
-
       const wb = utils.book_new()
-      utils.book_append_sheet(wb, ws, 'Data')
+
+      logs.productObjects.map((period, index) => {
+        const excelRows = Object.keys(period).map((key) => {
+          return period[key]
+        })
+
+        const ws = utils.json_to_sheet([], {
+          header: header,
+        })
+
+        utils.sheet_add_json(ws, excelRows, {
+          origin: 'A2',
+          skipHeader: true,
+        })
+        utils.book_append_sheet(wb, ws, `Period ${index + 1}`)
+      })
+
       writeFileXLSX(
         wb,
         `Genomsnittlig aktivitet i ${department.name} mellan ${dateStart} till ${dateEnd}.xlsx`

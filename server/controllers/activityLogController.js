@@ -112,7 +112,7 @@ export class activityLogController {
 
       const {
         readyToPlotProducts: activityLogsFromProductsPeriodTwo,
-        productObjects: productsObjectsPeriodTwo,
+        productObjects: productObjectsPeriodTwo,
       } = await getPlotData(productsIds, dateStartTwo, dateEndTwo)
 
       let plotData = {}
@@ -140,7 +140,7 @@ export class activityLogController {
 
       res.json({
         plotData,
-        productObjects: productObjectsPeriodOne,
+        productObjects: [productObjectsPeriodOne, productObjectsPeriodTwo],
       })
     } catch (error) {
       next()
