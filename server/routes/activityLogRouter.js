@@ -1,5 +1,5 @@
 import express from 'express'
-import { verifyToken } from '../config/auth.js'
+import { verifyToken } from '../middleware/auth.js'
 import { activityLogController } from '../controllers/activityLogController.js'
 
 export const router = express.Router()
