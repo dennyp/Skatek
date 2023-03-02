@@ -32,7 +32,8 @@ const main = async () => {
   app.use('/api/v1', router)
 
   app.use((err, req, res, next) => {
-    res.status(err.status).json({
+    const status = err.status || 500
+    res.status(status).json({
       status: err.status,
       message: err.message,
     })

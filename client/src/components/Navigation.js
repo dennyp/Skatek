@@ -7,7 +7,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { Fragment } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../app/features/auth/authSlice'
 
@@ -15,6 +15,7 @@ const navigation = [
   { name: 'Kontrollpanel', href: '/', current: true },
   { name: 'Produkter', href: '/products', current: false },
   { name: 'Aktivitet', href: '/activitylogs', current: false },
+  { name: 'Ljusfällor', href: '/lighttraps', current: false },
 ]
 
 function classNames(...classes) {
@@ -22,7 +23,6 @@ function classNames(...classes) {
 }
 
 const Navigation = () => {
-  const { userInfo } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
 
   return (

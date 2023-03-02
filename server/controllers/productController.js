@@ -51,7 +51,7 @@ export class productController {
       const newURL = `https://${req.get('host')}${req.originalUrl}/${obj._id}`
       res.location(newURL).status(201).json(obj)
     } catch (error) {
-      next()
+      next(createError(500))
     }
   }
 
