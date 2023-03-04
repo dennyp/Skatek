@@ -4,11 +4,21 @@ import { Box } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 import AddLightTrapSlideover from './AddLightTrapSlideover'
 import { useGetLightTrapsQuery } from './lightTrapsApiSlice'
+import LightTrapSlideover from './LightTrapSlideover'
 
 const LightTraps = () => {
   const [openAddSlider, setOpenAddSlider] = useState(false)
+  const [openEditSlider, setOpenEditSlider] = useState(false)
+  const [lightTrapId, setLightTrapId] = useState('')
 
   const { isLoading, error, data: lightTraps } = useGetLightTrapsQuery()
+
+  const onEditClick = (e, row) => {
+    e.stopPropagation()
+
+    setOpenEditSlider(true)
+    setLightTrapId(row._id)
+  }
 
   const columns = [
     {
@@ -33,6 +43,21 @@ const LightTraps = () => {
       headerName: 'Produkttyp',
       flex: 1,
       valueGetter: (params) => params.row?.productType?.name,
+    },
+    {
+      field: 'actions',
+      headerName: 'Ändra',
+      flex: 0.5,
+      renderCell: (params) => {
+        return (
+          <button
+            onClick={(e) => onEditClick(e, params.row)}
+            variant="contained"
+          >
+            Ändra
+          </button>
+        )
+      },
     },
   ]
 
@@ -64,6 +89,13 @@ const LightTraps = () => {
             columns={columns}
           />
         </Box>
+        {openEditSlider && (
+          <LightTrapSlideover
+            open={openEditSlider}
+            setOpen={setOpenEditSlider}
+            id={lightTrapId}
+          />
+        )}
         {openAddSlider && (
           <AddLightTrapSlideover
             open={openAddSlider}

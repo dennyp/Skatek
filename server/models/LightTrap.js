@@ -14,12 +14,21 @@ const lightTrapSchema = mongoose.Schema(
       ref: 'producttype',
       required: true,
     },
+    active: { type: Schema.Types.Boolean, required: true, default: true },
   },
   { timestamps: true }
 )
 
 lightTrapSchema.statics.getAll = async function () {
   return this.find().sort('name').populate('department productType')
+}
+
+lightTrapSchema.statics.getById = async function (id) {
+  const isValidObjectId = mongoose.isValidObjectId(id)
+
+  if (isValidObjectId) {
+    return this.findOne({ _id: id }).populate('department productType')
+  }
 }
 
 export const LightTrap = mongoose.model('lighttrap', lightTrapSchema)

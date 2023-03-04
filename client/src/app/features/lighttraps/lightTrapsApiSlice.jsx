@@ -10,6 +10,13 @@ export const lightTrapsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['LightTraps'],
     }),
+    getLightTrap: builder.query({
+      query: (id) => ({
+        url: `/lighttraps/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['LightTrap'],
+    }),
     createLightTrap: builder.mutation({
       query: (lighttrap) => ({
         url: '/lighttraps',
@@ -18,8 +25,20 @@ export const lightTrapsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['LightTraps'],
     }),
+    updateLightTrap: builder.mutation({
+      query: (lighttrap) => ({
+        url: `/lighttraps/${lighttrap._id}`,
+        method: 'PUT',
+        body: lighttrap,
+      }),
+      invalidatesTags: ['LightTraps', 'LightTrap'],
+    }),
   }),
 })
 
-export const { useGetLightTrapsQuery, useCreateLightTrapMutation } =
-  lightTrapsApiSlice
+export const {
+  useGetLightTrapsQuery,
+  useGetLightTrapQuery,
+  useCreateLightTrapMutation,
+  useUpdateLightTrapMutation,
+} = lightTrapsApiSlice
