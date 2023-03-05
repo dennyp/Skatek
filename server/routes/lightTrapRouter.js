@@ -1,13 +1,13 @@
 import express from 'express'
-import { lightTrapController } from '../controllers/lightTrapController.js'
+import { productController } from '../controllers/productController.js'
 import { verifyToken } from '../middleware/auth.js'
 
 export const router = express.Router()
 
-const controller = new lightTrapController()
+const controller = new productController()
 
 router.get('/', verifyToken, (req, res, next) =>
-  controller.findAll(req, res, next)
+  controller.findAllLightTraps(req, res, next)
 )
 
 router.get('/:id', verifyToken, (req, res, next) =>

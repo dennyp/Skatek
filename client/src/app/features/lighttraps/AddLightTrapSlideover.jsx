@@ -97,7 +97,7 @@ const AddLightTrapSlideover = ({ open, setOpen }) => {
                               Ny ljusfälla{' '}
                             </Dialog.Title>
                             <p className="text-sm text-gray-500">
-                              Fyll i fälten nedan och klicka på skapa för att
+                              Fyll i fälten nedan och klicka på spara för att
                               skapa en ljusfälla.
                             </p>
                           </div>

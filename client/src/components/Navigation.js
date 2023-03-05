@@ -14,8 +14,9 @@ import { logout } from '../app/features/auth/authSlice'
 const navigation = [
   { name: 'Kontrollpanel', href: '/', current: true },
   { name: 'Produkter', href: '/products', current: false },
-  { name: 'Aktivitet', href: '/activitylogs', current: false },
+  { name: 'Aktivitet produkter', href: '/activitylogs', current: false },
   { name: 'Ljusfällor', href: '/lighttraps', current: false },
+  // { name: 'Aktivitet ljusfällor', href: '/activitylighttraps', current: false },
 ]
 
 function classNames(...classes) {

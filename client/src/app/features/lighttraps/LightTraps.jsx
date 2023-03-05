@@ -23,7 +23,7 @@ const LightTraps = () => {
   const columns = [
     {
       field: 'name',
-      headerName: 'Namn',
+      headerName: 'Märke',
       flex: 1,
       valueGetter: (params) => params.row?.name,
     },
@@ -43,6 +43,12 @@ const LightTraps = () => {
       headerName: 'Produkttyp',
       flex: 1,
       valueGetter: (params) => params.row?.productType?.name,
+    },
+    {
+      field: 'active',
+      headerName: 'Aktiv',
+      flex: 1,
+      valueGetter: (params) => params.row?.active,
     },
     {
       field: 'actions',

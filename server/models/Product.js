@@ -21,6 +21,11 @@ const productSchema = mongoose.Schema(
       ref: 'producttype',
       required: true,
     },
+    active: {
+      type: Schema.Types.Boolean,
+      required: true,
+      default: true,
+    },
   },
   { timestamps: true }
 )
@@ -35,6 +40,14 @@ productSchema.statics.getAll = async function (search) {
   }
 
   return this.find().sort('name').populate('department location productType')
+}
+
+productSchema.statics.getAllLightTraps = async function () {
+  return this.find({
+    productType: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895'),
+  })
+    .sort('name')
+    .populate('department location productType')
 }
 
 productSchema.statics.getById = async function (id) {
