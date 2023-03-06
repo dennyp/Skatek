@@ -27,7 +27,7 @@ export class productController {
       let products
       if (!search) {
         products = await Product.getAll()
-      } else if (filter) {
+      } else if (filter === true) {
         products = await Product.getAllLightTraps(search)
       } else {
         products = await Product.getAll(search)
