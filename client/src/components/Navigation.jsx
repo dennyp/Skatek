@@ -16,7 +16,7 @@ const navigation = [
   { name: 'Produkter', href: '/products', current: false },
   { name: 'Aktivitet produkter', href: '/activitylogs', current: false },
   { name: 'Ljusfällor', href: '/lighttraps', current: false },
-  // { name: 'Aktivitet ljusfällor', href: '/activitylighttraps', current: false },
+  { name: 'Aktivitet ljusfällor', href: '/lighttraplogs', current: false },
 ]
 
 function classNames(...classes) {

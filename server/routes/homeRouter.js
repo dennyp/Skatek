@@ -4,6 +4,7 @@ import { HomeController } from '../controllers/homeController.js'
 import { router as accountRouter } from '../routes/accountRouter.js'
 import { router as activityLogRouter } from '../routes/activityLogRouter.js'
 import { router as departmentRouter } from '../routes/departmentRouter.js'
+import { router as lightTrapLogRouter } from '../routes/lightTrapLogRouter.js'
 import { router as lightTrapRouter } from '../routes/lightTrapRouter.js'
 import { router as locationRouter } from '../routes/locationRouter.js'
 import { router as organizationRouter } from '../routes/organizationRouter.js'
@@ -23,5 +24,6 @@ router.use('/producttypes', productTypeRouter)
 router.use('/locations', locationRouter)
 router.use('/activitylogs', activityLogRouter)
 router.use('/lighttraps', lightTrapRouter)
+router.use('/lighttraplogs', lightTrapLogRouter)
 
 router.use('*', (req, res, next) => next(createError(404)))

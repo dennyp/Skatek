@@ -34,7 +34,9 @@ productSchema.statics.getAll = async function (search) {
   const isValidObjectId = mongoose.isValidObjectId(search)
 
   if (isValidObjectId && search.length !== 0) {
-    return this.find({ department: search })
+    return this.find({
+      department: search,
+    })
       .sort('name')
       .populate('department location productType')
   }
@@ -42,7 +44,18 @@ productSchema.statics.getAll = async function (search) {
   return this.find().sort('name').populate('department location productType')
 }
 
-productSchema.statics.getAllLightTraps = async function () {
+productSchema.statics.getAllLightTraps = async function (search) {
+  const isValidObjectId = mongoose.isValidObjectId(search)
+
+  if (isValidObjectId && search.length !== 0) {
+    return this.find({
+      department: search,
+      productType: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895'),
+    })
+      .sort('name')
+      .populate('department location productType')
+  }
+
   return this.find({
     productType: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895'),
   })

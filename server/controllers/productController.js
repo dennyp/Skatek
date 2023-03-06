@@ -22,11 +22,13 @@ export class productController {
 
   async findAll(req, res, next) {
     try {
-      const { search = '' } = req.query
+      const { search = '', filter = false } = req.query
 
       let products
       if (!search) {
         products = await Product.getAll()
+      } else if (filter) {
+        products = await Product.getAllLightTraps(search)
       } else {
         products = await Product.getAll(search)
       }

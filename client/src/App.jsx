@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import ActivityLogs from './app/features/activitylogs/ActivityLogs'
 import Login from './app/features/auth/Login'
 import RequireAuth from './app/features/auth/RequireAuth'
+import LightTrapLogs from './app/features/lighttraplogs/LightTrapLogs'
 import LightTraps from './app/features/lighttraps/LightTraps'
 import Products from './app/features/products/Products'
 import Dashboard from './components/Dashboard'
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="products" element={<Products />} />
             <Route path="activitylogs" element={<ActivityLogs />} />
             <Route path="lighttraps" element={<LightTraps />} />
+            <Route path="lighttraplogs" element={<LightTrapLogs />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

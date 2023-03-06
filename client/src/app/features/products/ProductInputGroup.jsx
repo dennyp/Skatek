@@ -10,14 +10,21 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-// TODO: sort products before user filters?
-const ProductInputGroup = ({ value, onChange, departmentId = '' }) => {
+const ProductInputGroup = ({
+  value,
+  onChange,
+  departmentId = '',
+  onlyLightTraps = false,
+}) => {
   const [query, setQuery] = useState('')
   const {
     isLoading,
     error,
     data: products,
-  } = useGetProductsWithSearchQuery({ search: departmentId })
+  } = useGetProductsWithSearchQuery({
+    search: departmentId,
+    filter: onlyLightTraps,
+  })
 
   const dispatch = useDispatch()
 
