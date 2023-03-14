@@ -2,50 +2,7 @@ import createError from 'http-errors'
 import mongoose from 'mongoose'
 import { ActivityLog } from '../models/ActivityLog.js'
 import { Product } from '../models/Product.js'
-
-const createProductObjects = (array) => {
-  return array.reduce(
-    (acc, current) => ({
-      ...acc,
-      [current.product._id]: {
-        product: current.product.name,
-        placement: current.product.placement,
-        department: current.product.department.name,
-        activity:
-          current.activity +
-          (acc[current.product._id] ? acc[current.product._id].activity : 0),
-        numberOfLogs: acc[current.product._id]
-          ? acc[current.product._id].numberOfLogs + 1
-          : 1,
-        averageActivity: acc[current.product._id]
-          ? (current.activity + acc[current.product._id].activity) /
-            (acc[current.product._id].numberOfLogs + 1)
-          : 0,
-      },
-    }),
-    {}
-  )
-}
-
-const getPlotData = async (productsIds, dateStart, dateEnd) => {
-  const activityLogsFromProducts = await ActivityLog.getByProducts(
-    productsIds,
-    dateStart,
-    dateEnd
-  )
-
-  const productObjects = createProductObjects(activityLogsFromProducts)
-
-  const filteredProducts = Object.keys(productObjects).map((key) => {
-    if (productObjects[key].averageActivity > 0) return productObjects[key]
-  })
-
-  const readyToPlotProducts = filteredProducts.filter(
-    (product) => product !== undefined
-  )
-
-  return { readyToPlotProducts, productObjects }
-}
+import { getActivityLogPlotData } from '../visual/plotData.js'
 
 export class activityLogController {
   async findAll(req, res, next) {
@@ -108,12 +65,12 @@ export class activityLogController {
       const {
         readyToPlotProducts: activityLogsFromProductsPeriodOne,
         productObjects: productObjectsPeriodOne,
-      } = await getPlotData(productsIds, dateStart, dateEnd)
+      } = await getActivityLogPlotData(productsIds, dateStart, dateEnd)
 
       const {
         readyToPlotProducts: activityLogsFromProductsPeriodTwo,
         productObjects: productObjectsPeriodTwo,
-      } = await getPlotData(productsIds, dateStartTwo, dateEndTwo)
+      } = await getActivityLogPlotData(productsIds, dateStartTwo, dateEndTwo)
 
       let plotData = {}
       if (activityLogsFromProductsPeriodOne.length > 0) {

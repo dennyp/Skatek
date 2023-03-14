@@ -13,6 +13,7 @@ import { logout } from '../app/features/auth/authSlice'
 
 const navigation = [
   { name: 'Kontrollpanel', href: '/', current: true },
+  { name: 'Statistik', href: '/statistics', current: false },
   { name: 'Produkter', href: '/products', current: false },
   { name: 'Aktivitet produkter', href: '/activitylogs', current: false },
   { name: 'Ljusfällor', href: '/lighttraps', current: false },

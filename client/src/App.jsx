@@ -13,6 +13,7 @@ import Products from './app/features/products/Products'
 import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
+import Statistics from './components/Statistics'
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route element={<RequireAuth />}>
             <Route index element={<Dashboard />} />
+            <Route path="statistics" element={<Statistics />} />
             <Route path="products" element={<Products />} />
             <Route path="activitylogs" element={<ActivityLogs />} />
             <Route path="lighttraps" element={<LightTraps />} />

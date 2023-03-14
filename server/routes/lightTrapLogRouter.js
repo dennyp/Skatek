@@ -10,6 +10,10 @@ router.get('/', verifyToken, (req, res, next) =>
   controller.findAll(req, res, next)
 )
 
+router.get('/visual', verifyToken, (req, res, next) =>
+  controller.findAllVisual(req, res, next)
+)
+
 router.post('/', verifyToken, (req, res, next) =>
   controller.create(req, res, next)
 )

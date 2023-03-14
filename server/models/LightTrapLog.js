@@ -51,4 +51,18 @@ lightTrapLogSchema.statics.getAll = async function (sort, page, pageSize) {
       populate: { path: 'department' },
     })
 }
+
+lightTrapLogSchema.statics.getByProducts = async function (
+  productIds,
+  dateStart,
+  dateEnd
+) {
+  return this.find({
+    product: { $in: productIds },
+    dateLogged: { $gt: dateStart, $lt: dateEnd },
+  }).populate({
+    path: 'product',
+    populate: { path: 'department' },
+  })
+}
 export const LightTrapLog = mongoose.model('lighttraplog', lightTrapLogSchema)

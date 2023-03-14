@@ -4,7 +4,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
 import moment from 'moment'
 import React, { Fragment, useState } from 'react'
 import { useGetDepartmentsQuery } from '../app/features/departments/departmentsApiSlice'
-import BarChart from './BarChart'
+import PieChart from './PieChart'
 
 const Dashboard = () => {
   const [dateStart, setDateStart] = useState(moment('2022-01-01'))
@@ -47,22 +47,15 @@ const Dashboard = () => {
     content = (
       <>
         <div className="min-h-full">
-          <header className="bg-white shadow">
-            <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-              <h1 className="text-3xl font-bold text-gray-900">
-                Kontrollpanel
-              </h1>
-            </div>
-          </header>
           <main>
             <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
               <div className="px-4 py-6 sm:px-0">
                 <div className="h-auto p-5">
                   <h2 className="mb-2 text-2xl font-semibold text-gray-900">
-                    Statistik
+                    Statistik ljusfällor
                   </h2>
                   <p className="mb-8 text-sm">
-                    Visar endast produkter med uppmätt aktivitet under vald
+                    Visar endast ljusfällor med uppmätt aktivitet under vald
                     tidsperiod. De produkter som inte har något uppmätt värde
                     syns ej i diagrammen. Om excel-filen för diagrammet laddas
                     ned så listas alla produkter för avdelningen.
@@ -98,7 +91,7 @@ const Dashboard = () => {
                       />
                     </Stack>
                   </div>
-                  <div className="columns-2">
+                  {/* <div className="columns-2">
                     <Stack spacing={3}>
                       <DesktopDatePicker
                         label="Period 2 - Från"
@@ -127,10 +120,10 @@ const Dashboard = () => {
                         )}
                       />
                     </Stack>
-                  </div>
+                  </div> */}
                   {departments.map((department) => (
                     <Fragment key={department._id}>
-                      <BarChart
+                      <PieChart
                         department={department}
                         dateStart={moment(dateStart).format('YYYY-MM-DD')}
                         dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
