@@ -25,10 +25,10 @@ export class productController {
       const { search = '', filter = false } = req.query
 
       let products
-      if (!search) {
-        products = await Product.getAll()
-      } else if (filter === true) {
+      if (mongoose.isValidObjectId(search) && filter === 'true') {
         products = await Product.getAllLightTraps(search)
+      } else if (!search) {
+        products = await Product.getAll()
       } else {
         products = await Product.getAll(search)
       }
