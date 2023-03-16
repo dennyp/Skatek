@@ -30,6 +30,7 @@ const createProductObjectsLightTrap = (array) => {
     (acc, current) => ({
       ...acc,
       [current.product._id]: {
+        id: current.product._id,
         product: current.product.name,
         placement: current.product.placement,
         department: current.product.department.name,

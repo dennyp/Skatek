@@ -47,7 +47,6 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
     borderWidth: 2,
     borderColor: 'rgb(255, 255, 255)',
   }
-  console.log('🚀 ~ file: PieChart.jsx:60 ~ PieChart ~ options:', options)
 
   const handleDownloadExcelClick = async () => {
     try {
@@ -106,7 +105,10 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
               font: {
                 size: 14,
               },
-              text: `Aktivitetsgenomsnitt för ljusfälla "${dataset.productName}" i avdelning ${department.name}`,
+              text: [
+                `Aktivitetsgenomsnitt för ljusfälla "${dataset.productName}" i avdelning ${department.name}`,
+                `mellan ${dateStart} till ${dateEnd}`,
+              ],
             },
           },
         }
@@ -119,8 +121,12 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
                 &nbsp; Ladda ner
               </ButtonWithSpinner>
             </div> */}
-
-            <Pie className="p-5 border" data={data} options={options} />
+            <Pie
+              key={dataset.id}
+              className="p-3 border"
+              data={data}
+              options={options}
+            />
           </Fragment>
         )
       })

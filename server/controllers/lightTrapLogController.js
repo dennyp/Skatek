@@ -57,6 +57,7 @@ export class lightTrapLogController {
               product.averageMiscActivity,
             ],
             productName: `${product.product} - ${product.placement}`,
+            id: product.id,
           }
 
           data.push(obj)

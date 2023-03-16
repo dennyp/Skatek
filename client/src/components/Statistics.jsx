@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField'
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
 import moment from 'moment'
 import React, { Fragment, useState } from 'react'
+import DepartmentInputGroup from '../app/features/departments/DepartmentInputGroup'
 import { useGetDepartmentsQuery } from '../app/features/departments/departmentsApiSlice'
 import PieChart from './PieChart'
 
@@ -13,6 +14,7 @@ const Dashboard = () => {
     moment('2021-01-01')
   )
   const [dateEndPeriodTwo, setDateEndPeriodTwo] = useState(moment('2021-12-31'))
+  const [selectedDepartment, setSelectedDepartment] = useState({})
 
   const {
     isLoading: isLoadingDepartments,
@@ -40,6 +42,30 @@ const Dashboard = () => {
     event.preventDefault()
   }
 
+  let plots
+  if (Object.keys(selectedDepartment).length > 0) {
+    plots = (
+      <Fragment key={selectedDepartment._id}>
+        <div className="flex justify-center">
+          <div className="w-2/3">
+            <PieChart
+              department={selectedDepartment}
+              dateStart={moment(dateStart).format('YYYY-MM-DD')}
+              dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+              dateStartTwo={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+              dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+            />
+          </div>
+        </div>
+      </Fragment>
+    )
+  }
+
+  const handleDepartmentChange = (newValue) => {
+    setSelectedDepartment(newValue)
+    plots = ''
+  }
+
   let content
   if (isLoadingDepartments) {
     content = <p>Laddar...</p>
@@ -56,12 +82,9 @@ const Dashboard = () => {
                   </h2>
                   <p className="mb-8 text-sm">
                     Visar endast ljusfällor med uppmätt aktivitet under vald
-                    tidsperiod. De produkter som inte har något uppmätt värde
-                    syns ej i diagrammen. Om excel-filen för diagrammet laddas
-                    ned så listas alla produkter för avdelningen.
+                    tidsperiod.
                   </p>
-                  <p className="text-sm"></p>
-                  <div className="columns-2 mb-4">
+                  <div className="columns-2 mb-6">
                     <Stack spacing={3}>
                       <DesktopDatePicker
                         label="Period 1 - Från"
@@ -90,6 +113,12 @@ const Dashboard = () => {
                         )}
                       />
                     </Stack>
+                  </div>
+                  <div className="mb-4">
+                    <DepartmentInputGroup
+                      value={selectedDepartment}
+                      onChange={handleDepartmentChange}
+                    />
                   </div>
                   {/* <div className="columns-2">
                     <Stack spacing={3}>
@@ -121,21 +150,7 @@ const Dashboard = () => {
                       />
                     </Stack>
                   </div> */}
-                  {departments.map((department) => (
-                    <Fragment key={department._id}>
-                      <PieChart
-                        department={department}
-                        dateStart={moment(dateStart).format('YYYY-MM-DD')}
-                        dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
-                        dateStartTwo={moment(dateStartPeriodTwo).format(
-                          'YYYY-MM-DD'
-                        )}
-                        dateEndTwo={moment(dateEndPeriodTwo).format(
-                          'YYYY-MM-DD'
-                        )}
-                      />
-                    </Fragment>
-                  ))}
+                  {plots}
                 </div>
               </div>
             </div>
