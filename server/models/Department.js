@@ -20,7 +20,7 @@ departmentSchema.statics.getAll = async function (
 ) {
   const pageSize = Math.abs(reqPageSize) || 20
   const startIndex = (Math.abs(reqStartIndex) || 1) - 1
-  return this.find(filter).skip(startIndex).limit(pageSize)
+  return this.find(filter).skip(startIndex).limit(pageSize).sort({ name: 1 })
 }
 
 departmentSchema.statics.getById = async function (id) {
