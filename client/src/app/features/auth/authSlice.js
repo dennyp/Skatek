@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   loading: false,
-  userInfo: {},
+  userInfo: { user: { isAdmin: false } },
   token: null,
   email: null,
   error: null,
@@ -14,7 +14,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.userInfo = {}
+      state.userInfo = { user: { isAdmin: false } }
       state.token = null
       state.email = null
       state.loading = false
@@ -35,3 +35,5 @@ export default authSlice.reducer
 
 export const selectCurrentEmail = (state) => state.auth.email
 export const selectCurrentToken = (state) => state.auth.token
+export const selectCurrentIsAdmin = (state) =>
+  state.auth.userInfo?.user?.isAdmin

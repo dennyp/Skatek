@@ -6,6 +6,7 @@ import { Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import ActivityLogs from './app/features/activitylogs/ActivityLogs'
 import Login from './app/features/auth/Login'
+import RequireAdmin from './app/features/auth/RequireAdmin'
 import RequireAuth from './app/features/auth/RequireAuth'
 import LightTrapLogs from './app/features/lighttraplogs/LightTrapLogs'
 import LightTraps from './app/features/lighttraps/LightTraps'
@@ -32,15 +33,18 @@ const App = () => {
           pauseOnHover
           theme="light"
         />
+
         <Routes>
           <Route path="login" element={<Login />} />
           <Route element={<RequireAuth />}>
             <Route index element={<Dashboard />} />
             <Route path="statistics" element={<Statistics />} />
-            <Route path="products" element={<Products />} />
-            <Route path="activitylogs" element={<ActivityLogs />} />
-            <Route path="lighttraps" element={<LightTraps />} />
-            <Route path="lighttraplogs" element={<LightTrapLogs />} />
+            <Route element={<RequireAdmin />}>
+              <Route path="products" element={<Products />} />
+              <Route path="activitylogs" element={<ActivityLogs />} />
+              <Route path="lighttraps" element={<LightTraps />} />
+              <Route path="lighttraplogs" element={<LightTrapLogs />} />
+            </Route>
           </Route>
 
           <Route path="*" element={<NotFound />} />

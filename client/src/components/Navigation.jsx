@@ -7,17 +7,27 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { Fragment } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { logout } from '../app/features/auth/authSlice'
+import { logout, selectCurrentIsAdmin } from '../app/features/auth/authSlice'
 
 const navigation = [
-  { name: 'Kontrollpanel', href: '/', current: true },
-  { name: 'Statistik', href: '/statistics', current: false },
-  { name: 'Produkter', href: '/products', current: false },
-  { name: 'Aktivitet produkter', href: '/activitylogs', current: false },
-  { name: 'Ljusfällor', href: '/lighttraps', current: false },
-  { name: 'Aktivitet ljusfällor', href: '/lighttraplogs', current: false },
+  { name: 'Kontrollpanel', href: '/', current: true, admin: false },
+  { name: 'Statistik', href: '/statistics', current: false, admin: false },
+  { name: 'Produkter', href: '/products', current: false, admin: true },
+  {
+    name: 'Aktivitet produkter',
+    href: '/activitylogs',
+    current: false,
+    admin: true,
+  },
+  { name: 'Ljusfällor', href: '/lighttraps', current: false, admin: true },
+  {
+    name: 'Aktivitet ljusfällor',
+    href: '/lighttraplogs',
+    current: false,
+    admin: true,
+  },
 ]
 
 function classNames(...classes) {
@@ -26,6 +36,30 @@ function classNames(...classes) {
 
 const Navigation = () => {
   const dispatch = useDispatch()
+
+  const isAdmin = useSelector(selectCurrentIsAdmin)
+
+  const links = navigation.map((item) => {
+    if (item.admin === true && !isAdmin) {
+      return []
+    }
+
+    return (
+      <Link
+        key={item.name}
+        to={item.href}
+        className={classNames(
+          item.current
+            ? 'bg-gray-900 text-white'
+            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+          'px-3 py-2 rounded-md text-sm font-medium'
+        )}
+        aria-current={item.current ? 'page' : undefined}
+      >
+        {item.name}
+      </Link>
+    )
+  })
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -53,23 +87,7 @@ const Navigation = () => {
                   />
                 </div>
                 <div className="hidden sm:block sm:ml-6">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'px-3 py-2 rounded-md text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
+                  <div className="flex space-x-4">{links}</div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -102,7 +120,8 @@ const Navigation = () => {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
+                      {/* TODO: If customer wants a profile page and settings, uncomment below */}
+                      {/* <Menu.Item>
                         {({ active }) => (
                           <Link
                             to="/profile"
@@ -127,7 +146,7 @@ const Navigation = () => {
                             Inställningar
                           </Link>
                         )}
-                      </Menu.Item>
+                      </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
                           <Link
@@ -151,22 +170,26 @@ const Navigation = () => {
 
           <Disclosure.Panel className="sm:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as="a"
-                  href={item.href}
-                  className={classNames(
-                    item.current
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block px-3 py-2 rounded-md text-base font-medium'
-                  )}
-                  aria-current={item.current ? 'page' : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
+              {navigation.map((item) => {
+                return (
+                  item.admin === isAdmin && (
+                    <Disclosure.Button
+                      key={item.name}
+                      as="a"
+                      href={item.href}
+                      className={classNames(
+                        item.current
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                        'block px-3 py-2 rounded-md text-base font-medium'
+                      )}
+                      aria-current={item.current ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </Disclosure.Button>
+                  )
+                )
+              })}
             </div>
           </Disclosure.Panel>
         </>
