@@ -107,4 +107,26 @@ export class lightTrapLogController {
       next(createError(500))
     }
   }
+
+  async delete(req, res, next) {
+    try {
+      const { id } = req.params
+
+      if (!id) {
+        next(createError(400))
+        return
+      }
+
+      const response = await LightTrapLog.findByIdAndDelete(id)
+
+      if (!response) {
+        next(createError(404))
+        return
+      }
+
+      res.status(204).end()
+    } catch (error) {
+      next(createError(500))
+    }
+  }
 }

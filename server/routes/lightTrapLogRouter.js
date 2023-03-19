@@ -17,3 +17,7 @@ router.get('/visual', verifyToken, (req, res, next) =>
 router.post('/', verifyToken, (req, res, next) =>
   controller.create(req, res, next)
 )
+
+router.delete('/:id', verifyToken, (req, res, next) =>
+  controller.delete(req, res, next)
+)

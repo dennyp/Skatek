@@ -41,6 +41,13 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['LightTrapLogs'],
     }),
+    deleteLightTrapLog: builder.mutation({
+      query: (id) => ({
+        url: `/lighttraplogs/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['LightTrapLogs'],
+    }),
   }),
 })
 
@@ -48,4 +55,5 @@ export const {
   useGetLightTrapLogsQuery,
   useGetVisualLightTrapLogsQuery,
   useCreateLightTrapLogMutation,
+  useDeleteLightTrapLogMutation,
 } = lightTrapLogsApiSlice

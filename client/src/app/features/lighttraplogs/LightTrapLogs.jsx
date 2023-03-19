@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Box } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import LogsActions from '../actions/LogsActions'
 import AddLightTrapLogSlideover from './AddLightTrapLogSlideover'
-import { useGetLightTrapLogsQuery } from './lightTrapLogsApiSlice'
+import {
+  useDeleteLightTrapLogMutation,
+  useGetLightTrapLogsQuery,
+} from './lightTrapLogsApiSlice'
 
 const LightTrapLogs = () => {
   const [openEditSlider, setOpenEditSlider] = useState(false)
   const [openAddSlider, setOpenAddSlider] = useState(false)
 
-  const [logId, setLogId] = useState('')
+  const [rowId, setRowId] = useState('')
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(100)
   const [sort, setSort] = useState({})
@@ -26,11 +31,15 @@ const LightTrapLogs = () => {
     search,
   })
 
-  const onEditClick = (e, row) => {
-    e.stopPropagation()
+  const [deleteLog, response] = useDeleteLightTrapLogMutation()
 
+  const onEditClick = (row) => {
     setOpenEditSlider(true)
-    setLogId(row._id)
+    setRowId(row._id)
+  }
+
+  const onDeleteClick = (row) => {
+    deleteLog(row._id)
   }
 
   const columns = [
@@ -55,18 +64,12 @@ const LightTrapLogs = () => {
     { field: 'comment', headerName: 'Kommentar', flex: 1 },
     {
       field: 'actions',
-      headerName: 'Ändra',
-      flex: 0.3,
-      renderCell: (params) => {
-        return (
-          <button
-            onClick={(e) => onEditClick(e, params.row)}
-            variant="contained"
-          >
-            Ändra
-          </button>
-        )
-      },
+      headerName: 'Actions',
+      type: 'actions',
+      flex: 1,
+      renderCell: (params) => (
+        <LogsActions {...{ params, onEditClick, onDeleteClick }} />
+      ),
     },
   ]
 
@@ -114,7 +117,7 @@ const LightTrapLogs = () => {
           <ActivityLogSlideover
             open={openEditSlider}
             setOpen={setOpenEditSlider}
-            id={logId}
+            id={rowId}
           />
         )} */}
         {openAddSlider && (

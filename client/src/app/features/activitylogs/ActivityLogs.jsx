@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Box } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import { useGetActivityLogsQuery } from './activityLogsApiSlice'
+import LogsActions from '../actions/LogsActions'
+import {
+  useDeleteActivityLogMutation,
+  useGetActivityLogsQuery,
+} from './activityLogsApiSlice'
 import ActivityLogSlideover from './ActivityLogSlideover'
 import AddActivityLogSlideover from './AddActivityLogSlideover'
 
@@ -10,7 +15,7 @@ const ActivityLogs = () => {
   const [openEditSlider, setOpenEditSlider] = useState(false)
   const [openAddSlider, setOpenAddSlider] = useState(false)
 
-  const [logId, setLogId] = useState('')
+  const [rowId, setRowId] = useState('')
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(100)
   const [sort, setSort] = useState({})
@@ -27,17 +32,15 @@ const ActivityLogs = () => {
     search,
   })
 
-  const onEditClick = (e, row) => {
-    e.stopPropagation()
+  const [deleteLog, response] = useDeleteActivityLogMutation()
 
+  const onEditClick = (row) => {
     setOpenEditSlider(true)
-    setLogId(row._id)
+    setRowId(row._id)
   }
 
-  const onDeleteClick = (e, row) => {
-    e.stopPropagation()
-
-    setLogId(row._id)
+  const onDeleteClick = (row) => {
+    deleteLog(row._id)
   }
 
   const columns = [
@@ -63,19 +66,28 @@ const ActivityLogs = () => {
     { field: 'comment', headerName: 'Kommentar', flex: 1 },
     {
       field: 'actions',
-      headerName: 'Ändra',
-      flex: 0.3,
-      renderCell: (params) => {
-        return (
-          <button
-            onClick={(e) => onEditClick(e, params.row)}
-            variant="contained"
-          >
-            Ändra
-          </button>
-        )
-      },
+      headerName: 'Actions',
+      type: 'actions',
+      flex: 1,
+      renderCell: (params) => (
+        <LogsActions {...{ params, onEditClick, onDeleteClick }} />
+      ),
     },
+    // {
+    //   field: 'actions',
+    //   headerName: 'Ändra',
+    //   flex: 0.3,
+    //   renderCell: (params) => {
+    //     return (
+    //       <button
+    //         onClick={(e) => onEditClick(e, params.row)}
+    //         variant="contained"
+    //       >
+    //         <PencilSquareIcon className="h-5 w-5 text-gray-900" />
+    //       </button>
+    //     )
+    //   },
+    // },
     // {
     //   field: 'actions',
     //   headerName: 'Radera',
@@ -86,7 +98,7 @@ const ActivityLogs = () => {
     //         onClick={(e) => onDeleteClick(e, params.row)}
     //         variant="contained"
     //       >
-    //         Radera
+    //         <TrashIcon className="h-5 w-5 text-gray-900" />
     //       </button>
     //     )
     //   },
@@ -137,7 +149,7 @@ const ActivityLogs = () => {
           <ActivityLogSlideover
             open={openEditSlider}
             setOpen={setOpenEditSlider}
-            id={logId}
+            id={rowId}
           />
         )}
         {openAddSlider && (
