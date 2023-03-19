@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { Box } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import DataGridActions from '../actions/DataGridActions'
 import AddLightTrapSlideover from './AddLightTrapSlideover'
 import { useGetLightTrapsQuery } from './lightTrapsApiSlice'
 import LightTrapSlideover from './LightTrapSlideover'
@@ -52,18 +53,10 @@ const LightTraps = () => {
     },
     {
       field: 'actions',
-      headerName: 'Ändra',
+      headerName: 'Actions',
+      type: 'actions',
       flex: 0.5,
-      renderCell: (params) => {
-        return (
-          <button
-            onClick={(e) => onEditClick(e, params.row)}
-            variant="contained"
-          >
-            Ändra
-          </button>
-        )
-      },
+      renderCell: (params) => <DataGridActions {...{ params, onEditClick }} />,
     },
   ]
 

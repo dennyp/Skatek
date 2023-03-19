@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Box } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import LogsActions from '../actions/LogsActions'
+import LogsActions from '../actions/DataGridActions'
 import AddLightTrapLogSlideover from './AddLightTrapLogSlideover'
 import {
   useDeleteLightTrapLogMutation,
@@ -66,7 +66,7 @@ const LightTrapLogs = () => {
       field: 'actions',
       headerName: 'Actions',
       type: 'actions',
-      flex: 1,
+      flex: 0.5,
       renderCell: (params) => (
         <LogsActions {...{ params, onEditClick, onDeleteClick }} />
       ),

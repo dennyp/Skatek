@@ -2,13 +2,13 @@ import { Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useGetProductsQuery } from '../products/productsApiSlice'
+import DataGridActions from '../actions/DataGridActions'
 import AddProductSlideover from './AddProductSlideover'
+import { useGetProductsQuery } from './productsApiSlice'
 import ProductSlideover from './ProductSlideover'
 import { setProducts } from './productsSlice'
 
 // TODO: add delete functionality. The product should perhaps be "inactivated" instead of deleted so that we can still use history of activity etc.
-// TODO: add functionality to add a product.
 const Product = () => {
   const [openEditSlider, setOpenEditSlider] = useState(false)
   const [openAddSlider, setOpenAddSlider] = useState(false)
@@ -51,18 +51,10 @@ const Product = () => {
     },
     {
       field: 'actions',
-      headerName: 'Ändra',
+      headerName: 'Actions',
+      type: 'actions',
       flex: 0.5,
-      renderCell: (params) => {
-        return (
-          <button
-            onClick={(e) => onEditClick(e, params.row)}
-            variant="contained"
-          >
-            Ändra
-          </button>
-        )
-      },
+      renderCell: (params) => <DataGridActions {...{ params, onEditClick }} />,
     },
   ]
 

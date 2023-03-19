@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { Box } from '@mui/material'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
-import LogsActions from '../actions/LogsActions'
+import DataGridActions from '../actions/DataGridActions'
 import {
   useDeleteActivityLogMutation,
   useGetActivityLogsQuery,
@@ -68,41 +67,11 @@ const ActivityLogs = () => {
       field: 'actions',
       headerName: 'Actions',
       type: 'actions',
-      flex: 1,
+      flex: 0.5,
       renderCell: (params) => (
-        <LogsActions {...{ params, onEditClick, onDeleteClick }} />
+        <DataGridActions {...{ params, onEditClick, onDeleteClick }} />
       ),
     },
-    // {
-    //   field: 'actions',
-    //   headerName: 'Ändra',
-    //   flex: 0.3,
-    //   renderCell: (params) => {
-    //     return (
-    //       <button
-    //         onClick={(e) => onEditClick(e, params.row)}
-    //         variant="contained"
-    //       >
-    //         <PencilSquareIcon className="h-5 w-5 text-gray-900" />
-    //       </button>
-    //     )
-    //   },
-    // },
-    // {
-    //   field: 'actions',
-    //   headerName: 'Radera',
-    //   flex: 0.3,
-    //   renderCell: (params) => {
-    //     return (
-    //       <button
-    //         onClick={(e) => onDeleteClick(e, params.row)}
-    //         variant="contained"
-    //       >
-    //         <TrashIcon className="h-5 w-5 text-gray-900" />
-    //       </button>
-    //     )
-    //   },
-    // },
   ]
 
   return (
