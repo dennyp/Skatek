@@ -46,15 +46,24 @@ const Dashboard = () => {
   if (Object.keys(selectedDepartment).length > 0) {
     plots = (
       <Fragment key={selectedDepartment._id}>
-        <div className="flex justify-center">
-          <div className="w-2/3">
-            <PieChart
-              department={selectedDepartment}
-              dateStart={moment(dateStart).format('YYYY-MM-DD')}
-              dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
-              dateStartTwo={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
-              dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
-            />
+        <div className="flex">
+          <div className="w-full">
+            <div className="columns-2">
+              <div>
+                <PieChart
+                  department={selectedDepartment}
+                  dateStart={moment(dateStart).format('YYYY-MM-DD')}
+                  dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+                />
+              </div>
+              <div>
+                <PieChart
+                  department={selectedDepartment}
+                  dateStart={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+                  dateEnd={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </Fragment>
@@ -114,13 +123,7 @@ const Dashboard = () => {
                       />
                     </Stack>
                   </div>
-                  <div className="mb-4">
-                    <DepartmentInputGroup
-                      value={selectedDepartment}
-                      onChange={handleDepartmentChange}
-                    />
-                  </div>
-                  {/* <div className="columns-2">
+                  <div className="columns-2">
                     <Stack spacing={3}>
                       <DesktopDatePicker
                         label="Period 2 - Från"
@@ -149,7 +152,13 @@ const Dashboard = () => {
                         )}
                       />
                     </Stack>
-                  </div> */}
+                  </div>
+                  <div className="mb-4 mt-4">
+                    <DepartmentInputGroup
+                      value={selectedDepartment}
+                      onChange={handleDepartmentChange}
+                    />
+                  </div>
                   {plots}
                 </div>
               </div>

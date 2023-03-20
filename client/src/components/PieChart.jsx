@@ -106,7 +106,8 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
                 size: 14,
               },
               text: [
-                `Aktivitetsgenomsnitt för ljusfälla "${dataset.productName}" i avdelning ${department.name}`,
+                `Aktivitetsgenomsnitt för ljusfälla "${dataset.productName}"`,
+                ` i avdelning ${department.name}`,
                 `mellan ${dateStart} till ${dateEnd}`,
               ],
             },
@@ -114,19 +115,14 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
         }
 
         return (
-          <Fragment>
+          <Fragment key={dataset.id}>
             {/* <div className="mb-2 mt-8 -ml-4">
               <ButtonWithSpinner handleClick={handleDownloadExcelClick}>
                 <DocumentArrowDownIcon className="h-4 w-4" />
                 &nbsp; Ladda ner
               </ButtonWithSpinner>
             </div> */}
-            <Pie
-              key={dataset.id}
-              className="p-3 border"
-              data={data}
-              options={options}
-            />
+            <Pie className="p-3 border" data={data} options={options} />
           </Fragment>
         )
       })
