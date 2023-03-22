@@ -14,7 +14,7 @@ import Products from './app/features/products/Products'
 import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
-import Statistics from './components/Statistics'
+import StatisticsLayout from './components/StatisticsLayout'
 
 const App = () => {
   return (
@@ -38,7 +38,26 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route element={<RequireAuth />}>
             <Route index element={<Dashboard />} />
-            <Route path="statistics" element={<Statistics />} />
+            <Route
+              path="statistics-total-insects"
+              element={
+                <StatisticsLayout
+                  title="Genomsnittligt totalt antal insekter"
+                  paragraph="Diagrammen visar det genomsnittliga totala antalet insekter per ljusfälla. Visar endast ljusfällor med uppmätt aktivitet under vald tidsperiod."
+                  showTotalAverageInsects={true}
+                />
+              }
+            />
+            <Route
+              path="statistics-insects"
+              element={
+                <StatisticsLayout
+                  title="Genomsnittligt antal per insektstyp"
+                  paragraph="Tårtdiagramen visar genomsnittligt antal av en viss insektstyp över en tidsperiod. Visar endast ljusfällor med uppmätt aktivitet under vald tidsperiod."
+                  showAverageInsects={true}
+                />
+              }
+            />
             <Route element={<RequireAdmin />}>
               <Route path="products" element={<Products />} />
               <Route path="activitylogs" element={<ActivityLogs />} />

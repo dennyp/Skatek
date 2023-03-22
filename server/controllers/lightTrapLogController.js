@@ -85,6 +85,95 @@ export class lightTrapLogController {
     }
   }
 
+  async findAllVisualTotal(req, res, next) {
+    try {
+      const {
+        department,
+        dateStart,
+        dateEnd,
+        dateStartTwo = '',
+        dateEndTwo = '',
+      } = req.query
+
+      const products = await Product.getByDepartment(department)
+      const productsIds = products.map((product) => product._id)
+
+      const {
+        readyToPlotProducts: productsPeriodOne,
+        productObjects: productObjectsPeriodOne,
+      } = await getLightTrapLogPlotData(productsIds, dateStart, dateEnd)
+
+      const {
+        readyToPlotProducts: productsPeriodTwo,
+        productObjects: productObjectsPeriodTwo,
+      } = await getLightTrapLogPlotData(productsIds, dateStartTwo, dateEndTwo)
+
+      let plotData = {}
+      if (productsPeriodOne.length > 0) {
+        plotData = {
+          labels: productsPeriodOne.map(
+            (product) => `${product.product} - ${product.placement}`
+          ),
+          datasets: [
+            {
+              label: 'Period 1',
+              data: productsPeriodOne.map(
+                (product) =>
+                  product.averageBananaflyActivity +
+                  product.averageFlyActivity +
+                  product.averageWaspActivity +
+                  product.averageNeuropteranActivity +
+                  product.averageDaddylonglegsActivity +
+                  product.averageMiscActivity
+              ),
+            },
+            {
+              label: 'Period 2',
+              data: productsPeriodTwo.map(
+                (product) =>
+                  product.averageBananaflyActivity +
+                  product.averageFlyActivity +
+                  product.averageWaspActivity +
+                  product.averageNeuropteranActivity +
+                  product.averageDaddylonglegsActivity +
+                  product.averageMiscActivity
+              ),
+            },
+          ],
+        }
+
+        // let totals = []
+        // readyToPlotProducts.forEach((product) => {
+        //   const total =
+        //     product.averageBananaflyActivity +
+        //     product.averageFlyActivity +
+        //     product.averageWaspActivity +
+        //     product.averageNeuropteranActivity +
+        //     product.averageDaddylonglegsActivity +
+        //     product.averageMiscActivity
+
+        //   totals.push(total)
+        // })
+
+        // plotData = {
+        //   labels: productNames,
+        //   datasets: { data: totals },
+        // }
+      }
+
+      res.json({
+        plotData,
+        productObjects: [productObjectsPeriodOne, productObjectsPeriodTwo],
+      })
+    } catch (error) {
+      console.log(
+        '🚀 ~ file: lightTrapLogController.js:169 ~ lightTrapLogController ~ findAllVisualTotal ~ error:',
+        error
+      )
+      next(createError(500))
+    }
+  }
+
   async create(req, res, next) {
     try {
       const obj = new LightTrapLog({

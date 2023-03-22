@@ -20,6 +20,14 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
       providesTags: ['LightTrapLog'],
     }),
     getVisualLightTrapLogs: builder.query({
+      query: ({ department, dateStart, dateEnd }) => ({
+        url: '/lighttraplogs/visual',
+        method: 'GET',
+        params: { department, dateStart, dateEnd },
+      }),
+      providesTags: ['LightTrapLogs'],
+    }),
+    getVisualTotalLightTrapLogs: builder.query({
       query: ({
         department,
         dateStart,
@@ -27,12 +35,11 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
         dateStartTwo,
         dateEndTwo,
       }) => ({
-        url: '/lighttraplogs/visual',
+        url: '/lighttraplogs/visualTotal',
         method: 'GET',
         params: { department, dateStart, dateEnd, dateStartTwo, dateEndTwo },
       }),
     }),
-    providesTags: ['LightTrapLogs'],
     createLightTrapLog: builder.mutation({
       query: (lightTrapLog) => ({
         url: '/lighttraplogs',
@@ -54,6 +61,7 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetLightTrapLogsQuery,
   useGetVisualLightTrapLogsQuery,
+  useGetVisualTotalLightTrapLogsQuery,
   useCreateLightTrapLogMutation,
   useDeleteLightTrapLogMutation,
 } = lightTrapLogsApiSlice

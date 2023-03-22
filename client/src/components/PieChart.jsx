@@ -19,16 +19,6 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
     dateEnd,
   })
 
-  let activityData = { datasets: [], labels: [] }
-  if (!isLoadingActivityLogs) {
-    if (Object.keys(logs.plotData).length > 0) {
-      activityData = {
-        labels: logs.plotData.labels,
-        datasets: logs.plotData.datasets,
-      }
-    }
-  }
-
   let options = {
     responsive: true,
     plugins: {
@@ -106,8 +96,8 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
                 size: 14,
               },
               text: [
-                `Aktivitetsgenomsnitt för ljusfälla "${dataset.productName}"`,
-                ` i avdelning ${department.name}`,
+                'Antal insekter i genomsnitt per insektstyp för ljusfälla',
+                `"${dataset.productName}" i ${department.name}`,
                 `mellan ${dateStart} till ${dateEnd}`,
               ],
             },

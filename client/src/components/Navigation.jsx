@@ -13,7 +13,18 @@ import { logout, selectCurrentIsAdmin } from '../app/features/auth/authSlice'
 
 const navigation = [
   { name: 'Kontrollpanel', href: '/', current: true, admin: false },
-  { name: 'Statistik', href: '/statistics', current: false, admin: false },
+  {
+    name: 'Statistik insektstyp',
+    href: '/statistics-insects',
+    current: false,
+    admin: false,
+  },
+  {
+    name: 'Statistik totalt',
+    href: '/statistics-total-insects',
+    current: false,
+    admin: false,
+  },
   { name: 'Produkter', href: '/products', current: false, admin: true },
   {
     name: 'Aktivitet produkter',

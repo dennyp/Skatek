@@ -2,12 +2,19 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
 import moment from 'moment'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import DepartmentInputGroup from '../app/features/departments/DepartmentInputGroup'
 import { useGetDepartmentsQuery } from '../app/features/departments/departmentsApiSlice'
+
+import BarChartInsects from './BarChartInsects'
 import PieChart from './PieChart'
 
-const Dashboard = () => {
+const StatisticsLayout = ({
+  title = '',
+  paragraph = '',
+  showTotalAverageInsects = false,
+  showAverageInsects = false,
+}) => {
   const [dateStart, setDateStart] = useState(moment('2022-01-01'))
   const [dateEnd, setDateEnd] = useState(moment('2022-12-31'))
   const [dateStartPeriodTwo, setDateStartPeriodTwo] = useState(
@@ -16,11 +23,61 @@ const Dashboard = () => {
   const [dateEndPeriodTwo, setDateEndPeriodTwo] = useState(moment('2021-12-31'))
   const [selectedDepartment, setSelectedDepartment] = useState({})
 
+  // TODO: remove this and let DepartmentInputGroup handle it? Or wait for state?
   const {
     isLoading: isLoadingDepartments,
     error: errorDepartments,
     data: departments,
   } = useGetDepartmentsQuery()
+
+  let charts, pies
+  if (
+    selectedDepartment !== undefined &&
+    Object.keys(selectedDepartment).length > 0
+  ) {
+    if (showAverageInsects) {
+      pies = (
+        <Fragment>
+          <div>
+            <PieChart
+              department={selectedDepartment}
+              dateStart={moment(dateStart).format('YYYY-MM-DD')}
+              dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+            />
+          </div>
+          <div>
+            <PieChart
+              department={selectedDepartment}
+              dateStart={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+              dateEnd={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+            />
+          </div>
+        </Fragment>
+      )
+    } else if (showTotalAverageInsects) {
+      pies = (
+        <Fragment>
+          <BarChartInsects
+            department={selectedDepartment}
+            dateStart={moment(dateStart).format('YYYY-MM-DD')}
+            dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+            dateStartTwo={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+            dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+          />
+        </Fragment>
+      )
+    }
+
+    charts = (
+      <Fragment key={selectedDepartment._id}>
+        <div className="flex">
+          <div className="w-full">
+            <div className={showAverageInsects ? 'columns-2' : ''}>{pies}</div>
+          </div>
+        </div>
+      </Fragment>
+    )
+  }
 
   const handleDateStartChange = (newValue) => {
     setDateStart(newValue)
@@ -42,37 +99,9 @@ const Dashboard = () => {
     event.preventDefault()
   }
 
-  let plots
-  if (Object.keys(selectedDepartment).length > 0) {
-    plots = (
-      <Fragment key={selectedDepartment._id}>
-        <div className="flex">
-          <div className="w-full">
-            <div className="columns-2">
-              <div>
-                <PieChart
-                  department={selectedDepartment}
-                  dateStart={moment(dateStart).format('YYYY-MM-DD')}
-                  dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
-                />
-              </div>
-              <div>
-                <PieChart
-                  department={selectedDepartment}
-                  dateStart={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
-                  dateEnd={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </Fragment>
-    )
-  }
-
   const handleDepartmentChange = (newValue) => {
     setSelectedDepartment(newValue)
-    plots = ''
+    charts = ''
   }
 
   let content
@@ -87,12 +116,9 @@ const Dashboard = () => {
               <div className="px-4 py-6 sm:px-0">
                 <div className="h-auto p-5">
                   <h2 className="mb-2 text-2xl font-semibold text-gray-900">
-                    Statistik ljusfällor
+                    {title}
                   </h2>
-                  <p className="mb-8 text-sm">
-                    Visar endast ljusfällor med uppmätt aktivitet under vald
-                    tidsperiod.
-                  </p>
+                  <p className="mb-8 text-sm">{paragraph}</p>
                   <div className="columns-2 mb-6">
                     <Stack spacing={3}>
                       <DesktopDatePicker
@@ -159,7 +185,7 @@ const Dashboard = () => {
                       onChange={handleDepartmentChange}
                     />
                   </div>
-                  {plots}
+                  {charts}
                 </div>
               </div>
             </div>
@@ -172,4 +198,4 @@ const Dashboard = () => {
   return content
 }
 
-export default Dashboard
+export default StatisticsLayout
