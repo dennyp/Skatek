@@ -14,9 +14,7 @@ const LightTraps = () => {
 
   const { isLoading, error, data: lightTraps } = useGetLightTrapsQuery()
 
-  const onEditClick = (e, row) => {
-    e.stopPropagation()
-
+  const onEditClick = (row) => {
     setOpenEditSlider(true)
     setLightTrapId(row._id)
   }
