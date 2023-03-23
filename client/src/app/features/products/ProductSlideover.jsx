@@ -28,6 +28,7 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
   const [productType, setProductType] = useState({})
   const [placement, setPlacement] = useState('')
   const [location, setLocation] = useState({})
+  const [active, setActive] = useState(false)
 
   const [updateProduct, { isLoading: isLoadingUpdate }] =
     useUpdateProductMutation()
@@ -41,6 +42,7 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
       setProductType(product.productType)
       setPlacement(product.placement)
       setLocation(product.location)
+      setActive(product.isActive)
     }
   }, [isSuccess, product])
 
@@ -73,6 +75,11 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
     setIsChanged(true)
   }
 
+  const handleActiveChange = (event) => {
+    setActive(!active)
+    setIsChanged(true)
+  }
+
   const handleSave = async (event) => {
     try {
       if (!isChanged) {
@@ -87,6 +94,7 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
         productType: productType,
         placement: placement,
         location: location,
+        isActive: active,
       }
       await updateProduct(updatedProduct).unwrap()
 
@@ -98,6 +106,7 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
       setProductType({})
       setPlacement('')
       setLocation({})
+      setActive(false)
 
       handleClose()
     } catch (err) {
@@ -173,6 +182,26 @@ const ProductSlideover = ({ open, setOpen, productId }) => {
                             value={location}
                             onChange={handleLocationChange}
                           />
+                          <div
+                            className=" border-gray-200 flex h-6 items-center"
+                            aria-hidden="true"
+                          >
+                            <input
+                              type="checkbox"
+                              id="active"
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                              checked={active}
+                              onChange={handleActiveChange}
+                            />
+                            <div className="ml-3 text-sm leading-6">
+                              <label
+                                htmlFor="active"
+                                className="font-medium text-gray-900"
+                              >
+                                Aktiv
+                              </label>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div className="flex flex-shrink-0 justify-end px-4 py-4">
