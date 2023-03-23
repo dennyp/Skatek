@@ -38,7 +38,7 @@ const LightTrapSlideover = ({ open, setOpen, id }) => {
       setName(lightTrap.name)
       setProductType(lightTrap.productType)
       setPlacement(lightTrap.placement)
-      setActive(lightTrap.active)
+      setActive(lightTrap.isActive)
     }
   }, [isSuccess, lightTrap])
 
@@ -84,7 +84,7 @@ const LightTrapSlideover = ({ open, setOpen, id }) => {
         name: name,
         productType: productType,
         placement: placement,
-        active: active,
+        isActive: active,
       }
       await updateLightTrap(updatedLightTrap).unwrap()
 

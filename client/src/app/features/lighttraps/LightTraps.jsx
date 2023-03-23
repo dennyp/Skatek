@@ -46,10 +46,10 @@ const LightTraps = () => {
       valueGetter: (params) => params.row?.productType?.name,
     },
     {
-      field: 'active',
+      field: 'isActive',
       headerName: 'Aktiv',
       flex: 1,
-      valueGetter: (params) => params.row?.active,
+      valueGetter: (params) => params.row?.isActive,
     },
     {
       field: 'actions',

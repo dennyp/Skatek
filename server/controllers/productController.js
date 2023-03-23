@@ -103,7 +103,7 @@ export class productController {
           req.body.location ||
           mongoose.Types.ObjectId('63dba451d817d5eb2e74e08e'),
         productType: req.body.productType,
-        active: req.body.active,
+        isActive: req.body.isActive,
       })
 
       res.status(204).end()

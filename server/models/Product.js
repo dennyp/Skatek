@@ -21,7 +21,7 @@ const productSchema = mongoose.Schema(
       ref: 'producttype',
       required: true,
     },
-    active: {
+    isActive: {
       type: Schema.Types.Boolean,
       required: true,
       default: true,
