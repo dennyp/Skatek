@@ -74,7 +74,7 @@ productSchema.statics.getByDepartment = async function (id) {
   const isValidObjectId = mongoose.isValidObjectId(id)
 
   if (isValidObjectId)
-    return this.find({ department: id }).populate(
+    return this.find({ department: id, isActive: true }).populate(
       'department location productType'
     )
 }
