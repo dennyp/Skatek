@@ -21,9 +21,7 @@ const Product = () => {
     dispatch(setProducts(products))
   }, [dispatch, products])
 
-  const onEditClick = (e, row) => {
-    e.stopPropagation()
-
+  const onEditClick = (row) => {
     setOpenEditSlider(true)
     setProductId(row._id)
   }
