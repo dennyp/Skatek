@@ -34,78 +34,63 @@ const createProductObjectsLightTrap = (array) => {
         product: current.product.name,
         placement: current.product.placement,
         department: current.product.department.name,
+        numberOfLogs: acc[current.product._id]
+          ? acc[current.product._id].numberOfLogs + 1
+          : 1,
         flyActivity:
           current.flyActivity +
           (acc[current.product._id] ? acc[current.product._id].flyActivity : 0),
-        numberOfFlyLogs: acc[current.product._id]
-          ? acc[current.product._id].numberOfFlyLogs + 1
-          : 1,
         averageFlyActivity: acc[current.product._id]
           ? (current.flyActivity + acc[current.product._id].flyActivity) /
-            (acc[current.product._id].numberOfFlyLogs + 1)
+            (acc[current.product._id].numberOfLogs + 1)
           : 0,
         bananaflyActivity:
           current.bananaflyActivity +
           (acc[current.product._id]
             ? acc[current.product._id].bananaflyActivity
             : 0),
-        numberOfBananaflyLogs: acc[current.product._id]
-          ? acc[current.product._id].numberOfBananaflyLogs + 1
-          : 1,
         averageBananaflyActivity: acc[current.product._id]
           ? (current.bananaflyActivity +
               acc[current.product._id].bananaflyActivity) /
-            (acc[current.product._id].numberOfBananaflyLogs + 1)
+            (acc[current.product._id].numberOfLogs + 1)
           : 0,
         waspActivity:
           current.waspActivity +
           (acc[current.product._id]
             ? acc[current.product._id].waspActivity
             : 0),
-        numberOfWaspLogs: acc[current.product._id]
-          ? acc[current.product._id].numberOfWaspLogs + 1
-          : 1,
         averageWaspActivity: acc[current.product._id]
           ? (current.waspActivity + acc[current.product._id].waspActivity) /
-            (acc[current.product._id].numberOfWaspLogs + 1)
+            (acc[current.product._id].numberOfLogs + 1)
           : 0,
         neuropteranActivity:
           current.neuropteranActivity +
           (acc[current.product._id]
             ? acc[current.product._id].neuropteranActivity
             : 0),
-        numberOfNeuropteranLogs: acc[current.product._id]
-          ? acc[current.product._id].numberOfNeuropteranLogs + 1
-          : 1,
         averageNeuropteranActivity: acc[current.product._id]
           ? (current.neuropteranActivity +
               acc[current.product._id].neuropteranActivity) /
-            (acc[current.product._id].numberOfNeuropteranLogs + 1)
+            (acc[current.product._id].numberOfLogs + 1)
           : 0,
         daddylonglegsActivity:
           current.daddylonglegsActivity +
           (acc[current.product._id]
             ? acc[current.product._id].daddylonglegsActivity
             : 0),
-        numberOfDaddylonglegsLogs: acc[current.product._id]
-          ? acc[current.product._id].numberOfDaddylonglegsLogs + 1
-          : 1,
         averageDaddylonglegsActivity: acc[current.product._id]
           ? (current.daddylonglegsActivity +
               acc[current.product._id].daddylonglegsActivity) /
-            (acc[current.product._id].numberOfDaddylonglegsLogs + 1)
+            (acc[current.product._id].numberOfLogs + 1)
           : 0,
         miscActivity:
           current.miscActivity +
           (acc[current.product._id]
             ? acc[current.product._id].miscActivity
             : 0),
-        numberOfMiscLogs: acc[current.product._id]
-          ? acc[current.product._id].numberOfMiscLogs + 1
-          : 1,
         averageMiscActivity: acc[current.product._id]
           ? (current.miscActivity + acc[current.product._id].miscActivity) /
-            (acc[current.product._id].numberOfMiscLogs + 1)
+            (acc[current.product._id].numberOfLogs + 1)
           : 0,
       },
     }),

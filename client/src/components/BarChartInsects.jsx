@@ -80,7 +80,7 @@ const BarChartInsects = ({
           size: 14,
         },
         text: [
-          `Genomsnittligt antal insekter för produkter i avdelning ${department.name}`,
+          `Genomsnittligt antal insekter för ljusfällor i avdelning ${department.name}`,
           `Period 1: ${dateStart} till ${dateEnd}`,
           `Period 2: ${dateStartTwo} till ${dateEndTwo}`,
         ],
@@ -113,12 +113,23 @@ const BarChartInsects = ({
   const handleDownloadExcelClick = async () => {
     try {
       const header = [
+        'Id',
         'Märke',
         'Placering',
         'Avdelning',
-        'Aktivitet',
         'Antal mättillfällen',
-        'Genomsnittlig aktivitet',
+        'Antal flugor totalt',
+        'Genomsnittligt antal flugor',
+        'Antal bananflugor totalt',
+        'Genomsnittligt antal bananflugor',
+        'Antal getingar totalt',
+        'Genomsnittligt antal getingar',
+        'Antal nätvingar totalt',
+        'Genomsnittligt antal nätvingar',
+        'Antal harkrankar totalt',
+        'Genomsnittligt antal harkrankar',
+        'Antal övrigt totalt',
+        'Genomsnittligt antal övrigt',
       ]
 
       const wb = utils.book_new()
@@ -141,7 +152,7 @@ const BarChartInsects = ({
 
       writeFileXLSX(
         wb,
-        `Genomsnittlig aktivitet i ${department.name} mellan ${dateStart} till ${dateEnd}.xlsx`
+        `Genomsnittlig aktivitet för ljusfällor i ${department.name} (${dateStart} - ${dateEnd}).xlsx`
       )
     } catch (error) {
       console.error(error)
@@ -155,12 +166,12 @@ const BarChartInsects = ({
     if (Object.keys(logs.plotData).length > 0) {
       content = (
         <>
-          {/* <div className="mb-2 mt-8 -ml-4">
+          <div className="mb-2 mt-8 -ml-4">
             <ButtonWithSpinner handleClick={handleDownloadExcelClick}>
               <DocumentArrowDownIcon className="h-4 w-4" />
               &nbsp; Ladda ner
             </ButtonWithSpinner>
-          </div> */}
+          </div>
           <Bar className="p-5 border" data={activityData} options={options} />
         </>
       )
