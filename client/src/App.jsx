@@ -11,7 +11,6 @@ import RequireAuth from './app/features/auth/RequireAuth'
 import LightTrapLogs from './app/features/lighttraplogs/LightTrapLogs'
 import LightTraps from './app/features/lighttraps/LightTraps'
 import Products from './app/features/products/Products'
-import Dashboard from './components/Dashboard'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
 import StatisticsLayout from './components/StatisticsLayout'
@@ -37,7 +36,16 @@ const App = () => {
         <Routes>
           <Route path="login" element={<Login />} />
           <Route element={<RequireAuth />}>
-            <Route index element={<Dashboard />} />
+            <Route
+              index
+              element={
+                <StatisticsLayout
+                  title="Genomsnittligt total aktivitet"
+                  paragraph="Diagrammen visar den genomsnittliga totala aktiviteten för en produkt över vald tidperiod. Visar endast ljusfällor med uppmätt aktivitet under perioden."
+                  showProductAverages={true}
+                />
+              }
+            />
             <Route
               path="statistics-total-insects"
               element={

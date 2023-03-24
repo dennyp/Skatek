@@ -7,6 +7,7 @@ import DepartmentInputGroup from '../app/features/departments/DepartmentInputGro
 import { useGetDepartmentsQuery } from '../app/features/departments/departmentsApiSlice'
 
 import BarChartInsects from './BarChartInsects'
+import BarChartProductAverageActivity from './BarChartProductAverageActivity'
 import PieChart from './PieChart'
 
 const StatisticsLayout = ({
@@ -14,6 +15,7 @@ const StatisticsLayout = ({
   paragraph = '',
   showTotalAverageInsects = false,
   showAverageInsects = false,
+  showProductAverages = false,
 }) => {
   const [dateStart, setDateStart] = useState(moment('2022-01-01'))
   const [dateEnd, setDateEnd] = useState(moment('2022-12-31'))
@@ -30,13 +32,13 @@ const StatisticsLayout = ({
     data: departments,
   } = useGetDepartmentsQuery()
 
-  let charts, pies
+  let charts, chartToDraw
   if (
     selectedDepartment !== undefined &&
     Object.keys(selectedDepartment).length > 0
   ) {
     if (showAverageInsects) {
-      pies = (
+      chartToDraw = (
         <Fragment>
           <div>
             <PieChart
@@ -55,9 +57,21 @@ const StatisticsLayout = ({
         </Fragment>
       )
     } else if (showTotalAverageInsects) {
-      pies = (
+      chartToDraw = (
         <Fragment>
           <BarChartInsects
+            department={selectedDepartment}
+            dateStart={moment(dateStart).format('YYYY-MM-DD')}
+            dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+            dateStartTwo={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+            dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+          />
+        </Fragment>
+      )
+    } else if (showProductAverages) {
+      chartToDraw = (
+        <Fragment>
+          <BarChartProductAverageActivity
             department={selectedDepartment}
             dateStart={moment(dateStart).format('YYYY-MM-DD')}
             dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
@@ -72,7 +86,9 @@ const StatisticsLayout = ({
       <Fragment key={selectedDepartment._id}>
         <div className="flex">
           <div className="w-full">
-            <div className={showAverageInsects ? 'columns-2' : ''}>{pies}</div>
+            <div className={showAverageInsects ? 'columns-2' : ''}>
+              {chartToDraw}
+            </div>
           </div>
         </div>
       </Fragment>

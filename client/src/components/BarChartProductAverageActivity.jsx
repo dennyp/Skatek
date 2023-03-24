@@ -25,7 +25,7 @@ ChartJS.register(
   Tooltip
 )
 
-const BarChart = ({
+const BarChartProductAverageActivity = ({
   department,
   dateStart,
   dateEnd,
@@ -160,4 +160,4 @@ const BarChart = ({
   return <>{content}</>
 }
 
-export default BarChart
+export default BarChartProductAverageActivity
