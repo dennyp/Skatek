@@ -148,7 +148,7 @@ const BarChartProductAverageActivity = ({
           <div className="mb-2 mt-8 -ml-4">
             <ButtonWithSpinner handleClick={handleDownloadExcelClick}>
               <DocumentArrowDownIcon className="h-4 w-4" />
-              &nbsp; Ladda ner
+              &nbsp; Ladda ner excel
             </ButtonWithSpinner>
           </div>
           <Bar className="p-5 border" data={activityData} options={options} />

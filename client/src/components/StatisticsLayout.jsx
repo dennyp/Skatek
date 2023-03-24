@@ -32,13 +32,13 @@ const StatisticsLayout = ({
     data: departments,
   } = useGetDepartmentsQuery()
 
-  let charts, chartToDraw
+  let charts, chartsToDraw
   if (
     selectedDepartment !== undefined &&
     Object.keys(selectedDepartment).length > 0
   ) {
     if (showAverageInsects) {
-      chartToDraw = (
+      chartsToDraw = (
         <Fragment>
           <div>
             <PieChart
@@ -57,7 +57,7 @@ const StatisticsLayout = ({
         </Fragment>
       )
     } else if (showTotalAverageInsects) {
-      chartToDraw = (
+      chartsToDraw = (
         <Fragment>
           <BarChartInsects
             department={selectedDepartment}
@@ -69,9 +69,16 @@ const StatisticsLayout = ({
         </Fragment>
       )
     } else if (showProductAverages) {
-      chartToDraw = (
+      chartsToDraw = (
         <Fragment>
           <BarChartProductAverageActivity
+            department={selectedDepartment}
+            dateStart={moment(dateStart).format('YYYY-MM-DD')}
+            dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+            dateStartTwo={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+            dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+          />
+          <BarChartInsects
             department={selectedDepartment}
             dateStart={moment(dateStart).format('YYYY-MM-DD')}
             dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
@@ -87,7 +94,7 @@ const StatisticsLayout = ({
         <div className="flex">
           <div className="w-full">
             <div className={showAverageInsects ? 'columns-2' : ''}>
-              {chartToDraw}
+              {chartsToDraw}
             </div>
           </div>
         </div>

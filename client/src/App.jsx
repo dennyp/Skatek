@@ -40,13 +40,13 @@ const App = () => {
               index
               element={
                 <StatisticsLayout
-                  title="Genomsnittligt total aktivitet"
-                  paragraph="Diagrammen visar den genomsnittliga totala aktiviteten för en produkt över vald tidperiod. Visar endast ljusfällor med uppmätt aktivitet under perioden."
+                  title="Statistik"
+                  paragraph="Välj tidsperiod och relevant avdelning nedan. Två diagram kommer att visas. Det övre diagrammet visar den genomsnittliga totala aktiviteten för de produkter som har haft aktivitet under en vald tidperiod. Det nedre diagrammet visar det genomsnittliga antalet insikter infångade i ljusfällorna under vald tidsperiod."
                   showProductAverages={true}
                 />
               }
             />
-            <Route
+            {/* <Route
               path="statistics-total-insects"
               element={
                 <StatisticsLayout
@@ -55,8 +55,8 @@ const App = () => {
                   showTotalAverageInsects={true}
                 />
               }
-            />
-            <Route
+            /> */}
+            {/* <Route
               path="statistics-insects"
               element={
                 <StatisticsLayout
@@ -65,7 +65,7 @@ const App = () => {
                   showAverageInsects={true}
                 />
               }
-            />
+            /> */}
             <Route element={<RequireAdmin />}>
               <Route path="products" element={<Products />} />
               <Route path="activitylogs" element={<ActivityLogs />} />

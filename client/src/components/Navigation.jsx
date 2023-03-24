@@ -1,4 +1,3 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -12,19 +11,19 @@ import { Link } from 'react-router-dom'
 import { logout, selectCurrentIsAdmin } from '../app/features/auth/authSlice'
 
 const navigation = [
-  { name: 'Kontrollpanel', href: '/', current: true, admin: false },
-  {
-    name: 'Statistik insektstyp',
-    href: '/statistics-insects',
-    current: false,
-    admin: false,
-  },
-  {
-    name: 'Statistik totalt',
-    href: '/statistics-total-insects',
-    current: false,
-    admin: false,
-  },
+  { name: 'Statistik', href: '/', current: true, admin: false },
+  // {
+  //   name: 'Statistik insektstyp',
+  //   href: '/statistics-insects',
+  //   current: false,
+  //   admin: false,
+  // },
+  // {
+  //   name: 'Statistik totalt',
+  //   href: '/statistics-total-insects',
+  //   current: false,
+  //   admin: false,
+  // },
   { name: 'Produkter', href: '/products', current: false, admin: true },
   {
     name: 'Aktivitet produkter',
