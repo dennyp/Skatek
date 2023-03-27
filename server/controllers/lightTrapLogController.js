@@ -141,24 +141,6 @@ export class lightTrapLogController {
             },
           ],
         }
-
-        // let totals = []
-        // readyToPlotProducts.forEach((product) => {
-        //   const total =
-        //     product.averageBananaflyActivity +
-        //     product.averageFlyActivity +
-        //     product.averageWaspActivity +
-        //     product.averageNeuropteranActivity +
-        //     product.averageDaddylonglegsActivity +
-        //     product.averageMiscActivity
-
-        //   totals.push(total)
-        // })
-
-        // plotData = {
-        //   labels: productNames,
-        //   datasets: { data: totals },
-        // }
       }
 
       res.json({
@@ -166,10 +148,6 @@ export class lightTrapLogController {
         productObjects: [productObjectsPeriodOne, productObjectsPeriodTwo],
       })
     } catch (error) {
-      console.log(
-        '🚀 ~ file: lightTrapLogController.js:169 ~ lightTrapLogController ~ findAllVisualTotal ~ error:',
-        error
-      )
       next(createError(500))
     }
   }

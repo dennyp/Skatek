@@ -1,4 +1,3 @@
-import axios from 'axios'
 import createError from 'http-errors'
 import mongoose from 'mongoose'
 import { Product } from '../models/Product.js'

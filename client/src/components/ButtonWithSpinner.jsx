@@ -27,7 +27,7 @@ export const ButtonWithSpinner = ({ children, isLoading, handleClick }) => {
       ) : (
         ''
       )}
-      {isLoading ? 'Sparar...' : 'Spara'}
+      {children}
     </button>
   )
   return content

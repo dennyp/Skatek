@@ -8,6 +8,7 @@ import { router as lightTrapLogRouter } from '../routes/lightTrapLogRouter.js'
 import { router as lightTrapRouter } from '../routes/lightTrapRouter.js'
 import { router as locationRouter } from '../routes/locationRouter.js'
 import { router as organizationRouter } from '../routes/organizationRouter.js'
+import { router as planRouter } from '../routes/planRouter.js'
 import { router as productRouter } from '../routes/productRouter.js'
 import { router as productTypeRouter } from '../routes/productTypeRouter.js'
 
@@ -25,5 +26,6 @@ router.use('/locations', locationRouter)
 router.use('/activitylogs', activityLogRouter)
 router.use('/lighttraps', lightTrapRouter)
 router.use('/lighttraplogs', lightTrapLogRouter)
+router.use('/plans', planRouter)
 
 router.use('*', (req, res, next) => next(createError(404)))

@@ -2,7 +2,7 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
 import moment from 'moment'
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import DepartmentInputGroup from '../app/features/departments/DepartmentInputGroup'
 import { useGetDepartmentsQuery } from '../app/features/departments/departmentsApiSlice'
 

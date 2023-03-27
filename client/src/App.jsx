@@ -10,6 +10,7 @@ import RequireAdmin from './app/features/auth/RequireAdmin'
 import RequireAuth from './app/features/auth/RequireAuth'
 import LightTrapLogs from './app/features/lighttraplogs/LightTrapLogs'
 import LightTraps from './app/features/lighttraps/LightTraps'
+import PlansLayout from './app/features/plans/PlansLayout'
 import Products from './app/features/products/Products'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
@@ -46,6 +47,7 @@ const App = () => {
                 />
               }
             />
+            <Route path="plans" element={<PlansLayout />} />
             {/* <Route
               path="statistics-total-insects"
               element={
