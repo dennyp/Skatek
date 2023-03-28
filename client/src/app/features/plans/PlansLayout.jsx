@@ -1,5 +1,7 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
+import { useSelector } from 'react-redux'
 import AddButton from '../../../components/AddButton'
+import { selectCurrentIsAdmin } from '../auth/authSlice'
 import DepartmentInputGroup from '../departments/DepartmentInputGroup'
 import AddPlanSlideover from './AddPlanSlideover'
 import Plans from './Plans'
@@ -7,6 +9,8 @@ import Plans from './Plans'
 const PlansLayout = () => {
   const [openAddSlider, setOpenAddSlider] = useState(false)
   const [selectedDepartment, setSelectedDepartment] = useState({})
+
+  const isAdmin = useSelector(selectCurrentIsAdmin)
 
   const handleDepartmentChange = (department) => {
     setSelectedDepartment(department)
@@ -35,7 +39,7 @@ const PlansLayout = () => {
               avdelningen.
             </p>
           </div>
-          <AddButton openSlider={setOpenAddSlider} />
+          {isAdmin && <AddButton openSlider={setOpenAddSlider} />}
         </div>
         <div className="px-5 mb-4 mt-4">
           <DepartmentInputGroup
