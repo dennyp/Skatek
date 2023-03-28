@@ -98,6 +98,7 @@ const AddPlanSlideover = ({ open, setOpen }) => {
             id="file_input"
             type="file"
             onChange={handleFileChange}
+            accept="image/png, image/jpeg, image/jpg"
           />
           <p className="ml-1 pt-1 text-xs text-gray-900" id="file_input_help">
             PNG, JPG eller JPEG
