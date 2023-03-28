@@ -4,7 +4,6 @@ const imageSchema = mongoose.Schema(
   {
     name: {
       type: Schema.Types.String,
-      required: true,
     },
     desc: { type: Schema.Types.String },
     img: {
