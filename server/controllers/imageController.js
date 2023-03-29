@@ -58,4 +58,47 @@ export class imageController {
       next(createError(500))
     }
   }
+
+  async update(req, res, next) {
+    try {
+      const { id } = req.params
+      const { name = '', desc = '', department } = req.body
+
+      const obj = await Image.findById(id)
+
+      if (!obj || typeof obj === undefined) {
+        next(createError(404))
+        return
+      }
+
+      const newURL = `https://${req.get('host')}${req.originalUrl}/${obj._id}`
+
+      // if there is no file, update only name and description for the plan
+      if (req.file === undefined) {
+        await obj.updateOne({
+          name,
+          desc,
+        })
+
+        res.location(newURL).status(201).json(obj)
+      }
+
+      const b64 = Buffer.from(req.file.buffer).toString('base64')
+      const dataURI = 'data:' + req.file.mimetype + ';base64,' + b64
+
+      const result = await cloudinary.uploader.upload(dataURI, {
+        public_id: obj.img.public_id,
+      })
+
+      await obj.updateOne({
+        name,
+        desc,
+        img: { url: result.secure_url },
+      })
+
+      res.location(newURL).status(201).json(obj)
+    } catch (error) {
+      next(createError(500))
+    }
+  }
 }

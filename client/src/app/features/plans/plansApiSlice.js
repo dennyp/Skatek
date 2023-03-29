@@ -1,7 +1,7 @@
 import { apiSlice } from '../api/apiSlice'
 
 export const plansApiSlice = apiSlice.injectEndpoints({
-  tagTypes: ['Plans'],
+  tagTypes: ['Plans', 'Plan'],
   endpoints: (builder) => ({
     getPlansFromDepartment: builder.query({
       query: (id) => ({
@@ -18,8 +18,19 @@ export const plansApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Plans'],
     }),
+    updatePlan: builder.mutation({
+      query: (plan) => ({
+        url: `/plans/${plan.get('_id')}`,
+        method: 'PUT',
+        body: plan,
+      }),
+      invalidatesTags: ['Plans', 'Plan'],
+    }),
   }),
 })
 
-export const { useGetPlansFromDepartmentQuery, useCreatePlanMutation } =
-  plansApiSlice
+export const {
+  useGetPlansFromDepartmentQuery,
+  useCreatePlanMutation,
+  useUpdatePlanMutation,
+} = plansApiSlice

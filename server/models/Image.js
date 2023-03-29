@@ -9,11 +9,9 @@ const imageSchema = mongoose.Schema(
     img: {
       public_id: {
         type: Schema.Types.String,
-        required: true,
       },
       url: {
         type: Schema.Types.String,
-        required: true,
       },
     },
     department: {

@@ -17,3 +17,7 @@ router.get('/:id', verifyToken, (req, res, next) =>
 router.post('/', verifyToken, upload.single('file'), (req, res, next) =>
   controller.create(req, res, next)
 )
+
+router.put('/:id', verifyToken, upload.single('file'), (req, res, next) =>
+  controller.update(req, res, next)
+)
