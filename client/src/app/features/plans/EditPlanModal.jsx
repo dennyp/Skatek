@@ -1,5 +1,4 @@
 import { Dialog, Transition } from '@headlessui/react'
-import { SettingsSystemDaydreamRounded } from '@mui/icons-material'
 import React, { Fragment, useRef, useState } from 'react'
 import { toast } from 'react-toastify'
 import { ButtonWithSpinner } from '../../../components/ButtonWithSpinner'
@@ -23,7 +22,7 @@ const EditPlanModal = ({
   const successMessage = () => toast.success('Ritning sparad')
   const failureMessage = () => toast.error('Ritning kunde inte sparas')
 
-  const [updatePlan, { isLoadingUpdate }] = useUpdatePlanMutation()
+  const [updatePlan, { isLoading: isLoadingUpdate }] = useUpdatePlanMutation()
 
   const handleNameChange = (newValue) => {
     setName(newValue)
@@ -51,10 +50,6 @@ const EditPlanModal = ({
       formData.append('desc', desc)
 
       const response = await updatePlan(formData)
-      console.log(
-        '🚀 ~ file: EditPlanModal.jsx:48 ~ handleSave ~ response:',
-        response
-      )
 
       if (!response.error) {
         successMessage()
@@ -173,7 +168,10 @@ const EditPlanModal = ({
                     >
                       Avbryt
                     </button>
-                    <ButtonWithSpinner handleClick={handleSave}>
+                    <ButtonWithSpinner
+                      handleClick={handleSave}
+                      isLoading={isLoadingUpdate}
+                    >
                       {isLoadingUpdate ? 'Sparar...' : 'Spara'}
                     </ButtonWithSpinner>
                   </div>

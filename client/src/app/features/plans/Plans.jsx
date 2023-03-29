@@ -1,16 +1,25 @@
-import { Edit } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import { Box, IconButton, Tooltip } from '@mui/material'
 import React, { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import { selectCurrentIsAdmin } from '../auth/authSlice'
 import EditPlanModal from './EditPlanModal'
-import { useGetPlansFromDepartmentQuery } from './plansApiSlice'
+import {
+  useDeletePlanMutation,
+  useGetPlansFromDepartmentQuery,
+} from './plansApiSlice'
 
 const Plans = ({ department }) => {
   const [openEditModal, setOpenEditModal] = useState(false)
   const [plan, setPlan] = useState({})
 
   const isAdmin = useSelector(selectCurrentIsAdmin)
+
+  const successMessage = () => toast.success('Ritning raderad')
+  const failureMessage = () => toast.error('Ritning kunde inte raderas')
+
+  const [deletePlan] = useDeletePlanMutation()
 
   const {
     isLoading,
@@ -21,6 +30,19 @@ const Plans = ({ department }) => {
   const handleEditClick = (plan) => {
     setOpenEditModal(true)
     setPlan(plan)
+  }
+
+  const handleDeleteClick = async (plan) => {
+    try {
+      const response = await deletePlan(plan._id)
+
+      if (!response.error) {
+        successMessage()
+      }
+    } catch (error) {
+      console.error('error deleting floor plan', error)
+      failureMessage()
+    }
   }
 
   let content
@@ -36,6 +58,11 @@ const Plans = ({ department }) => {
                     <Tooltip title="Ändra">
                       <IconButton onClick={() => handleEditClick(plan)}>
                         <Edit />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Radera">
+                      <IconButton onClick={() => handleDeleteClick(plan)}>
+                        <Delete />
                       </IconButton>
                     </Tooltip>
                   </div>

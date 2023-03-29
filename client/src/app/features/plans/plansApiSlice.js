@@ -26,6 +26,13 @@ export const plansApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Plans', 'Plan'],
     }),
+    deletePlan: builder.mutation({
+      query: (id) => ({
+        url: `/plans/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Plans', 'Plan'],
+    }),
   }),
 })
 
@@ -33,4 +40,5 @@ export const {
   useGetPlansFromDepartmentQuery,
   useCreatePlanMutation,
   useUpdatePlanMutation,
+  useDeletePlanMutation,
 } = plansApiSlice

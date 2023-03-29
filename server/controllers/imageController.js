@@ -4,6 +4,26 @@ import cloudinary from '../config/cloudinary.js'
 import { Image } from '../models/Image.js'
 
 export class imageController {
+  async findAllInDepartment(req, res, next) {
+    try {
+      const { id } = req.params
+
+      if (!id) {
+        next(createError(400))
+      }
+
+      const images = await Image.find({ department: id })
+
+      if (!images) {
+        next(createError(404))
+      }
+
+      res.json(images)
+    } catch (error) {
+      next(createError(500))
+    }
+  }
+
   async create(req, res, next) {
     try {
       if (Object.keys(req.body).length === 0 || req.file === undefined) {
@@ -39,21 +59,25 @@ export class imageController {
     }
   }
 
-  async findAllInDepartment(req, res, next) {
+  async delete(req, res, next) {
     try {
       const { id } = req.params
 
       if (!id) {
         next(createError(400))
+        return
       }
 
-      const images = await Image.find({ department: id })
+      const response = await Image.findByIdAndDelete(id)
 
-      if (!images) {
+      const result = await cloudinary.uploader.destroy(response.img.public_id)
+
+      if (!response) {
         next(createError(404))
+        return
       }
 
-      res.json(images)
+      res.status(204).end()
     } catch (error) {
       next(createError(500))
     }
@@ -81,6 +105,7 @@ export class imageController {
         })
 
         res.location(newURL).status(201).json(obj)
+        return
       }
 
       const b64 = Buffer.from(req.file.buffer).toString('base64')
@@ -93,7 +118,10 @@ export class imageController {
       await obj.updateOne({
         name,
         desc,
-        img: { url: result.secure_url },
+        img: {
+          public_id: result.public_id,
+          url: result.secure_url,
+        },
       })
 
       res.location(newURL).status(201).json(obj)

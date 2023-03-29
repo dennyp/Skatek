@@ -21,3 +21,7 @@ router.post('/', verifyToken, upload.single('file'), (req, res, next) =>
 router.put('/:id', verifyToken, upload.single('file'), (req, res, next) =>
   controller.update(req, res, next)
 )
+
+router.delete('/:id', verifyToken, (req, res, next) =>
+  controller.delete(req, res, next)
+)
