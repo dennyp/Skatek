@@ -56,21 +56,10 @@ const AddPlanSlideover = ({ open, setOpen }) => {
     }
   }
 
-  return (
-    <SlideoverLayout
-      open={open}
-      setOpen={setOpen}
-      isLoading={isLoading}
-      handleSave={handleSave}
-      encType="multipart/form-data"
-    >
-      <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
-        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
-          <DepartmentInputGroup
-            value={selectedDepartment}
-            onChange={handleDepartmentChange}
-          />
-        </div>
+  let content
+  if (Object.keys(selectedDepartment).length > 0) {
+    content = (
+      <>
         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
           <TextInputGroup
             label="Namn"
@@ -104,6 +93,32 @@ const AddPlanSlideover = ({ open, setOpen }) => {
             PNG, JPG eller JPEG
           </p>
         </div>
+      </>
+    )
+  } else {
+    content = (
+      <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+        Välj en avdelning...
+      </div>
+    )
+  }
+
+  return (
+    <SlideoverLayout
+      open={open}
+      setOpen={setOpen}
+      isLoading={isLoading}
+      handleSave={handleSave}
+      encType="multipart/form-data"
+    >
+      <div className="space-y-6 py-6 sm:space-y-0 sm:divide-y sm:divide-gray-200 sm:py-0">
+        <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">
+          <DepartmentInputGroup
+            value={selectedDepartment}
+            onChange={handleDepartmentChange}
+          />
+        </div>
+        {content}
       </div>
     </SlideoverLayout>
   )
