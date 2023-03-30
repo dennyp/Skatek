@@ -1,5 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { Box, IconButton, Tooltip } from '@mui/material'
+import { Box, CircularProgress, IconButton, Tooltip } from '@mui/material'
 import React, { Fragment, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -19,7 +19,7 @@ const Plans = ({ department }) => {
   const successMessage = () => toast.success('Ritning raderad')
   const failureMessage = () => toast.error('Ritning kunde inte raderas')
 
-  const [deletePlan] = useDeletePlanMutation()
+  const [deletePlan, { isLoading: isLoadingDelete }] = useDeletePlanMutation()
 
   const {
     isLoading,
@@ -60,11 +60,15 @@ const Plans = ({ department }) => {
                         <Edit />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Radera">
-                      <IconButton onClick={() => handleDeleteClick(plan)}>
-                        <Delete />
-                      </IconButton>
-                    </Tooltip>
+                    {isLoadingDelete ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <Tooltip title="Radera">
+                        <IconButton onClick={() => handleDeleteClick(plan)}>
+                          <Delete />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                   </div>
                 )}
                 <div>
