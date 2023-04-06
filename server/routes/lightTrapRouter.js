@@ -10,6 +10,10 @@ router.get('/', verifyToken, (req, res, next) =>
   controller.findAllLightTraps(req, res, next)
 )
 
+router.get('/department/:id', verifyToken, (req, res, next) =>
+  controller.findAllLightTrapsInDepartment(req, res, next)
+)
+
 router.get('/:id', verifyToken, (req, res, next) =>
   controller.find(req, res, next)
 )

@@ -10,6 +10,12 @@ export const lightTrapsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['LightTraps'],
     }),
+    getLightTrapsFromDepartment: builder.query({
+      query: (id) => ({
+        url: `/lighttraps/department/${id}`,
+        method: 'GET',
+      }),
+    }),
     getLightTrap: builder.query({
       query: (id) => ({
         url: `/lighttraps/${id}`,
@@ -39,6 +45,7 @@ export const lightTrapsApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetLightTrapsQuery,
   useGetLightTrapQuery,
+  useGetLightTrapsFromDepartmentQuery,
   useCreateLightTrapMutation,
   useUpdateLightTrapMutation,
 } = lightTrapsApiSlice

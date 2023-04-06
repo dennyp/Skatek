@@ -53,6 +53,27 @@ export class productController {
     }
   }
 
+  async findAllLightTrapsInDepartment(req, res, next) {
+    try {
+      const { id } = req.params
+
+      const traps = await Product.getAllLightTrapsInDepartment(id)
+
+      if (!traps || typeof traps === undefined) {
+        next(createError(404))
+        return
+      }
+
+      res.json(traps)
+    } catch (error) {
+      console.log(
+        '🚀 ~ file: productController.js:69 ~ productController ~ findAllLightTrapsInDepartment ~ error:',
+        error
+      )
+      next(createError(500))
+    }
+  }
+
   async create(req, res, next) {
     try {
       if (Object.keys(req.body).length === 0) {

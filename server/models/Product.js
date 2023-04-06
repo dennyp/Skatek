@@ -63,6 +63,14 @@ productSchema.statics.getAllLightTraps = async function (search) {
     .populate('department location productType')
 }
 
+productSchema.statics.getAllLightTrapsInDepartment = async function (id) {
+  return this.find({
+    department: id,
+    isActive: true,
+    productType: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895'),
+  })
+}
+
 productSchema.statics.getById = async function (id) {
   const isValidObjectId = mongoose.isValidObjectId(id)
 
