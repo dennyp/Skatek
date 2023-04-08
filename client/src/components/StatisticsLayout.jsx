@@ -8,6 +8,7 @@ import { useGetDepartmentsQuery } from '../app/features/departments/departmentsA
 
 import BarChartInsects from './BarChartInsects'
 import BarChartProductAverageActivity from './BarChartProductAverageActivity'
+import LightTrapChartLayout from './LightTrapChartLayout'
 import PieChart from './PieChart'
 
 const StatisticsLayout = ({
@@ -79,6 +80,13 @@ const StatisticsLayout = ({
             dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
           />
           <BarChartInsects
+            department={selectedDepartment}
+            dateStart={moment(dateStart).format('YYYY-MM-DD')}
+            dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
+            dateStartTwo={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+            dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+          />
+          <LightTrapChartLayout
             department={selectedDepartment}
             dateStart={moment(dateStart).format('YYYY-MM-DD')}
             dateEnd={moment(dateEnd).format('YYYY-MM-DD')}

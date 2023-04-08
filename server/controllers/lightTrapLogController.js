@@ -1,8 +1,12 @@
+import { getMonth } from 'date-fns'
 import createError from 'http-errors'
 import mongoose from 'mongoose'
 import { LightTrapLog } from '../models/LightTrapLog.js'
 import { Product } from '../models/Product.js'
-import { getLightTrapLogPlotData } from '../visual/plotData.js'
+import {
+  getLightTrapLogPlotData,
+  getPlottableData,
+} from '../visual/plotData.js'
 
 export class lightTrapLogController {
   async findAll(req, res, next) {
@@ -33,7 +37,7 @@ export class lightTrapLogController {
     }
   }
 
-  async findAllVisual(req, res, next) {
+  async findAllVisualPerInsect(req, res, next) {
     try {
       const { department, dateStart, dateEnd } = req.query
 
@@ -88,25 +92,11 @@ export class lightTrapLogController {
   async findAllVisualTotal(req, res, next) {
     try {
       const {
-        department,
-        dateStart,
-        dateEnd,
-        dateStartTwo = '',
-        dateEndTwo = '',
-      } = req.query
-
-      const products = await Product.getByDepartment(department)
-      const productsIds = products.map((product) => product._id)
-
-      const {
-        readyToPlotProducts: productsPeriodOne,
-        productObjects: productObjectsPeriodOne,
-      } = await getLightTrapLogPlotData(productsIds, dateStart, dateEnd)
-
-      const {
-        readyToPlotProducts: productsPeriodTwo,
-        productObjects: productObjectsPeriodTwo,
-      } = await getLightTrapLogPlotData(productsIds, dateStartTwo, dateEndTwo)
+        productsPeriodOne,
+        productsPeriodTwo,
+        productObjectsPeriodOne,
+        productObjectsPeriodTwo,
+      } = await getPlottableData(req.query)
 
       let plotData = {}
       if (productsPeriodOne.length > 0) {
@@ -147,6 +137,31 @@ export class lightTrapLogController {
         plotData,
         productObjects: [productObjectsPeriodOne, productObjectsPeriodTwo],
       })
+    } catch (error) {
+      next(createError(500))
+    }
+  }
+
+  async findAllVisualForTrap(req, res, next) {
+    try {
+      const { trap, dateStart, dateEnd } = req.query
+
+      const logs = await LightTrapLog.getByProduct(trap, dateStart, dateEnd)
+
+      let plotData = {}
+      plotData = {
+        datasets: [
+          {
+            label: 'Totalt antal',
+            data: logs.map((log) => ({
+              x: log.dateLogged,
+              y: log.total,
+            })),
+          },
+        ],
+      }
+
+      res.json(plotData)
     } catch (error) {
       next(createError(500))
     }

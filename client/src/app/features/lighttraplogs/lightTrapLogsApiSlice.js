@@ -19,13 +19,19 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ['LightTrapLog'],
     }),
-    getVisualLightTrapLogs: builder.query({
+    getVisualLightTrapLogsPerInsect: builder.query({
       query: ({ department, dateStart, dateEnd }) => ({
-        url: '/lighttraplogs/visual',
+        url: '/lighttraplogs/visual-per-insect',
         method: 'GET',
         params: { department, dateStart, dateEnd },
       }),
-      providesTags: ['LightTrapLogs'],
+    }),
+    getVisualLightTrapLogsForTrap: builder.query({
+      query: ({ trap, dateStart, dateEnd, dateStartTwo, dateEndTwo }) => ({
+        url: '/lighttraplogs/visual-for-trap',
+        method: 'GET',
+        params: { trap, dateStart, dateEnd, dateStartTwo, dateEndTwo },
+      }),
     }),
     getVisualTotalLightTrapLogs: builder.query({
       query: ({
@@ -35,7 +41,7 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
         dateStartTwo,
         dateEndTwo,
       }) => ({
-        url: '/lighttraplogs/visualTotal',
+        url: '/lighttraplogs/visual-total',
         method: 'GET',
         params: { department, dateStart, dateEnd, dateStartTwo, dateEndTwo },
       }),
@@ -60,8 +66,9 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetLightTrapLogsQuery,
-  useGetVisualLightTrapLogsQuery,
+  useGetVisualLightTrapLogsPerInsectQuery,
   useGetVisualTotalLightTrapLogsQuery,
+  useGetVisualLightTrapLogsForTrapQuery,
   useCreateLightTrapLogMutation,
   useDeleteLightTrapLogMutation,
 } = lightTrapLogsApiSlice

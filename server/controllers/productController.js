@@ -66,10 +66,6 @@ export class productController {
 
       res.json(traps)
     } catch (error) {
-      console.log(
-        '🚀 ~ file: productController.js:69 ~ productController ~ findAllLightTrapsInDepartment ~ error:',
-        error
-      )
       next(createError(500))
     }
   }

@@ -52,6 +52,54 @@ lightTrapLogSchema.statics.getAll = async function (sort, page, pageSize) {
     })
 }
 
+lightTrapLogSchema.statics.getByProduct = async function (
+  trap,
+  dateStart,
+  dateEnd
+) {
+  const isValidObjectId = mongoose.isValidObjectId(trap)
+
+  if (!isValidObjectId) return
+
+  const matchStage = {
+    $match: {
+      product: mongoose.Types.ObjectId(trap),
+      $and: [
+        {
+          $expr: {
+            $gte: ['$dateLogged', { $toDate: dateStart }],
+          },
+        },
+        {
+          $expr: {
+            $lte: ['$dateLogged', { $toDate: dateEnd }],
+          },
+        },
+      ],
+    },
+  }
+
+  const projectStage = {
+    $project: {
+      product: 1,
+      department: 1,
+      dateLogged: 1,
+      total: {
+        $add: [
+          '$flyActivity',
+          '$bananaflyActivity',
+          '$waspActivity',
+          '$neuropteranActivity',
+          '$daddylonglegsActivity',
+          '$miscActivity',
+        ],
+      },
+    },
+  }
+
+  return this.aggregate([matchStage, projectStage])
+}
+
 lightTrapLogSchema.statics.getByProducts = async function (
   productIds,
   dateStart,
@@ -59,10 +107,11 @@ lightTrapLogSchema.statics.getByProducts = async function (
 ) {
   return this.find({
     product: { $in: productIds },
-    dateLogged: { $gt: dateStart, $lt: dateEnd },
+    dateLogged: { $gte: dateStart, $lte: dateEnd },
   }).populate({
     path: 'product',
     populate: { path: 'department' },
   })
 }
+
 export const LightTrapLog = mongoose.model('lighttraplog', lightTrapLogSchema)

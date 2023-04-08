@@ -10,11 +10,15 @@ router.get('/', verifyToken, (req, res, next) =>
   controller.findAll(req, res, next)
 )
 
-router.get('/visual', verifyToken, (req, res, next) =>
-  controller.findAllVisual(req, res, next)
+router.get('/visual-per-insect', verifyToken, (req, res, next) =>
+  controller.findAllVisualPerInsect(req, res, next)
 )
 
-router.get('/visualTotal', verifyToken, (req, res, next) =>
+router.get('/visual-for-trap', verifyToken, (req, res, next) =>
+  controller.findAllVisualForTrap(req, res, next)
+)
+
+router.get('/visual-total', verifyToken, (req, res, next) =>
   controller.findAllVisualTotal(req, res, next)
 )
 

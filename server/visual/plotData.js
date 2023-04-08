@@ -1,5 +1,6 @@
 import { ActivityLog } from '../models/ActivityLog.js'
 import { LightTrapLog } from '../models/LightTrapLog.js'
+import { Product } from '../models/Product.js'
 
 const createProductObjectsActivityLog = (array) => {
   return array.reduce(
@@ -25,7 +26,7 @@ const createProductObjectsActivityLog = (array) => {
   )
 }
 
-const createProductObjectsLightTrap = (array) => {
+const createProductObjectsLightTrapTotal = (array) => {
   return array.reduce(
     (acc, current) => ({
       ...acc,
@@ -124,10 +125,13 @@ export const getActivityLogPlotData = async (
   return { readyToPlotProducts, productObjects }
 }
 
+const createProductObjectsPerLightTrap = (array) => {}
+
 export const getLightTrapLogPlotData = async (
   productsIds,
   dateStart,
-  dateEnd
+  dateEnd,
+  calculateTotal
 ) => {
   const lightTrapLogsFromProducts = await LightTrapLog.getByProducts(
     productsIds,
@@ -135,9 +139,14 @@ export const getLightTrapLogPlotData = async (
     dateEnd
   )
 
-  const productObjects = createProductObjectsLightTrap(
-    lightTrapLogsFromProducts
-  )
+  let productObjects
+  if (calculateTotal) {
+    productObjects = createProductObjectsLightTrapTotal(
+      lightTrapLogsFromProducts
+    )
+  } else {
+    productObjects = createProductObjectsPerLightTrap(lightTrapLogsFromProducts)
+  }
 
   const filteredProducts = Object.keys(productObjects).map((key) => {
     if (productObjects[key].averageFlyActivity > 0) return productObjects[key]
@@ -148,4 +157,34 @@ export const getLightTrapLogPlotData = async (
   )
 
   return { readyToPlotProducts, productObjects }
+}
+
+export const getPlottableData = async (query) => {
+  const {
+    department,
+    dateStart,
+    dateEnd,
+    dateStartTwo = '',
+    dateEndTwo = '',
+  } = query
+
+  const products = await Product.getByDepartment(department)
+  const productsIds = products.map((product) => product._id)
+
+  const {
+    readyToPlotProducts: productsPeriodOne,
+    productObjects: productObjectsPeriodOne,
+  } = await getLightTrapLogPlotData(productsIds, dateStart, dateEnd, true)
+
+  const {
+    readyToPlotProducts: productsPeriodTwo,
+    productObjects: productObjectsPeriodTwo,
+  } = await getLightTrapLogPlotData(productsIds, dateStartTwo, dateEndTwo, true)
+
+  return {
+    productsPeriodOne,
+    productsPeriodTwo,
+    productObjectsPeriodOne,
+    productObjectsPeriodTwo,
+  }
 }

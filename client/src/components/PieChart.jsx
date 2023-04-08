@@ -3,7 +3,7 @@ import { ArcElement, Chart as ChartJS, Legend, Title, Tooltip } from 'chart.js'
 import React, { Fragment } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { utils, writeFileXLSX } from 'xlsx'
-import { useGetVisualLightTrapLogsQuery } from '../app/features/lighttraplogs/lightTrapLogsApiSlice'
+import { useGetVisualLightTrapLogsPerInsectQuery } from '../app/features/lighttraplogs/lightTrapLogsApiSlice'
 import { ButtonWithSpinner } from './ButtonWithSpinner'
 
 ChartJS.register(ArcElement, Legend, Title, Tooltip)
@@ -13,7 +13,7 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
     isLoading: isLoadingActivityLogs,
     error: errorActivityLogs,
     data: logs,
-  } = useGetVisualLightTrapLogsQuery({
+  } = useGetVisualLightTrapLogsPerInsectQuery({
     department: department._id,
     dateStart,
     dateEnd,
