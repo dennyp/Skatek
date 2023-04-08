@@ -90,8 +90,11 @@ const StatisticsLayout = ({
             department={selectedDepartment}
             dateStart={moment(dateStart).format('YYYY-MM-DD')}
             dateEnd={moment(dateEnd).format('YYYY-MM-DD')}
-            dateStartTwo={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
-            dateEndTwo={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
+          />
+          <LightTrapChartLayout
+            department={selectedDepartment}
+            dateStart={moment(dateStartPeriodTwo).format('YYYY-MM-DD')}
+            dateEnd={moment(dateEndPeriodTwo).format('YYYY-MM-DD')}
           />
         </Fragment>
       )
