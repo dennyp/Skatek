@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux'
 import AddButton from '../../../components/AddButton'
 import DataGridActions from '../actions/DataGridActions'
 import AddProductSlideover from './AddProductSlideover'
-import { useGetProductsQuery } from './productsApiSlice'
 import ProductSlideover from './ProductSlideover'
+import { useGetProductsQuery } from './productsApiSlice'
 import { setProducts } from './productsSlice'
 
 const Product = () => {
@@ -31,7 +31,7 @@ const Product = () => {
       field: 'department',
       headerName: 'Avdelning',
       flex: 1.2,
-      valueGetter: (params) => params.row?.department?.name,
+      valueGetter: (params) => params.row?.department[0]?.name,
     },
     { field: 'name', headerName: 'Namn', flex: 0.5 },
     { field: 'placement', headerName: 'Placering', flex: 3 },

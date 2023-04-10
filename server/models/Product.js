@@ -33,15 +33,47 @@ const productSchema = mongoose.Schema(
 productSchema.statics.getAll = async function (search) {
   const isValidObjectId = mongoose.isValidObjectId(search)
 
-  if (isValidObjectId && search.length !== 0) {
-    return this.find({
-      department: search,
-    })
-      .sort('name')
-      .populate('department location productType')
+  let matchStage = {
+    $match: {
+      isActive: true,
+    },
   }
 
-  return this.find().sort('name').populate('department location productType')
+  const lookupStage = {
+    $lookup: {
+      from: 'departments',
+      localField: 'department',
+      foreignField: '_id',
+      as: 'department',
+    },
+  }
+
+  const projectStage = {
+    $project: {
+      name: { $toInt: '$name' },
+      placement: 1,
+      'department.name': 1,
+    },
+  }
+
+  const sortStage = {
+    $sort: {
+      name: 1,
+    },
+  }
+
+  if (isValidObjectId && search.length !== 0) {
+    matchStage = {
+      $match: {
+        department: mongoose.Types.ObjectId(search),
+        isActive: true,
+      },
+    }
+
+    return this.aggregate([matchStage, lookupStage, projectStage, sortStage])
+  }
+
+  return this.aggregate([matchStage, lookupStage, projectStage, sortStage])
 }
 
 productSchema.statics.getAllLightTraps = async function (search) {
