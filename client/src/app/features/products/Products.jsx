@@ -35,18 +35,18 @@ const Product = () => {
     },
     { field: 'name', headerName: 'Namn', flex: 0.5 },
     { field: 'placement', headerName: 'Placering', flex: 3 },
-    {
-      field: 'productType',
-      headerName: 'Produkttyp',
-      flex: 1,
-      valueGetter: (params) => params.row?.productType?.name,
-    },
-    {
-      field: 'location',
-      headerName: 'Lokalisering',
-      flex: 1,
-      valueGetter: (params) => params.row?.location?.name,
-    },
+    // {
+    //   field: 'productType',
+    //   headerName: 'Produkttyp',
+    //   flex: 1,
+    //   valueGetter: (params) => params.row?.productType?.name,
+    // },
+    // {
+    //   field: 'location',
+    //   headerName: 'Lokalisering',
+    //   flex: 1,
+    //   valueGetter: (params) => params.row?.location?.name,
+    // },
     {
       field: 'actions',
       headerName: 'Actions',

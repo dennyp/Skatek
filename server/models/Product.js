@@ -36,6 +36,9 @@ productSchema.statics.getAll = async function (search) {
   let matchStage = {
     $match: {
       isActive: true,
+      productType: {
+        $not: { $eq: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895') },
+      },
     },
   }
 
@@ -67,6 +70,9 @@ productSchema.statics.getAll = async function (search) {
       $match: {
         department: mongoose.Types.ObjectId(search),
         isActive: true,
+        productType: {
+          $not: { $eq: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895') },
+        },
       },
     }
 
