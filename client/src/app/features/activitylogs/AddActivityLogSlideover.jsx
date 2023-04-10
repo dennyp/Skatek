@@ -75,7 +75,6 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
 
       if (response) {
         successMessage()
-        setSelectedProduct({})
         setSelectedActivity(0)
         setSelectedComment('')
       }
