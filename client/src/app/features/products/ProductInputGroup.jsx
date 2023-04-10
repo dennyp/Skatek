@@ -37,7 +37,7 @@ const ProductInputGroup = ({
             .filter((product) => {
               return (
                 product?.name.toLowerCase().includes(query.toLowerCase()) ||
-                product?.department[0]?.name
+                product?.department?.name
                   .toLowerCase()
                   .includes(query.toLowerCase()) ||
                 product?.placement?.toLowerCase().includes(query.toLowerCase())
@@ -67,7 +67,7 @@ const ProductInputGroup = ({
             onChange={(event) => setQuery(event.target.value)}
             displayValue={(product) => {
               return Object.keys(product).length !== 0
-                ? `${product?.department[0]?.name} - ${product?.name} - ${product?.placement}`
+                ? `${product?.department?.name} - ${product?.name} - ${product?.placement}`
                 : ''
             }}
           />
@@ -99,7 +99,7 @@ const ProductInputGroup = ({
                           selected && 'font-semibold'
                         )}
                       >
-                        {product?.department[0]?.name} - {product?.name} -{' '}
+                        {product?.department?.name} - {product?.name} -{' '}
                         {product?.placement}
                       </span>
 

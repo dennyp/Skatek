@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
 import { Box } from '@mui/material'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import { DataGrid } from '@mui/x-data-grid'
+import AddButton from '../../../components/AddButton'
 import DataGridActions from '../actions/DataGridActions'
 import AddLightTrapSlideover from './AddLightTrapSlideover'
-import { useGetLightTrapsQuery } from './lightTrapsApiSlice'
 import LightTrapSlideover from './LightTrapSlideover'
-import AddButton from '../../../components/AddButton'
+import { useGetLightTrapsQuery } from './lightTrapsApiSlice'
 
 const LightTraps = () => {
   const [openAddSlider, setOpenAddSlider] = useState(false)

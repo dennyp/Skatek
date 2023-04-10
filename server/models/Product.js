@@ -47,7 +47,12 @@ productSchema.statics.getAll = async function (search) {
       from: 'departments',
       localField: 'department',
       foreignField: '_id',
-      as: 'department',
+      as: 'departmentArray',
+    },
+  }
+  const addFieldStage = {
+    $addFields: {
+      department: { $arrayElemAt: ['$departmentArray', 0] },
     },
   }
 
@@ -55,7 +60,7 @@ productSchema.statics.getAll = async function (search) {
     $project: {
       name: { $toInt: '$name' },
       placement: 1,
-      'department.name': 1,
+      department: 1,
     },
   }
 
@@ -75,30 +80,87 @@ productSchema.statics.getAll = async function (search) {
         },
       },
     }
-
-    return this.aggregate([matchStage, lookupStage, projectStage, sortStage])
   }
 
-  return this.aggregate([matchStage, lookupStage, projectStage, sortStage])
+  return this.aggregate([
+    matchStage,
+    lookupStage,
+    addFieldStage,
+    projectStage,
+    sortStage,
+  ])
 }
 
 productSchema.statics.getAllLightTraps = async function (search) {
   const isValidObjectId = mongoose.isValidObjectId(search)
 
-  if (isValidObjectId && search.length !== 0) {
-    return this.find({
-      department: search,
+  let matchStage = {
+    $match: {
+      isActive: true,
       productType: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895'),
-    })
-      .sort('name')
-      .populate('department location productType')
+    },
   }
 
-  return this.find({
-    productType: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895'),
-  })
-    .sort('name')
-    .populate('department location productType')
+  const lookupStageOne = {
+    $lookup: {
+      from: 'locations',
+      localField: 'location',
+      foreignField: '_id',
+      as: 'locationArray',
+    },
+  }
+
+  const lookupStageTwo = {
+    $lookup: {
+      from: 'producttypes',
+      localField: 'productType',
+      foreignField: '_id',
+      as: 'productTypeArray',
+    },
+  }
+
+  const lookupStageThree = {
+    $lookup: {
+      from: 'departments',
+      localField: 'department',
+      foreignField: '_id',
+      as: 'departmentArray',
+    },
+  }
+
+  const addFieldStage = {
+    $addFields: {
+      productType: { $arrayElemAt: ['$productTypeArray', 0] },
+      location: { $arrayElemAt: ['$locationArray', 0] },
+      department: { $arrayElemAt: ['$departmentArray', 0] },
+    },
+  }
+  const projectStage = {
+    $project: {
+      productTypeArray: 0,
+      locationArray: 0,
+      departmentArray: 0,
+    },
+  }
+
+  if (isValidObjectId && search.length !== 0) {
+    matchStage = {
+      $match: {
+        department: mongoose.Types.ObjectId(search),
+        isActive: true,
+        productType: mongoose.Types.ObjectId('63db9d8f79412a2690ecb895'),
+      },
+    }
+  }
+
+  return this.aggregate([
+    matchStage,
+    lookupStageOne,
+    lookupStageTwo,
+    lookupStageThree,
+    addFieldStage,
+    projectStage,
+  ])
 }
 
 productSchema.statics.getAllLightTrapsInDepartment = async function (id) {

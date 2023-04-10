@@ -49,7 +49,7 @@ export class productController {
 
       res.json(products)
     } catch (error) {
-      next(createError(400))
+      next(createError(500))
     }
   }
 

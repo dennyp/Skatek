@@ -31,7 +31,7 @@ const Product = () => {
       field: 'department',
       headerName: 'Avdelning',
       flex: 1.2,
-      valueGetter: (params) => params.row?.department[0]?.name,
+      valueGetter: (params) => params.row?.department?.name,
     },
     { field: 'name', headerName: 'Namn', flex: 0.5 },
     { field: 'placement', headerName: 'Placering', flex: 3 },
