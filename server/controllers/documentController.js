@@ -37,9 +37,17 @@ export class documentController {
       const { id } = req.params
 
       const document = await Document.findById(id)
+      console.log(
+        '🚀 ~ file: documentController.js:40 ~ documentController ~ download ~ document:',
+        document
+      )
 
       res.download(document.path, document.name)
     } catch (error) {
+      console.log(
+        '🚀 ~ file: documentController.js:44 ~ documentController ~ download ~ error:',
+        error
+      )
       next(createError(500))
     }
   }
