@@ -8,6 +8,7 @@ import ActivityLogs from './app/features/activitylogs/ActivityLogs'
 import Login from './app/features/auth/Login'
 import RequireAdmin from './app/features/auth/RequireAdmin'
 import RequireAuth from './app/features/auth/RequireAuth'
+import Documents from './app/features/documents/Documents'
 import LightTrapLogs from './app/features/lighttraplogs/LightTrapLogs'
 import LightTraps from './app/features/lighttraps/LightTraps'
 import PlansLayout from './app/features/plans/PlansLayout'
@@ -48,26 +49,7 @@ const App = () => {
               }
             />
             <Route path="plans" element={<PlansLayout />} />
-            {/* <Route
-              path="statistics-total-insects"
-              element={
-                <StatisticsLayout
-                  title="Genomsnittligt totalt antal insekter"
-                  paragraph="Diagrammen visar det genomsnittliga totala antalet insekter per ljusfälla. Visar endast ljusfällor med uppmätt aktivitet under vald tidsperiod."
-                  showTotalAverageInsects={true}
-                />
-              }
-            /> */}
-            {/* <Route
-              path="statistics-insects"
-              element={
-                <StatisticsLayout
-                  title="Genomsnittligt antal per insektstyp"
-                  paragraph="Tårtdiagramen visar genomsnittligt antal av en viss insektstyp över en tidsperiod. Visar endast ljusfällor med uppmätt aktivitet under vald tidsperiod."
-                  showAverageInsects={true}
-                />
-              }
-            /> */}
+            <Route path="documents" element={<Documents />} />
             <Route element={<RequireAdmin />}>
               <Route path="products" element={<Products />} />
               <Route path="activitylogs" element={<ActivityLogs />} />

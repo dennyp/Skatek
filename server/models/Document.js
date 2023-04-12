@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 
-const fileSchema = mongoose.Schema(
+const documentSchema = mongoose.Schema(
   {
     name: {
       type: Schema.Types.String,
@@ -11,9 +11,11 @@ const fileSchema = mongoose.Schema(
     size: {
       type: Schema.Types.Number,
     },
-    data: Buffer,
+    path: {
+      type: Schema.Types.String,
+    },
   },
   { timestamps: true }
 )
 
-export const File = mongoose.model('file', fileSchema)
+export const Document = mongoose.model('document', documentSchema)

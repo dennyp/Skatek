@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 
 const initialState = {
   loading: false,
@@ -25,6 +26,7 @@ const authSlice = createSlice({
       state.userInfo = payload
       state.email = email
       state.token = accessToken
+      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
     },
   },
 })
