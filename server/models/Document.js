@@ -11,7 +11,10 @@ const documentSchema = mongoose.Schema(
     size: {
       type: Schema.Types.Number,
     },
-    path: {
+    url: {
+      type: Schema.Types.String,
+    },
+    public_id: {
       type: Schema.Types.String,
     },
   },

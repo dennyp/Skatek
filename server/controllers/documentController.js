@@ -1,5 +1,8 @@
 import createError from 'http-errors'
+import https from 'https'
+import JSZip from 'jszip'
 import mongoose from 'mongoose'
+import cloudinary from '../config/cloudinary.js'
 import { Document } from '../models/Document.js'
 
 export class documentController {
@@ -15,11 +18,23 @@ export class documentController {
         files.map(async (file) => {
           const { originalname, mimetype, size, path } = file
 
+          const zip = new JSZip()
+          zip.file(originalname, file.buffer)
+          const generatedZip = await zip.generateAsync({ type: 'nodebuffer' })
+          const b64 = Buffer.from(generatedZip).toString('base64')
+          const dataURI = 'data:' + file.mimetype + ';base64,' + b64
+
+          const result = await cloudinary.uploader.upload(dataURI, {
+            folder: 'documents',
+            resource_type: 'raw',
+          })
+
           const obj = new Document({
             name: originalname,
             contentType: mimetype,
             size,
-            path: path,
+            url: result.secure_url,
+            public_id: result.public_id,
           })
 
           return await obj.save()
@@ -28,7 +43,7 @@ export class documentController {
 
       res.status(201).json({ files: savedFiles })
     } catch (error) {
-      next(createError(500))
+      next(createError(error))
     }
   }
 
@@ -37,17 +52,11 @@ export class documentController {
       const { id } = req.params
 
       const document = await Document.findById(id)
-      console.log(
-        '🚀 ~ file: documentController.js:40 ~ documentController ~ download ~ document:',
-        document
-      )
 
-      res.download(document.path, document.name)
+      await https.get(document.url, function (file) {
+        file.pipe(res)
+      })
     } catch (error) {
-      console.log(
-        '🚀 ~ file: documentController.js:44 ~ documentController ~ download ~ error:',
-        error
-      )
       next(createError(500))
     }
   }

@@ -9,6 +9,8 @@ export class activityLogController {
     try {
       const { page = 1, pageSize = 20, sort = null, search = '' } = req.query
 
+      console.log(req.query)
+
       const generateSort = () => {
         const sortParsed = JSON.parse(sort)
         const sortFormatted = {
