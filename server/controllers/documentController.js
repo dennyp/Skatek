@@ -18,10 +18,11 @@ export class documentController {
         files.map(async (file) => {
           const { originalname, mimetype, size, path } = file
 
-          const zip = new JSZip()
-          zip.file(originalname, file.buffer)
-          const generatedZip = await zip.generateAsync({ type: 'nodebuffer' })
-          const b64 = Buffer.from(generatedZip).toString('base64')
+          // const zip = new JSZip()
+          // zip.file(originalname, file.buffer)
+          // const generatedZip = await zip.generateAsync({ type: 'nodebuffer' })
+          // const b64 = Buffer.from(generatedZip).toString('base64')
+          const b64 = Buffer.from(file.buffer).toString('base64')
           const dataURI = 'data:' + file.mimetype + ';base64,' + b64
 
           const result = await cloudinary.uploader.upload(dataURI, {
@@ -35,6 +36,9 @@ export class documentController {
             size,
             url: result.secure_url,
             public_id: result.public_id,
+            resource_type: result.resource_type,
+            type: result.type,
+            version: result.version,
           })
 
           return await obj.save()
@@ -53,10 +57,9 @@ export class documentController {
 
       const document = await Document.findById(id)
 
-      await https.get(document.url, function (file) {
-        res.set('Content-Type', 'text/xml')
-        file.pipe(res)
-      })
+      const url = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/${document.resource_type}/${document.type}/fl_attachment/v${document.version}/${document.public_id}`
+
+      res.redirect(url)
     } catch (error) {
       next(createError(500))
     }

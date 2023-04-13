@@ -17,6 +17,15 @@ const documentSchema = mongoose.Schema(
     public_id: {
       type: Schema.Types.String,
     },
+    resource_type: {
+      type: Schema.Types.String,
+    },
+    type: {
+      type: Schema.Types.String,
+    },
+    version: {
+      type: Schema.Types.Number,
+    },
   },
   { timestamps: true }
 )
