@@ -5,9 +5,12 @@ export const downloadFile = createAsyncThunk(
   'document/download',
   async ({ id, name }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`api/v1/documents/download/${id}`, {
-        responseType: 'blob',
-      })
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/documents/download/${id}`,
+        {
+          responseType: 'blob',
+        }
+      )
       console.log('🚀 ~ file: documentSlice.js:10 ~ response:', response)
 
       const url = window.URL.createObjectURL(new Blob([response.data]))
