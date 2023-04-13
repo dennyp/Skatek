@@ -1,7 +1,10 @@
 import express from 'express'
 import { documentController } from '../controllers/documentController.js'
 import { verifyToken } from '../middleware/auth.js'
-import { upload } from '../middleware/multer.js'
+import multer from 'multer'
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 
 export const router = express.Router()
 

@@ -19,7 +19,6 @@ function Documents() {
     setSelectedFiles([...event.target.files])
   }
 
-  let response = []
   const handleFormSubmit = async (event) => {
     event.preventDefault()
 
