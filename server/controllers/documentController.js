@@ -54,6 +54,7 @@ export class documentController {
       const document = await Document.findById(id)
 
       await https.get(document.url, function (file) {
+        res.set('Content-Type', 'text/xml')
         file.pipe(res)
       })
     } catch (error) {
