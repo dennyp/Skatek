@@ -18,10 +18,10 @@ export class documentController {
         files.map(async (file) => {
           const { originalname, mimetype, size, path } = file
 
-          // const zip = new JSZip()
-          // zip.file(originalname, file.buffer)
-          // const generatedZip = await zip.generateAsync({ type: 'nodebuffer' })
-          // const b64 = Buffer.from(generatedZip).toString('base64')
+          const properName = Buffer.from(file.originalname, 'latin1').toString(
+            'utf8'
+          )
+
           const b64 = Buffer.from(file.buffer).toString('base64')
           const dataURI = 'data:' + file.mimetype + ';base64,' + b64
 
@@ -31,7 +31,7 @@ export class documentController {
           })
 
           const obj = new Document({
-            name: originalname,
+            name: properName,
             contentType: mimetype,
             size,
             url: result.secure_url,

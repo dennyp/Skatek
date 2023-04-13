@@ -11,7 +11,6 @@ export const downloadFile = createAsyncThunk(
           responseType: 'blob',
         }
       )
-      console.log('🚀 ~ file: documentSlice.js:10 ~ response:', response)
 
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement('a')
