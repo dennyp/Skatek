@@ -22,9 +22,7 @@ const Documents = () => {
             </p>
           </div>
         </div>
-        <div className="flex bg-white border mx-4 py-4 sm:rounded-lg sm:px-4">
-          {isAdmin && <DocumentUpload />}
-        </div>
+        {isAdmin && <DocumentUpload />}
         {!isLoading && <DocumentList files={documents} />}
       </div>
     </>
