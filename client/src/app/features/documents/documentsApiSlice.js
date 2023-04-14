@@ -18,8 +18,18 @@ export const documentsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Documents'],
     }),
+    deleteDocument: builder.mutation({
+      query: (id) => ({
+        url: `/documents/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Documents', 'Document'],
+    }),
   }),
 })
 
-export const { useGetDocumentsQuery, useCreateDocumentsMutation } =
-  documentsApiSlice
+export const {
+  useGetDocumentsQuery,
+  useCreateDocumentsMutation,
+  useDeleteDocumentMutation,
+} = documentsApiSlice

@@ -1,7 +1,7 @@
 import express from 'express'
+import multer from 'multer'
 import { documentController } from '../controllers/documentController.js'
 import { verifyToken } from '../middleware/auth.js'
-import multer from 'multer'
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
@@ -20,4 +20,8 @@ router.get('/download/:id', verifyToken, (req, res, next) =>
 
 router.post('/', verifyToken, upload.array('files'), (req, res, next) =>
   controller.create(req, res, next)
+)
+
+router.delete('/:id', verifyToken, (req, res, next) =>
+  controller.delete(req, res, next)
 )

@@ -1,17 +1,24 @@
 // import GetApp from '@mui/icons-material/GetApp'
-import InsertDriveFile from '@mui/icons-material/InsertDriveFile'
-import { Box, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
+import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined'
+import { Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import DataGridActions from '../actions/DataGridActions'
 import { downloadFile } from './documentSlice'
+import { useDeleteDocumentMutation } from './documentsApiSlice'
 
 const DocumentList = ({ files }) => {
   const dispatch = useDispatch()
 
+  const [deleteDocument] = useDeleteDocumentMutation()
+
   const onDownloadClick = (row) => {
     dispatch(downloadFile({ id: row._id, name: row.name }))
+  }
+
+  const onDeleteClick = (row) => {
+    deleteDocument(row._id)
   }
 
   const columns = [
@@ -23,7 +30,7 @@ const DocumentList = ({ files }) => {
         const name = params.row?.name
         return (
           <>
-            <InsertDriveFile className="mr-2" />
+            <InsertDriveFileOutlinedIcon className="mr-2" />
             {name}
           </>
         )
@@ -35,7 +42,7 @@ const DocumentList = ({ files }) => {
       type: 'actions',
       flex: 0.1,
       renderCell: (params) => (
-        <DataGridActions {...{ params, onDownloadClick }} />
+        <DataGridActions {...{ params, onDeleteClick, onDownloadClick }} />
       ),
     },
   ]

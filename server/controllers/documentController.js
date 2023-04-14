@@ -51,6 +51,32 @@ export class documentController {
     }
   }
 
+  async delete(req, res, next) {
+    try {
+      const { id } = req.params
+
+      if (!id) {
+        next(createError(400))
+        return
+      }
+
+      const response = await Document.findByIdAndDelete(id)
+
+      const result = await cloudinary.uploader.destroy(response.public_id, {
+        resource_type: 'raw',
+      })
+
+      if (!response) {
+        next(createError(404))
+        return
+      }
+
+      res.status(204).end()
+    } catch (error) {
+      next(createError(500))
+    }
+  }
+
   async download(req, res, next) {
     try {
       const { id } = req.params
