@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+import { Product } from './Product.js'
 
 const activityLogSchema = mongoose.Schema(
   {
@@ -21,8 +22,20 @@ const activityLogSchema = mongoose.Schema(
   { timestamps: true }
 )
 
-activityLogSchema.statics.getAll = async function (sort, page, pageSize) {
-  return this.find()
+activityLogSchema.statics.getAll = async function (
+  sort,
+  page,
+  pageSize,
+  filter
+) {
+  let query = {}
+  if (filter) {
+    const product = await Product.findOne({ name: filter })
+
+    product ? (query = { product: product._id }) : (query = {})
+  }
+
+  return this.find(query)
     .sort(sort)
     .skip(page * pageSize)
     .limit(pageSize)
@@ -55,5 +68,7 @@ activityLogSchema.statics.getByProducts = async function (
     populate: { path: 'department' },
   })
 }
+
+activityLogSchema.index({ product: 1 })
 
 export const ActivityLog = mongoose.model('activitylog', activityLogSchema)

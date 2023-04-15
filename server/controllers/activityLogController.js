@@ -7,9 +7,13 @@ import { getActivityLogPlotData } from '../visual/plotData.js'
 export class activityLogController {
   async findAll(req, res, next) {
     try {
-      const { page = 1, pageSize = 20, sort = null, search = '' } = req.query
-
-      console.log(req.query)
+      const {
+        page = 1,
+        pageSize = 20,
+        sort = null,
+        search = '',
+        filter = '',
+      } = req.query
 
       const generateSort = () => {
         const sortParsed = JSON.parse(sort)
@@ -24,13 +28,18 @@ export class activityLogController {
       const activityLogs = await ActivityLog.getAll(
         sortFormatted,
         page,
-        pageSize
+        pageSize,
+        filter
       )
-      const total = await ActivityLog.countDocuments()
+
+      let total = 0
+      filter !== ''
+        ? (total = activityLogs.length)
+        : (total = await ActivityLog.countDocuments())
 
       res.json({ activityLogs, total })
     } catch (error) {
-      next()
+      next(createError(500))
     }
   }
 
