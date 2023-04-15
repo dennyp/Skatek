@@ -4,10 +4,10 @@ export const activityLogsApiSlice = apiSlice.injectEndpoints({
   tagTypes: ['ActivityLogs', 'ActivityLog'],
   endpoints: (builder) => ({
     getActivityLogs: builder.query({
-      query: ({ page, pageSize, sort, search }) => ({
+      query: ({ page, pageSize, sort, search, filter }) => ({
         url: '/activitylogs',
         method: 'GET',
-        params: { page, pageSize, sort, search },
+        params: { page, pageSize, sort, search, filter },
       }),
       providesTags: ['ActivityLogs'],
     }),
