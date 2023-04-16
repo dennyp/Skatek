@@ -4,7 +4,7 @@ import AddButton from '../../../components/AddButton'
 import { selectCurrentIsAdmin } from '../auth/authSlice'
 import DepartmentInputGroup from '../departments/DepartmentInputGroup'
 import AddPlanSlideover from './AddPlanSlideover'
-import Plans from './Plans'
+import PlanList from './PlanList'
 
 const PlansLayout = () => {
   const [openAddSlider, setOpenAddSlider] = useState(false)
@@ -23,7 +23,7 @@ const PlansLayout = () => {
   ) {
     plansToDraw = (
       <Fragment>
-        <Plans department={selectedDepartment} />
+        <PlanList department={selectedDepartment} />
       </Fragment>
     )
   }
