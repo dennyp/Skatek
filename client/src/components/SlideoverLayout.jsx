@@ -9,6 +9,7 @@ const SlideoverLayout = ({
   setOpen,
   isLoading,
   handleSave,
+  title,
   encType = '',
 }) => {
   const handleSubmit = async (event) => {
@@ -44,7 +45,7 @@ const SlideoverLayout = ({
                           <div className="space-y-1">
                             <Dialog.Title className="text-lg font-medium text-gray-900">
                               {' '}
-                              Lägg till{' '}
+                              {title}{' '}
                             </Dialog.Title>
                             <p className="text-sm text-gray-500">
                               Fyll i fälten nedan och klicka på spara för att
