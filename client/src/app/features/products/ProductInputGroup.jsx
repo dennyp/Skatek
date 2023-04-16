@@ -13,7 +13,7 @@ function classNames(...classes) {
 const ProductInputGroup = ({
   value,
   onChange,
-  departmentId = '',
+  department = {},
   onlyLightTraps = false,
 }) => {
   const [query, setQuery] = useState('')
@@ -22,7 +22,7 @@ const ProductInputGroup = ({
     error,
     data: products,
   } = useGetProductsWithSearchQuery({
-    search: departmentId,
+    search: department._id,
     filter: onlyLightTraps,
   })
 
