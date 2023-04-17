@@ -189,7 +189,7 @@ export class lightTrapLogController {
         dateLogged: req.body.dateLogged,
         product: req.body.product,
         flyActivity: parseInt(req.body.flyActivity),
-        bananaflyActivity: parseInt(req.body.bananaFlyActivity),
+        bananaflyActivity: parseInt(req.body.bananaflyActivity),
         waspActivity: parseInt(req.body.waspActivity),
         neuropteranActivity: parseInt(req.body.neuropteranActivity),
         daddylonglegsActivity: parseInt(req.body.daddylonglegsActivity),

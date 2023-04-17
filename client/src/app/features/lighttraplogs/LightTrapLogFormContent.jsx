@@ -1,62 +1,58 @@
 import { Box, CircularProgress } from '@mui/material'
-import React, { useEffect } from 'react'
+import React from 'react'
 import NumberInputGroup from '../../../components/NumberInputGroup'
 import TextInputGroup from '../../../components/TextInputGroup'
 import ProductInputGroup from '../products/ProductInputGroup'
-import { useGetLightTrapLogQuery } from './lightTrapLogsApiSlice'
 
-const LightTrapLogFormContent = ({ id, setIsChanged, content, setContent }) => {
-  const { isLoading, isSuccess, data: log } = useGetLightTrapLogQuery(id)
-
-  useEffect(() => {
-    if (isSuccess) {
-      setContent(log)
-    }
-  }, [isSuccess, log, setContent])
-
+const LightTrapLogFormContent = ({
+  setIsChanged,
+  content,
+  setContent,
+  isLoading = false,
+}) => {
   const handleProductChange = (product) => {
     setContent({ ...content, product })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handleCommentChange = (comment) => {
     setContent({ ...content, comment })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handleDateLoggedChange = (event) => {
     setContent({ ...content, dateLogged: event.target.value })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handleFlyActivityChange = (flyActivity) => {
     setContent({ ...content, flyActivity })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handlebananaflyActivityChange = (bananaflyActivity) => {
     setContent({ ...content, bananaflyActivity })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handleWaspActivityChange = (waspActivity) => {
     setContent({ ...content, waspActivity })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handleNeuropteranActivityChange = (neuropteranActivity) => {
     setContent({ ...content, neuropteranActivity })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handleDaddylonglegsActivityChange = (daddylonglegsActivity) => {
     setContent({ ...content, daddylonglegsActivity })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   const handleMiscActivityChange = (miscActivity) => {
     setContent({ ...content, miscActivity })
-    setIsChanged(true)
+    setIsChanged?.(true)
   }
 
   let formContent
