@@ -96,7 +96,7 @@ const AddActivityLogSlideover = ({ open, setOpen }) => {
           <ProductInputGroup
             value={selectedProduct}
             onChange={handleProductChange}
-            departmentId={selectedDepartment._id}
+            department={selectedDepartment}
           />
         </div>
         <div className="space-y-1 px-4 sm:space-y-0 sm:px-6 sm:py-5">

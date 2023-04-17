@@ -126,7 +126,7 @@ const AddLightTrapLogSlideover = ({ open, setOpen }) => {
           <ProductInputGroup
             value={selectedProduct}
             onChange={handleProductChange}
-            departmentId={selectedDepartment._id}
+            department={selectedDepartment}
             onlyLightTraps={true}
           />
         </div>
