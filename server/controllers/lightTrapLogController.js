@@ -9,6 +9,21 @@ import {
 } from '../visual/plotData.js'
 
 export class lightTrapLogController {
+  async findOne(req, res, next) {
+    try {
+      const { id } = req.params
+      const lightTrapLog = await LightTrapLog.getById(id)
+
+      if (!lightTrapLog) {
+        next(createError(404))
+      }
+
+      res.json(lightTrapLog)
+    } catch (error) {
+      next(createError(500))
+    }
+  }
+
   async findAll(req, res, next) {
     try {
       const { page = 1, pageSize = 20, sort = null, search = '' } = req.query
@@ -207,6 +222,31 @@ export class lightTrapLogController {
       }
 
       res.status(204).end()
+    } catch (error) {
+      next(createError(500))
+    }
+  }
+
+  async update(req, res, next) {
+    try {
+      const { id } = req.params
+
+      if (id === undefined || id === null || id === '') {
+        next(createError(400))
+        return
+      }
+
+      const obj = await LightTrapLog.findByIdAndUpdate(id, req.body, {
+        new: true,
+      })
+
+      if (!obj) {
+        next(createError(404))
+        return
+      }
+
+      const newURL = `https://${req.get('host')}${req.originalUrl}/${obj._id}`
+      res.location(newURL).status(201).json(obj)
     } catch (error) {
       next(createError(500))
     }

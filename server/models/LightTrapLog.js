@@ -52,6 +52,13 @@ lightTrapLogSchema.statics.getAll = async function (sort, page, pageSize) {
     })
 }
 
+lightTrapLogSchema.statics.getById = async function (id) {
+  return this.findById(id).populate({
+    path: 'product',
+    populate: { path: 'department' },
+  })
+}
+
 lightTrapLogSchema.statics.getByProduct = async function (
   trap,
   dateStart,

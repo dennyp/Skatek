@@ -10,6 +10,10 @@ router.get('/', verifyToken, (req, res, next) =>
   controller.findAll(req, res, next)
 )
 
+router.get('/:id', verifyToken, (req, res, next) =>
+  controller.findOne(req, res, next)
+)
+
 router.get('/visual-per-insect', verifyToken, (req, res, next) =>
   controller.findAllVisualPerInsect(req, res, next)
 )
@@ -28,4 +32,8 @@ router.post('/', verifyToken, (req, res, next) =>
 
 router.delete('/:id', verifyToken, (req, res, next) =>
   controller.delete(req, res, next)
+)
+
+router.put('/:id', verifyToken, (req, res, next) =>
+  controller.update(req, res, next)
 )

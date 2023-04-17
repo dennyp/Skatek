@@ -3,11 +3,17 @@ import React, { useState } from 'react'
 import AddButton from '../../../components/AddButton'
 import AddLightTrapLogSlideover from './AddLightTrapLogSlideover'
 import LightTrapLogsDataGrid from './LightTrapLogsDataGrid'
+import LightTrapLogSlideover from './LightTrapLogSlideover'
 
-const LightTrapLogs = () => {
-  // const [openEditSlider, setOpenEditSlider] = useState(false)
-  const [rowId, setRowId] = useState('')
+const LightTrapLogsLayout = () => {
   const [openAddSlider, setOpenAddSlider] = useState(false)
+  const [openEditSlider, setOpenEditSlider] = useState(false)
+  const [rowId, setRowId] = useState(null)
+
+  const onEditClick = (row) => {
+    setOpenEditSlider(true)
+    setRowId(row._id)
+  }
 
   return (
     <>
@@ -23,18 +29,19 @@ const LightTrapLogs = () => {
           </div>
           <AddButton openSlider={setOpenAddSlider} />
         </div>
-        <LightTrapLogsDataGrid setRowId={setRowId} />
-        {/* {openEditSlider && (
-          <ActivityLogSlideover
-            open={openEditSlider}
-            setOpen={setOpenEditSlider}
-            id={rowId}
-          />
-        )} */}
+        <LightTrapLogsDataGrid onEditClick={onEditClick} />
+
         {openAddSlider && (
           <AddLightTrapLogSlideover
             open={openAddSlider}
             setOpen={setOpenAddSlider}
+          />
+        )}
+        {openEditSlider && (
+          <LightTrapLogSlideover
+            id={rowId}
+            open={openEditSlider}
+            setOpen={setOpenEditSlider}
           />
         )}
       </div>
@@ -42,4 +49,4 @@ const LightTrapLogs = () => {
   )
 }
 
-export default LightTrapLogs
+export default LightTrapLogsLayout

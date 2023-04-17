@@ -3,6 +3,13 @@ import { apiSlice } from '../api/apiSlice'
 export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
   tagTypes: ['LightTrapLogs', 'LightTrapLog'],
   endpoints: (builder) => ({
+    getLightTrapLog: builder.query({
+      query: (id) => ({
+        url: `/lighttraplogs/${id}`,
+        method: 'GET',
+      }),
+      providesTags: ['LightTrapLog'],
+    }),
     getLightTrapLogs: builder.query({
       query: ({ page, pageSize, sort, search }) => ({
         url: '/lighttraplogs',
@@ -61,14 +68,24 @@ export const lightTrapLogsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['LightTrapLogs'],
     }),
+    updateLightTrapLog: builder.mutation({
+      query: ({ id, ...rest }) => ({
+        url: `/lighttraplogs/${id}`,
+        method: 'PUT',
+        body: rest,
+      }),
+      invalidatesTags: ['LightTrapLogs', 'LightTrapLog'],
+    }),
   }),
 })
 
 export const {
+  useGetLightTrapLogQuery,
   useGetLightTrapLogsQuery,
   useGetVisualLightTrapLogsPerInsectQuery,
   useGetVisualTotalLightTrapLogsQuery,
   useGetVisualLightTrapLogsForTrapQuery,
   useCreateLightTrapLogMutation,
   useDeleteLightTrapLogMutation,
+  useUpdateLightTrapLogMutation,
 } = lightTrapLogsApiSlice

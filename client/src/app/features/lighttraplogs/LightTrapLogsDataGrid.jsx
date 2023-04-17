@@ -7,7 +7,7 @@ import {
   useGetLightTrapLogsQuery,
 } from './lightTrapLogsApiSlice'
 
-const LightTrapLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
+const LightTrapLogsDataGrid = ({ onEditClick }) => {
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(100)
   const [sort, setSort] = useState({})
@@ -21,11 +21,6 @@ const LightTrapLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
     sort: JSON.stringify(sort),
     search,
   })
-
-  const onEditClick = (row) => {
-    // setOpenEditSlider(true)
-    setRowId(row._id)
-  }
 
   const onDeleteClick = (row) => {
     deleteLog(row._id)
@@ -62,22 +57,24 @@ const LightTrapLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
     },
   ]
   return (
-    <Box sx={{ height: '80vh', m: '1.5rem 1rem' }}>
-      <DataGrid
-        loading={isLoading || !logs}
-        getRowId={(row) => row._id}
-        rows={(logs && logs.lightTrapLogs) || []}
-        columns={columns}
-        rowCount={(logs && logs.total) || 0}
-        pagination
-        page={page}
-        pageSize={pageSize}
-        onPageChange={(newPage) => setPage(newPage)}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        onSortModelChange={(newSortModel) => setSort(...newSortModel)}
-        components={{ Toolbar: GridToolbar }}
-      />
-    </Box>
+    <>
+      <Box sx={{ height: '80vh', m: '1.5rem 1rem' }}>
+        <DataGrid
+          loading={isLoading || !logs}
+          getRowId={(row) => row._id}
+          rows={(logs && logs.lightTrapLogs) || []}
+          columns={columns}
+          rowCount={(logs && logs.total) || 0}
+          pagination
+          page={page}
+          pageSize={pageSize}
+          onPageChange={(newPage) => setPage(newPage)}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          onSortModelChange={(newSortModel) => setSort(...newSortModel)}
+          components={{ Toolbar: GridToolbar }}
+        />
+      </Box>
+    </>
   )
 }
 

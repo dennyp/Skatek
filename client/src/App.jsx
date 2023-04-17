@@ -9,7 +9,7 @@ import Login from './app/features/auth/Login'
 import RequireAdmin from './app/features/auth/RequireAdmin'
 import RequireAuth from './app/features/auth/RequireAuth'
 import Documents from './app/features/documents/Documents'
-import LightTrapLogs from './app/features/lighttraplogs/LightTrapLogs'
+import LightTrapLogsLayout from './app/features/lighttraplogs/LightTrapLogsLayout'
 import LightTraps from './app/features/lighttraps/LightTraps'
 import PlansLayout from './app/features/plans/PlansLayout'
 import Products from './app/features/products/Products'
@@ -54,7 +54,7 @@ const App = () => {
               <Route path="products" element={<Products />} />
               <Route path="activitylogs" element={<ActivityLogs />} />
               <Route path="lighttraps" element={<LightTraps />} />
-              <Route path="lighttraplogs" element={<LightTrapLogs />} />
+              <Route path="lighttraplogs" element={<LightTrapLogsLayout />} />
             </Route>
           </Route>
 
