@@ -26,6 +26,8 @@ export class productController {
       let products
       if (mongoose.isValidObjectId(search) && filter === 'true') {
         products = await Product.getAllLightTraps(search)
+      } else if (filter === 'true') {
+        products = await Product.getAllLightTraps()
       } else if (!search) {
         products = await Product.getAll()
       } else {
