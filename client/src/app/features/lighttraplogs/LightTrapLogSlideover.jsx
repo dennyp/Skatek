@@ -23,6 +23,7 @@ const LightTrapLogSlideover = ({ id, open, setOpen }) => {
 
   const successMessage = () => toast.success('Logg sparad')
   const failureMessage = () => toast.error('Logg kunde inte sparas')
+  const noChangeMessage = () => toast.warn('Ingen ändring att spara')
 
   const [updateLightTrapLog, { isLoading }] = useUpdateLightTrapLogMutation()
 
@@ -48,6 +49,11 @@ const LightTrapLogSlideover = ({ id, open, setOpen }) => {
 
   const handleSave = async () => {
     try {
+      if (!isChanged) {
+        noChangeMessage()
+        return
+      }
+
       const response = await updateLightTrapLog({
         id,
         product: product._id,
