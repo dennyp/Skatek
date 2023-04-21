@@ -28,17 +28,17 @@ const ActivityLogs = () => {
           setRowId={setRowId}
           setOpenEditSlider={setOpenEditSlider}
         />
-        {openEditSlider && (
-          <ActivityLogSlideover
-            open={openEditSlider}
-            setOpen={setOpenEditSlider}
-            id={rowId}
-          />
-        )}
         {openAddSlider && (
           <AddActivityLogSlideover
             open={openAddSlider}
             setOpen={setOpenAddSlider}
+          />
+        )}
+        {openEditSlider && (
+          <ActivityLogSlideover
+            id={rowId}
+            open={openEditSlider}
+            setOpen={setOpenEditSlider}
           />
         )}
       </div>

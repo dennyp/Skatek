@@ -14,6 +14,7 @@ const navigation = [
   { name: 'Statistik', href: '/', current: true, admin: false },
   { name: 'Ritningar', href: '/plans', current: false, admin: false },
   { name: 'Dokument', href: '/documents', current: false, admin: false },
+  { name: 'Avvikelser', href: '/deviations', current: false, admin: false },
   // {
   //   name: 'Statistik insektstyp',
   //   href: '/statistics-insects',

@@ -8,6 +8,7 @@ import ActivityLogs from './app/features/activitylogs/ActivityLogs'
 import Login from './app/features/auth/Login'
 import RequireAdmin from './app/features/auth/RequireAdmin'
 import RequireAuth from './app/features/auth/RequireAuth'
+import DeviationsLayout from './app/features/deviations/DeviationsLayout'
 import Documents from './app/features/documents/Documents'
 import LightTrapLogsLayout from './app/features/lighttraplogs/LightTrapLogsLayout'
 import LightTraps from './app/features/lighttraps/LightTraps'
@@ -50,6 +51,7 @@ const App = () => {
             />
             <Route path="plans" element={<PlansLayout />} />
             <Route path="documents" element={<Documents />} />
+            <Route path="deviations" element={<DeviationsLayout />} />
             <Route element={<RequireAdmin />}>
               <Route path="products" element={<Products />} />
               <Route path="activitylogs" element={<ActivityLogs />} />

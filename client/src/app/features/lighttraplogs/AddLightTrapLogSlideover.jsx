@@ -50,10 +50,6 @@ const AddLightTrapLogSlideover = ({ open, setOpen }) => {
       }
 
       const response = await createActivityLog(newLog)
-      console.log(
-        '🚀 ~ file: AddLightTrapLogSlideover.jsx:53 ~ handleSave ~ response:',
-        response
-      )
 
       if (response) {
         successMessage()

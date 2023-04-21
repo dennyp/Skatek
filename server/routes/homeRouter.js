@@ -4,6 +4,7 @@ import { HomeController } from '../controllers/homeController.js'
 import { router as accountRouter } from '../routes/accountRouter.js'
 import { router as activityLogRouter } from '../routes/activityLogRouter.js'
 import { router as departmentRouter } from '../routes/departmentRouter.js'
+import { router as deviationRouter } from '../routes/deviationRouter.js'
 import { router as documentRouter } from '../routes/documentRouter.js'
 import { router as lightTrapLogRouter } from '../routes/lightTrapLogRouter.js'
 import { router as lightTrapRouter } from '../routes/lightTrapRouter.js'
@@ -29,5 +30,6 @@ router.use('/lighttraps', lightTrapRouter)
 router.use('/lighttraplogs', lightTrapLogRouter)
 router.use('/plans', planRouter)
 router.use('/documents', documentRouter)
+router.use('/deviations', deviationRouter)
 
 router.use('*', (req, res, next) => next(createError(404)))
