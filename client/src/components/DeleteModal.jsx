@@ -7,11 +7,6 @@ const DeleteModal = ({ setShow, onConfirmDeleteClick }) => {
 
   const cancelButtonRef = useRef(null)
 
-  const handleConfirmDeleteClick = () => {
-    setOpen(false)
-    setShow?.(true)
-  }
-
   const handleCancelClick = () => {
     setOpen(false)
     setShow?.(false)

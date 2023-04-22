@@ -8,16 +8,11 @@ import {
 } from './activityLogsApiSlice'
 
 const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
-  const [page, setPage] = useState(0)
-  const [pageSize, setPageSize] = useState(100)
-  const [sort, setSort] = useState()
-  const [search, setSearch] = useState('')
-
   const [queryOptions, setQueryOptions] = useState({
-    page,
-    pageSize,
-    sort: JSON.stringify(sort),
-    search,
+    page: 0,
+    pageSize: 100,
+    sort: null,
+    search: '',
   })
 
   const { isLoading, data: logs = [] } = useGetActivityLogsQuery(queryOptions)
@@ -69,14 +64,11 @@ const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
   const handleFilterModelChange = useCallback(
     (model) => {
       setQueryOptions({
-        page,
-        pageSize,
-        sort: JSON.stringify(sort),
-        search,
+        ...queryOptions,
         filter: model.items[0].value,
       })
     },
-    [page, pageSize, search, sort]
+    [queryOptions]
   )
 
   const handleSortModelChange = (newModel) => {
@@ -86,10 +78,8 @@ const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
     }))
 
     setQueryOptions({
-      page,
-      pageSize,
+      ...queryOptions,
       sort: JSON.stringify(...sortParams),
-      search,
     })
   }
 
@@ -102,13 +92,17 @@ const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
         columns={columns}
         rowCount={(logs && logs.total) || 0}
         pagination
-        page={page}
-        pageSize={pageSize}
+        page={queryOptions?.page}
+        pageSize={queryOptions?.pageSize}
         paginationMode="server"
         sortingMode="server"
         filterMode="server"
-        onPageChange={(newPage) => setPage(newPage)}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onPageChange={(newPage) =>
+          setQueryOptions({ ...queryOptions, page: newPage })
+        }
+        onPageSizeChange={(newPageSize) =>
+          setQueryOptions({ ...queryOptions, pageSize: newPageSize })
+        }
         onSortModelChange={handleSortModelChange}
         onFilterModelChange={handleFilterModelChange}
         components={{ Toolbar: GridToolbar }}
