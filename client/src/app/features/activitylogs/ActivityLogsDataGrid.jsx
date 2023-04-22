@@ -10,7 +10,7 @@ import {
 const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(100)
-  const [sort, setSort] = useState({})
+  const [sort, setSort] = useState()
   const [search, setSearch] = useState('')
 
   const [queryOptions, setQueryOptions] = useState({
@@ -32,30 +32,19 @@ const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
     deleteLog(row._id)
   }
 
-  const handleFilterModelChange = useCallback(
-    (model) => {
-      setQueryOptions({
-        page,
-        pageSize,
-        sort: JSON.stringify(sort),
-        search,
-        filter: model.items[0].value,
-      })
-    },
-    [page, pageSize, search, sort]
-  )
-
   const columns = [
     {
       field: 'product',
       headerName: 'Produkt',
       flex: 1,
+      sortable: false,
       valueGetter: (params) => params.row?.product?.name,
     },
     {
       field: 'department',
       headerName: 'Avdelning',
       flex: 1,
+      sortable: false,
       valueGetter: (params) => params.row?.product?.department?.name,
     },
     {
@@ -77,6 +66,33 @@ const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
     },
   ]
 
+  const handleFilterModelChange = useCallback(
+    (model) => {
+      setQueryOptions({
+        page,
+        pageSize,
+        sort: JSON.stringify(sort),
+        search,
+        filter: model.items[0].value,
+      })
+    },
+    [page, pageSize, search, sort]
+  )
+
+  const handleSortModelChange = (newModel) => {
+    const sortParams = newModel.map((model) => ({
+      field: model.field,
+      direction: model.sort,
+    }))
+
+    setQueryOptions({
+      page,
+      pageSize,
+      sort: JSON.stringify(...sortParams),
+      search,
+    })
+  }
+
   return (
     <Box sx={{ height: '80vh', m: '1.5rem 1rem' }}>
       <DataGrid
@@ -93,7 +109,7 @@ const ActivityLogsDataGrid = ({ setRowId, setOpenEditSlider }) => {
         filterMode="server"
         onPageChange={(newPage) => setPage(newPage)}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        onSortModelChange={(newSortModel) => setSort(...newSortModel)}
+        onSortModelChange={handleSortModelChange}
         onFilterModelChange={handleFilterModelChange}
         components={{ Toolbar: GridToolbar }}
       />

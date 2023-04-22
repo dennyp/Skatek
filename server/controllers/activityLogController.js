@@ -17,13 +17,14 @@ export class activityLogController {
 
       const generateSort = () => {
         const sortParsed = JSON.parse(sort)
+
         const sortFormatted = {
-          [sortParsed.field]: sortParsed.sort === 'asc' ? 1 : -1,
+          [sortParsed?.field]: sortParsed?.direction === 'asc' ? 1 : -1,
         }
         return sortFormatted
       }
 
-      const sortFormatted = Boolean(sort) ? generateSort() : {}
+      const sortFormatted = Boolean(sort) ? generateSort() : { dateLogged: -1 }
 
       const activityLogs = await ActivityLog.getAll(
         sortFormatted,
