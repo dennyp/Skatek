@@ -1,8 +1,11 @@
 import React from 'react'
 
 const NumberInputGroup = ({ label, value = '', onChange }) => {
-  const handleChange = (event) => {
-    onChange(event.target.value)
+  const handleInput = (event) => {
+    const input = event.target.value
+    if (parseInt(input)) {
+      onChange(input)
+    }
   }
 
   return (
@@ -16,12 +19,13 @@ const NumberInputGroup = ({ label, value = '', onChange }) => {
       <div className="border border-gray-300 rounded-md px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
         <input
           type="number"
+          inputMode="numeric"
           name={label}
           id={label}
           min="0"
           className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
           value={value}
-          onChange={handleChange}
+          onInput={handleInput}
         />
       </div>
     </div>
