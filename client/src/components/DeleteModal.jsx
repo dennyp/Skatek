@@ -66,7 +66,7 @@ const DeleteModal = ({ setShow, onConfirmDeleteClick }) => {
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Är du säker på att du vill radera?"
+                          Är du säker på att du vill radera?
                         </p>
                       </div>
                     </div>
