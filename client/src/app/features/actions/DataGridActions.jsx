@@ -1,6 +1,8 @@
 import { Delete, Edit, GetApp } from '@mui/icons-material'
 import { Box, IconButton, Tooltip } from '@mui/material'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import DeleteModal from '../../../components/DeleteModal'
 import { selectCurrentIsAdmin } from '../auth/authSlice'
 
 const DataGridActions = ({
@@ -9,6 +11,8 @@ const DataGridActions = ({
   onDeleteClick,
   onDownloadClick,
 }) => {
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+
   const isAdmin = useSelector(selectCurrentIsAdmin)
 
   let downloadAction
@@ -39,11 +43,19 @@ const DataGridActions = ({
   if (onDeleteClick !== undefined) {
     if (isAdmin) {
       deleteAction = (
-        <Tooltip title="Radera">
-          <IconButton onClick={() => onDeleteClick(params.row)}>
-            <Delete />
-          </IconButton>
-        </Tooltip>
+        <>
+          <Tooltip title="Radera">
+            <IconButton onClick={() => setShowDeleteModal(true)}>
+              <Delete />
+            </IconButton>
+          </Tooltip>
+          {showDeleteModal && (
+            <DeleteModal
+              setShow={setShowDeleteModal}
+              onConfirmDeleteClick={() => onDeleteClick(params.row)}
+            />
+          )}
+        </>
       )
     }
   }
