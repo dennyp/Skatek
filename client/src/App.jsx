@@ -44,7 +44,7 @@ const App = () => {
               element={
                 <StatisticsLayout
                   title="Statistik"
-                  paragraph="Välj tidsperiod och relevant avdelning nedan. Två diagram kommer att visas. Det övre diagrammet visar den genomsnittliga totala aktiviteten för de produkter som har haft aktivitet under en vald tidperiod. Det nedre diagrammet visar det genomsnittliga antalet insikter infångade i ljusfällorna under vald tidsperiod."
+                  paragraph="Välj tidsperiod och relevant avdelning nedan. De diagram som visas är den genomsnittliga totala aktiviteten för de betesstationer som har haft aktivitet under en vald tidperiod, det genomsnittliga antalet insekter infångade i ljusfällorna och dessutom det totala antalet insekter för repsktive ljusfälla i avdelningen."
                   showProductAverages={true}
                 />
               }
