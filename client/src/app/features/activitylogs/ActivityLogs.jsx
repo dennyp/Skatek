@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import AddButton from '../../../components/AddButton'
 import ActivityLogSlideover from './ActivityLogSlideover'
 import ActivityLogsDataGrid from './ActivityLogsDataGrid'
-import AddActivityLogSlideover from './AddActivityLogSlideover'
+import AddActivityLogsModal from './AddActivityLogsModal'
 
 const ActivityLogs = () => {
   const [openEditSlider, setOpenEditSlider] = useState(false)
@@ -29,7 +29,7 @@ const ActivityLogs = () => {
           setOpenEditSlider={setOpenEditSlider}
         />
         {openAddSlider && (
-          <AddActivityLogSlideover
+          <AddActivityLogsModal
             open={openAddSlider}
             setOpen={setOpenAddSlider}
           />

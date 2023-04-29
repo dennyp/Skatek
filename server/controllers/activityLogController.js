@@ -57,7 +57,7 @@ export class activityLogController {
 
       res.json(obj)
     } catch (error) {
-      next(createError(400))
+      next(createError(500))
     }
   }
 
@@ -112,7 +112,7 @@ export class activityLogController {
         productObjects: [productObjectsPeriodOne, productObjectsPeriodTwo],
       })
     } catch (error) {
-      next()
+      next(createError(500))
     }
   }
 
@@ -130,7 +130,7 @@ export class activityLogController {
       const newURL = `https://${req.get('host')}${req.originalUrl}/${obj._id}`
       res.location(newURL).status(201).json(obj)
     } catch (error) {
-      next()
+      next(createError(500))
     }
   }
 
@@ -171,7 +171,7 @@ export class activityLogController {
       const newURL = `https://${req.get('host')}${req.originalUrl}/${obj._id}`
       res.location(newURL).status(201).json(obj)
     } catch (error) {
-      next()
+      next(createError(500))
     }
   }
 }
