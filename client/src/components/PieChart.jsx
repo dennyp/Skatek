@@ -1,4 +1,5 @@
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline'
+import { CircularProgress } from '@mui/material'
 import { ArcElement, Chart as ChartJS, Legend, Title, Tooltip } from 'chart.js'
 import React, { Fragment } from 'react'
 import { Pie } from 'react-chartjs-2'
@@ -78,7 +79,11 @@ const PieChart = ({ department, dateStart, dateEnd }) => {
 
   let content
   if (isLoadingActivityLogs) {
-    content = <p>Laddar...</p>
+    content = (
+      <div className="flex justify-center">
+        <CircularProgress size={96} />
+      </div>
+    )
   } else {
     if (Object.keys(logs.plotData).length > 0) {
       content = logs.plotData.datasets.map((dataset) => {

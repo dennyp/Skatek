@@ -1,4 +1,5 @@
 import { DocumentArrowDownIcon } from '@heroicons/react/24/outline'
+import { CircularProgress } from '@mui/material'
 import {
   BarController,
   BarElement,
@@ -161,7 +162,11 @@ const BarChartInsects = ({
 
   let content
   if (isLoadingLightTrapLogs) {
-    content = <p>Laddar...</p>
+    content = (
+      <div className="flex justify-center">
+        <CircularProgress size={96} />
+      </div>
+    )
   } else {
     if (Object.keys(logs.plotData).length > 0) {
       content = (
@@ -178,7 +183,7 @@ const BarChartInsects = ({
     }
   }
 
-  return <>{content}</>
+  return content
 }
 
 export default BarChartInsects

@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material'
 import {
   BarController,
   BarElement,
@@ -39,7 +40,11 @@ const BarChartLightTrap = ({ trap, dateStart, dateEnd }) => {
 
   let content
   if (isLoadingLogs) {
-    content = <p>Laddar...</p>
+    content = (
+      <div className="flex justify-center">
+        <CircularProgress size={96} />
+      </div>
+    )
   } else {
     const options = {
       responsive: true,
