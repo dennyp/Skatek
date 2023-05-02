@@ -28,7 +28,9 @@ const DeviationsLayout = () => {
               Här listas avvikelser för alla avdelningar.
             </p>
           </div>
-          {isAdmin && <AddButton openSlider={setOpenAddSlider} />}
+          {isAdmin && (
+            <AddButton openSlider={setOpenAddSlider} text="Lägg till" />
+          )}
         </div>
         <DeviationsDataGrid onEditClick={onEditClick} />
         {openAddSlider && (

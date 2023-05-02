@@ -69,7 +69,7 @@ const LightTraps = () => {
               Här listas alla ljusfällor från alla avdelningar.
             </p>
           </div>
-          <AddButton openSlider={setOpenAddSlider} />
+          <AddButton openSlider={setOpenAddSlider} text="Lägg till" />
         </div>
         <Box sx={{ height: '80vh', m: '1.5rem 1rem' }}>
           <DataGrid

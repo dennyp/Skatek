@@ -27,7 +27,7 @@ const LightTrapLogsLayout = () => {
               Här listas loggad aktivitet för ljusfällor.
             </p>
           </div>
-          <AddButton openSlider={setOpenAddSlider} />
+          <AddButton openSlider={setOpenAddSlider} text="Lägg till" />
         </div>
         <LightTrapLogsDataGrid onEditClick={onEditClick} />
 

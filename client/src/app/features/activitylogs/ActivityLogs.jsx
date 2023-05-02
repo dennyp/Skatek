@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import AddButton from '../../../components/AddButton'
 import ActivityLogSlideover from './ActivityLogSlideover'
 import ActivityLogsDataGrid from './ActivityLogsDataGrid'
+import AddActivityLogSlideover from './AddActivityLogSlideover'
 import AddActivityLogsModal from './AddActivityLogsModal'
 
 const ActivityLogs = () => {
   const [openEditSlider, setOpenEditSlider] = useState(false)
   const [openAddSlider, setOpenAddSlider] = useState(false)
+  const [openSingleAddSlider, setOpenSingleAddSlider] = useState(false)
   const [rowId, setRowId] = useState('')
 
   return (
@@ -22,12 +24,24 @@ const ActivityLogs = () => {
               Här listas alla aktivitetsloggar som finns skapade.
             </p>
           </div>
-          <AddButton openSlider={setOpenAddSlider} />
+          <div className="flex justify-end">
+            <AddButton
+              openSlider={setOpenSingleAddSlider}
+              text="Lägg till en"
+            />
+            <AddButton openSlider={setOpenAddSlider} text="Lägg till många" />
+          </div>
         </div>
         <ActivityLogsDataGrid
           setRowId={setRowId}
           setOpenEditSlider={setOpenEditSlider}
         />
+        {openSingleAddSlider && (
+          <AddActivityLogSlideover
+            open={openSingleAddSlider}
+            setOpen={setOpenSingleAddSlider}
+          />
+        )}
         {openAddSlider && (
           <AddActivityLogsModal
             open={openAddSlider}

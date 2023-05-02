@@ -66,7 +66,7 @@ const Product = () => {
               Här listas alla produkter som finns skapade.
             </p>
           </div>
-          <AddButton openSlider={setOpenAddSlider} />
+          <AddButton openSlider={setOpenAddSlider} text="Lägg till" />
         </div>
         <Box sx={{ height: '80vh', m: '1.5rem 1rem' }}>
           <DataGrid

@@ -39,7 +39,9 @@ const PlansLayout = () => {
               avdelningen.
             </p>
           </div>
-          {isAdmin && <AddButton openSlider={setOpenAddSlider} />}
+          {isAdmin && (
+            <AddButton openSlider={setOpenAddSlider} text="Lägg till" />
+          )}
         </div>
         <div className="px-5 mb-4 mt-4">
           <DepartmentInputGroup
