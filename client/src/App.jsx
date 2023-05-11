@@ -1,24 +1,36 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
-import { Route, Routes } from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import ActivityLogs from './app/features/activitylogs/ActivityLogs'
 import Login from './app/features/auth/Login'
 import RequireAdmin from './app/features/auth/RequireAdmin'
 import RequireAuth from './app/features/auth/RequireAuth'
-import DeviationsLayout from './app/features/deviations/DeviationsLayout'
-import Documents from './app/features/documents/Documents'
-import LightTrapLogsLayout from './app/features/lighttraplogs/LightTrapLogsLayout'
-import LightTraps from './app/features/lighttraps/LightTraps'
-import PlansLayout from './app/features/plans/PlansLayout'
-import Products from './app/features/products/Products'
+import ErrorFallback from './components/ErrorFallback'
 import Navigation from './components/Navigation'
 import NotFound from './components/NotFound'
+import Skeleton from './components/Skeleton'
 import StatisticsLayout from './components/StatisticsLayout'
 
+const Products = lazy(() => import('./app/features/products/Products'))
+const ActivityLogs = lazy(() =>
+  import('./app/features/activitylogs/ActivityLogs')
+)
+const LightTraps = lazy(() => import('./app/features/lighttraps/LightTraps'))
+const LightTrapLogsLayout = lazy(() =>
+  import('./app/features/lighttraplogs/LightTrapLogsLayout')
+)
+const PlansLayout = lazy(() => import('./app/features/plans/PlansLayout'))
+const DeviationsLayout = lazy(() =>
+  import('./app/features/deviations/DeviationsLayout')
+)
+const Documents = lazy(() => import('./app/features/documents/Documents'))
+
 const App = () => {
+  const navigate = useNavigate()
+
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -38,7 +50,18 @@ const App = () => {
 
         <Routes>
           <Route path="login" element={<Login />} />
-          <Route element={<RequireAuth />}>
+          <Route
+            element={
+              <ErrorBoundary
+                FallbackComponent={ErrorFallback}
+                onReset={() => navigate('/')}
+              >
+                <Suspense fallback={<Skeleton />}>
+                  <RequireAuth />
+                </Suspense>
+              </ErrorBoundary>
+            }
+          >
             <Route
               index
               element={
